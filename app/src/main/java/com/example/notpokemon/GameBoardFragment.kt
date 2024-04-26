@@ -1,11 +1,10 @@
 package com.example.notpokemon
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 
 // TODO: Rename parameter arguments, choose names that match
@@ -49,10 +48,10 @@ class GameBoardFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var fragmentTransaction: FragmentTransaction = parentFragmentManager.beginTransaction();
 
-        val squareFragment: Fragment = GameBoardSquareFragment.newInstance();
-        var fragmentTransaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-        fragmentTransaction.add(this.requireView().id, squareFragment);
+        val boardBuilder = BoardBuilder(fragmentTransaction, view.parent as View);
+        boardBuilder.generateSquare()
     }
 
     companion object {
