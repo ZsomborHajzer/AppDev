@@ -1,10 +1,15 @@
 package com.example.notpokemon
 
+import android.content.res.Resources
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +24,8 @@ private const val ARG_PARAM2 = "param2"
 class GameBoardSquareFragment : Fragment() {
 
     private lateinit var nextSquares: ArrayList<GameBoardSquareFragment>
+    private lateinit var constraintSet: ConstraintSet
+    private lateinit var constraintLayout: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +45,24 @@ class GameBoardSquareFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        println("VIEW CREATED")
         return inflater.inflate(R.layout.fragment_game_board_square, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        InitializationCheck.haveInitialized()
+    }
+
+    fun setImageFromResource(resource: Int){
+        val imageView = getImageView();
+        imageView.setImageResource(resource)
+    }
+
+    fun getImageView() : ImageView{
+        return this.requireView().findViewById<ImageView>(R.id.gameBoardSquareImageView)
+    }
+
 
     companion object {
         /**

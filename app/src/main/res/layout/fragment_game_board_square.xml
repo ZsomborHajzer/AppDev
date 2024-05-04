@@ -7,8 +7,11 @@
     tools:context=".GameBoardSquareFragment">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/gameBoardSquareImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         android:src="@drawable/board_square" />
 </FrameLayout>

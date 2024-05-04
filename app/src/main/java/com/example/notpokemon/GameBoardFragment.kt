@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentTransaction
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,10 +51,44 @@ class GameBoardFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var fragmentTransaction: FragmentTransaction = parentFragmentManager.beginTransaction();
+        setUpSquares();
+    }
 
-        val boardBuilder = BoardBuilder(fragmentTransaction, view.parent as View);
-        boardBuilder.generateSquare()
+    private fun setUpSquares(){
+        InitializationCheck.reset()
+        InitializationCheck.gameBoardFragment = this
+        fetchChildSquares()
+        assignLinearOrderToSquares()
+    }
+
+    private fun fetchChildSquares(){
+        var viewGroup = this.view as ViewGroup;
+        for (child in viewGroup.children){
+            if(child::class == FragmentContainerView::class){
+                val fragmentChild = child as FragmentContainerView
+                squares.add(fragmentChild.getFragment<GameBoardSquareFragment>());
+                InitializationCheck.addToCheckNumber()
+            }
+        }
+        println(squares);
+    }
+
+    private fun assignLinearOrderToSquares(){
+        var i = 0;
+        while(i < squares.size){
+            var list = ArrayList<GameBoardSquareFragment>()
+
+            if(i != squares.size - 1){ // if not final element
+                list.add(squares[i+1])
+                squares[i].setNextSquares(list)
+            }
+            else{ // if final element
+                list.add(squares[0])
+                squares[i].setNextSquares(list)
+            }
+            i++;
+        }
+
     }
 
     companion object {
