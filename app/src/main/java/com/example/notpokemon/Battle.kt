@@ -4,8 +4,8 @@ import kotlin.random.Random
 //Simulate how the battle logic would go, kinda
 class Battle {
     //Setup
-    val team1 = arrayOf<Creature>()
-    val team2 = arrayOf<Creature>()
+    val team1 = ArrayList<Creature>()
+    val team2 = ArrayList<Creature>()
     val player1 = Player("Sillie", team1, 0)
     val player2 = Player("Sally", team2, 50)
 
@@ -15,7 +15,7 @@ class Battle {
         val hp = arrayOf(100, 150, 200, 500)
         val attackNames = arrayOf("Bite", "Throw", "Roll", "Whip", "Cry")
 
-        val name = "Creature${(1..100).random()}"
+        val name = "Creature${(1..1000).random()}"
         val type = types.random()
         val health = hp.random()
         val attackName = attackNames.random()
@@ -51,21 +51,21 @@ class Battle {
     }
 
     // How attacking works
-    fun fight(winningPlayer: Player, losingPlayer: Player) {
-        val winningTeam = winningPlayer.getTeam()
-        val losingTeam = losingPlayer.getTeam()
-        val originalWinningTeam = winningTeam.clone()
-        val originalLosingTeam = losingTeam.clone()
+    fun fight(firstAttackingPlayer: Player, firstDefendingPlayer: Player) {
+        var attackingPlayer = firstAttackingPlayer
+        var defendingPlayer = firstDefendingPlayer
+        val originalWinningTeam = attackingPlayer.getTeam().clone() as ArrayList<Creature>
+        val originalLosingTeam = defendingPlayer.getTeam().clone() as ArrayList<Creature>
 
         var attackerIndex = 0
         var defenderIndex = 0
-        var attackingTeam = winningTeam
-        var defendingTeam = losingTeam
 
         //Two teams fighting
-        while (winningTeam.isNotEmpty() && losingTeam.isNotEmpty()) { //Neither team has "lost" yet
-            val attacker = attackingTeam[attackerIndex]
-            val defender = defendingTeam[defenderIndex]
+        while (attackingPlayer.getTeam().isNotEmpty() && defendingPlayer.getTeam().isNotEmpty()) { //Neither team has "lost" yet
+            var attackerSize = attackingPlayer.getTeam().size
+            var defenderSize = defendingPlayer.getTeam().size
+            val attacker = attackingPlayer.getTeam()[attackerIndex]
+            val defender = defendingPlayer.getTeam()[defenderIndex]
 
             println("${attacker.getName()} is fighting ${defender.getName()}!")
             attacker.attack(defender)
@@ -74,41 +74,39 @@ class Battle {
             if (defender.getHealthPoints() <= 0) {
                 println("${defender.getName()} fainted!")
                 // Remove the defeated creature from the defending player's team
-                losingPlayer.removeCreature(defender)
-            } else {
-                // Increment defenderIndex only if the defender is not defeated
-                defenderIndex++
+                defendingPlayer.removeCreature(defenderIndex)
             }
 
             // Switch teams if all creatures from the current attacking team have attacked
-            if (attackerIndex == attackingTeam.lastIndex) {
-                val temp = attackingTeam
-                attackingTeam = defendingTeam
-                defendingTeam = temp
+            if (attackerIndex >= attackingPlayer.getTeam().lastIndex || defenderIndex >= defendingPlayer.getTeam().lastIndex) {
+                val temp = attackingPlayer
+                attackingPlayer = defendingPlayer
+                defendingPlayer = temp
                 attackerIndex = 0
                 defenderIndex = 0
-                println("${losingPlayer.getName()} 's turn!")
+                println("${attackingPlayer.getName()} 's turn!")
             } else {
                 attackerIndex++
+                defenderIndex++
             }
 
             println("Attacker team: ${attacker.getName()}, Defender team: ${defender.getName()}")
             println("Attacker index: $attackerIndex, Defender index: $defenderIndex") // Debugging print statement
         }
 
-        if (winningTeam.isEmpty()) {
-            println("${losingPlayer.getName()} wins!")
-            val XPGain = losingPlayer.getXP() + 100 //Insert additional stats here?
-            losingPlayer.setXP(XPGain)
+        if (attackingPlayer.getTeam().isEmpty()) {
+            println("${defendingPlayer.getName()} wins!")
+            val XPGain = defendingPlayer.getXP() + 100 //Insert additional stats here?
+            defendingPlayer.setXP(XPGain)
         } else {
-            println("${winningPlayer.getName()} wins!")
-            val XPGain = winningPlayer.getXP() + 100 //Insert additional stats here?
-            winningPlayer.setXP(XPGain)
+            println("${attackingPlayer.getName()} wins!")
+            val XPGain = attackingPlayer.getXP() + 100 //Insert additional stats here?
+            attackingPlayer.setXP(XPGain)
         }
 
         //revert the teams back to how they were before the fight to continue the board game
-        winningPlayer.setTeam(originalWinningTeam)
-        losingPlayer.setTeam(originalLosingTeam)
+        firstAttackingPlayer.setTeam(originalWinningTeam)
+        firstDefendingPlayer.setTeam(originalLosingTeam)
     }
 
     //Battle logic, kinda
@@ -124,8 +122,10 @@ class Battle {
         }
 
         //I decided to make a battle last 10 rounds for now, we can change this
-        for (i in 1..10) {
-            println("Round $i")
+        for (i in 1..3) {
+            println("------------")
+            println("BATTLE $i")
+            println("------------")
             performRound(player1, player2)
         }
     }
