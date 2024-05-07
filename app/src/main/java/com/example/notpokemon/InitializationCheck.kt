@@ -20,7 +20,7 @@ class InitializationCheck {
         }
 
         fun execution(){
-            GameDirector(gameBoardFragment).run();
+            GameDirector(gameBoardFragment).start();
             println("EXECUTTEEEDDD")
         }
 

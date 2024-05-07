@@ -33,6 +33,9 @@ class GameBoardFragment : Fragment(){
         this.squares.add(square);
     }
 
+    public fun getStartSquare() : GameBoardSquareFragment{
+        return this.getSquare(0)
+    }
     public fun getSquare(squareNumber: Int): GameBoardSquareFragment {
         return this.squares.get(squareNumber);
     }
