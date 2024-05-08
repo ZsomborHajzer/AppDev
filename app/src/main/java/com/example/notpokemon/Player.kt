@@ -12,17 +12,21 @@ class Player(private var name: String, private var team: ArrayList<Creature>, pr
     fun getTeam(): ArrayList<Creature> {
         return team
     }
+    
+    fun addXP(gainedXP:Int){
+        XP += gainedXP
+    }
 
     fun getXP(): Int {
         return XP
     }
 
-    fun setTeam(newTeam: ArrayList<Creature>) {
-        team = newTeam
-    }
-
     fun setXP(newXPAmount: Int){
         XP = newXPAmount
+    }
+
+    fun setTeam(newTeam: ArrayList<Creature>) {
+        team = newTeam
     }
 
     //add new creatures to the team
@@ -40,5 +44,11 @@ class Player(private var name: String, private var team: ArrayList<Creature>, pr
         val creatureName = team[creatureToRemove].getName()
         println(creatureName + "HAS DIED IS REMOVED")
         team.removeAt(creatureToRemove)
+    }
+
+    fun healCreaturesFully(){
+        for(creature in team){
+            creature.heal(999)
+        }
     }
 }
