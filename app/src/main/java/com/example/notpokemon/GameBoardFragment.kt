@@ -9,12 +9,6 @@ import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentTransaction
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  * Use the [GameBoardFragment.newInstance] factory method to
@@ -38,10 +32,6 @@ class GameBoardFragment : Fragment(){
     }
     public fun getSquare(squareNumber: Int): GameBoardSquareFragment {
         return this.squares.get(squareNumber);
-    }
-
-    public fun getNextSquares(squareNumber: Int): ArrayList<GameBoardSquareFragment>{
-        return this.getSquare(squareNumber).getNextSquares();
     }
 
     override fun onCreateView(
@@ -102,7 +92,6 @@ class GameBoardFragment : Fragment(){
 
          * @return A new instance of fragment GameBoardFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             GameBoardFragment()

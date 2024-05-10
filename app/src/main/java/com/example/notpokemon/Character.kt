@@ -18,6 +18,21 @@ class Character {
         indicateStandingOnSquare(currentSquare)
     }
 
+    fun moveThisManySpaces(number:Int){
+        if (number < 1){
+            throw IllegalArgumentException("function \"moveThisManySpaces\" from" + this.javaClass + "may not be less than 0")
+        }
+        var localCurrentSquare = currentSquare
+        var waitTime = 500L;
+        var i = 1
+        while (i <= number){
+            localCurrentSquare = localCurrentSquare.getNextSquares()[0] // TODO:: Implement multiple routes
+            onMoveSquare(localCurrentSquare)
+            i++;
+            Thread.sleep(waitTime)
+        }
+    }
+
     public fun onInteractSquare(){
         // for now won't be used. but always good to have extra event opportunities
     }
@@ -28,12 +43,9 @@ class Character {
         currentSquare = square
         indicateStandingOnSquare(currentSquare)
     }
-
     fun indicateStandingOnSquare(square:GameBoardSquareFragment){
         square.setImageFromResource(characterIcon)
     }
-
-
 
     fun addToSquareHistory(square: GameBoardSquareFragment){
         this.squareHistory.add(square)
