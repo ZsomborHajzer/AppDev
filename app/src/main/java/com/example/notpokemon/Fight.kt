@@ -1,47 +1,134 @@
 package com.example.notpokemon
 
-class Fight (var attackingPlayer:Player, var defendingPlayer: Player){
+import android.os.Bundle
+import android.os.Handler
+import android.view.View
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TableRow
+import android.widget.TextView
+import androidx.core.view.get
+import androidx.core.view.size
+import androidx.fragment.app.Fragment
+
+class Fight (val player1:Player, val player2: Player) : Fragment(R.layout.fight_layout){
+
+    var attackingPlayer = player1
+    var defendingPlayer = player2
     var attackerIndex = 0
     var defenderIndex = 0
+    var isFinished = false
+    private var viewCreated = false
+    private var startHasBeenCalled = false
+    lateinit var winner: Player
 
-    fun start(): Player{
-    //Two teams fighting
-        while (attackingPlayer.getTeam().isNotEmpty() && defendingPlayer.getTeam().isNotEmpty()) { //Neither team has "lost" yet
-            var attackerSize = attackingPlayer.getTeam().size
-            var defenderSize = defendingPlayer.getTeam().size
-            val attacker = attackingPlayer.getTeam()[attackerIndex]
-            val defender = defendingPlayer.getTeam()[defenderIndex]
+    lateinit var playerName1TV: TextView
+    lateinit var playerName2TV: TextView
+    lateinit var player1CreaturesView: TableLayout
+    lateinit var player2CreaturesView: TableLayout
+    lateinit var battleMapView: ImageView
 
-            println("${attacker.getName()} is fighting ${defender.getName()}!")
-            attacker.attack(defender)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-            // Check if the defender's creature is defeated
-            if (defender.healthPoints <= 0) {
-                println("${defender.getName()} fainted!")
-                // Remove the defeated creature from the defending player's team
-                defendingPlayer.removeCreature(defenderIndex)
+        // initializing the view components
+        playerName1TV = requireView().findViewById(R.id.firstFighterTitle)
+        playerName2TV = requireView().findViewById(R.id.secondFighterTitle)
+        player1CreaturesView = requireView().findViewById(R.id.firstFighterCreatures)
+        player2CreaturesView = requireView().findViewById(R.id.secondFighterCreatures)
+        battleMapView = requireView().findViewById(R.id.battlemapImage)
+
+        // setting the inner variables of the text components
+        playerName1TV.text = attackingPlayer.getName()
+        playerName2TV.text = defendingPlayer.getName()
+
+        assignCreaturesToUI()
+
+        viewCreated = true
+        confirmStart()
+    }
+
+    fun assignCreaturesToUI(){
+        if(attackingPlayer.getTeam().size > player1CreaturesView.size || defendingPlayer.getTeam().size > player2CreaturesView.size){
+            throw IllegalStateException("attacking player cannot have more creatures than there are creature slots in fight_layout. ${this.javaClass}")
+        }
+
+        var playerNumber = 1
+        while (playerNumber <= 2){
+
+            var creatureIndex = 0
+            while (creatureIndex < attackingPlayer.getTeam().size){
+
+                getCreatureNameTextView(playerNumber, creatureIndex).text = getPlayerByNumber(playerNumber).getTeam()[creatureIndex].getName()
+
+                creatureIndex++
             }
 
-            // Switch teams if all creatures from the current attacking team have attacked
-            if (attackerIndex >= attackingPlayer.getTeam().lastIndex || defenderIndex >= defendingPlayer.getTeam().lastIndex) {
-                val temp = attackingPlayer
-                attackingPlayer = defendingPlayer
-                defendingPlayer = temp
-                attackerIndex = 0
-                defenderIndex = 0
-                println("${attackingPlayer.getName()} 's turn!")
-            } else {
-                attackerIndex++
-                defenderIndex++
-            }
+            playerNumber++
+        }
+    }
 
-            println("Attacker team: ${attacker.getName()}, Defender team: ${defender.getName()}")
-            println("Attacker index: $attackerIndex, Defender index: $defenderIndex") // Debugging print statement
+    fun getCreatureNameTextView(playerNumber: Int, creatureIndex: Int): TextView{
+        return getCreatureContainer(playerNumber, creatureIndex)[0] as TextView
+    }
+    fun getCreatureContainer(playerNumber: Int, creatureIndex: Int): TableRow{
+        return getCreatureLayoutByPlayerNumber(playerNumber)[creatureIndex] as TableRow
+    }
+
+    fun getCreatureLayoutByPlayerNumber(playerNumber: Int): TableLayout{
+        if(playerNumber == 1){
+            return player1CreaturesView
         }
-        if (attackingPlayer.getTeam().isEmpty()) {
-            return defendingPlayer
-        } else {
-            return attackingPlayer
+        else if(playerNumber == 2){
+            return player2CreaturesView
         }
+        else{
+            throw IllegalArgumentException("there cannot be more than 2 players per battle as of now. ${this.javaClass}")
+        }
+    }
+
+    fun getPlayerByNumber(playerNumber: Int): Player{
+        if(playerNumber == 1){
+            return player1
+        }
+        else if(playerNumber == 2){
+            return player2
+        }
+
+        else{
+            throw IllegalArgumentException("there cannot be more than 2 players per battle as of now. ${this.javaClass}")
+        }
+    }
+
+    // abstraction
+    fun startFight(){
+        startHasBeenCalled = true
+        confirmStart()
+    }
+
+    // confirms that both the view has been created, and start has been called
+    private fun confirmStart(){
+        if(viewCreated && startHasBeenCalled){
+            executeFight()
+        }
+    }
+
+    // actual function
+    private fun executeFight(){
+        val fightSequence = FightSequence(this)
+        Thread(fightSequence).start()
+    }
+
+    fun setBattleMapImage(image:Int){
+        runOnUiThread(Runnable {
+            run {
+                this.battleMapView.setImageResource(image)
+            }
+        })
+    }
+
+    private fun runOnUiThread(r: Runnable) {
+        val handler = Handler(requireContext().mainLooper)
+        handler.post(r)
     }
 }

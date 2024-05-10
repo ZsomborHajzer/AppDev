@@ -1,14 +1,22 @@
 package com.example.notpokemon
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import kotlin.random.Random
 
 //Simulate how the battle logic would go, kinda
-class Battle {
+class BattleManager : Runnable {
     //Setup
     val team1 = ArrayList<Creature>()
     val team2 = ArrayList<Creature>()
     val player1 = Player("Sillie", team1, 0)
     val player2 = Player("Sally", team2, 50)
     val xpPerBattle = 500
+
+    override fun run() {
+        play()
+    }
 
     //Battle logic, kinda
     fun play() {
@@ -28,7 +36,7 @@ class Battle {
 
     //Temporary function to create random creatures, can be changed or removed later
     fun generateCreature(): Creature {
-        val types = arrayOf("Fire", "Water", "Earth", "Air")
+        val types = arrayOf("Fire", "Water", "Earth", "Air") // TODO:: create enums
         val hp = arrayOf(100, 150, 200, 500)
         val attackNames = arrayOf("Bite", "Throw", "Roll", "Whip", "Cry")
 
@@ -74,7 +82,12 @@ class Battle {
         val originalWinningTeam = attackingPlayer.getTeam().clone() as ArrayList<Creature>
         val originalLosingTeam = defendingPlayer.getTeam().clone() as ArrayList<Creature>
 
-        val winner = Fight(attackingPlayer, defendingPlayer).start()
+        val fight = Fight(attackingPlayer, defendingPlayer)
+
+        initializeFight(fight)
+        fight.startFight()
+        val winner = awaitUntilFightIsFinished(fight)
+
         winner.addXP(xpPerBattle)
 
         //revert the teams back to how they were before the fight to continue the board game
@@ -85,9 +98,30 @@ class Battle {
         firstAttackingPlayer.healCreaturesFully()
         firstDefendingPlayer.healCreaturesFully()
     }
+
+    private fun initializeFight(fightFragment: Fight){
+        val fragmentManager = MainActivity.instance.supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.setReorderingAllowed(true)
+        fragmentTransaction.add(R.id.fragmentContainerView, fightFragment)
+        fragmentTransaction.commit()
+    }
+
+    /**
+     * NEVER CALL THIS FROM UI THREAD
+     * make sure you actually start the fight before calling this.
+     * returns winning player
+     **/
+    private fun awaitUntilFightIsFinished(fight: Fight): Player{
+        while (fight.isFinished == false){
+            Thread.sleep(500)
+        }
+        return fight.winner
+        println("waited to see who would win")
+    }
 }
 
 fun main() {
-    val game = Battle()
+    val game = BattleManager()
     game.play()
 }

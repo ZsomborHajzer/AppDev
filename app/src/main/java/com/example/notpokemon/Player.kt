@@ -39,10 +39,13 @@ class Player(private var name: String, private var team: ArrayList<Creature>, pr
         }
     }
 
+    fun killCreature(creatureToKill:Int){
+        removeCreature(creatureToKill)
+    }
+
     //remove a creature from the team
     fun removeCreature(creatureToRemove: Int) {
         val creatureName = team[creatureToRemove].getName()
-        println(creatureName + "HAS DIED IS REMOVED")
         team.removeAt(creatureToRemove)
     }
 
