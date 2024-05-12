@@ -5,7 +5,7 @@
     android:tag="gameBoardWalkableElement"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameBoardSquareFragment">
+    tools:context=".BaseSquareFragment">
 
     <ImageView
         android:id="@+id/gameBoardSquareBaseImage"

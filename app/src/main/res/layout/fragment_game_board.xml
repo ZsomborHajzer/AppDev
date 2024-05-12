@@ -9,7 +9,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView1"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="12dp"
@@ -19,7 +19,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="12dp"
@@ -28,7 +28,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView3"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
@@ -38,7 +38,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="2dp"
@@ -48,7 +48,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView5"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="15dp"
@@ -57,7 +57,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView6"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"
@@ -67,7 +67,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView7"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"
@@ -77,7 +77,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView8"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="9dp"
@@ -87,7 +87,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView9"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="17dp"
@@ -96,7 +96,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView10"
-        android:name="com.example.notpokemon.GameBoardSquareFragment"
+        android:name="com.example.notpokemon.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="1dp"

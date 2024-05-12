@@ -7,22 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
+
 /**
  * A simple [Fragment] subclass.
- * Use the [GameBoardSquareFragment.newInstance] factory method to
+ * Use the [BaseSquareFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GameBoardSquareFragment : Fragment() {
-
-    private lateinit var nextSquare: GameBoardSquareFragment
+class BaseSquareFragment : SteppableTile() {
     protected lateinit var baseImage: ImageView
     protected lateinit var overlayImage: ImageView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,18 +29,25 @@ class GameBoardSquareFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         baseImage = requireView().findViewById(R.id.gameBoardSquareBaseImage)
         overlayImage = requireView().findViewById(R.id.gameBoardSquareOverlayImage)
-        InitializationCheck.haveInitialized()
     }
 
-    public fun setNextSquare(nextSquare: GameBoardSquareFragment){
-        this.nextSquare = nextSquare
-    }
-    public fun getNextSquare(): GameBoardSquareFragment{
-        return this.nextSquare
+    public override fun getEntrySquare(): BaseSquareFragment{
+        return this
     }
 
-    fun setOverlayFromResource(resource: Int){
-        // TODO:: temporary solution before merge
+    override fun onTileEntry(character: Character) {
+        this.setOverlayFromResource(character.icon)
+    }
+
+    override fun onTileExit() {
+        clearSquareOverlay()
+    }
+
+    private fun clearSquareOverlay(){
+        setOverlayFromResource(transparentOverlay)
+    }
+
+    private fun setOverlayFromResource(resource: Int){
         Handler(this.requireContext().mainLooper).post(
             Runnable {
                 run {
@@ -57,19 +57,6 @@ class GameBoardSquareFragment : Fragment() {
             }
         )
     }
-
-    fun clearSquareOverlay(){
-        // TODO:: also temporary and sub-optimal
-        Handler(this.requireContext().mainLooper).post(
-            Runnable {
-                run {
-                    overlayImage.setImageResource(transparentOverlay)
-                }
-
-            }
-        )
-    }
-
 
     companion object {
         /**
@@ -82,6 +69,6 @@ class GameBoardSquareFragment : Fragment() {
 
         @JvmStatic
         fun newInstance() =
-            GameBoardSquareFragment()
+            BaseSquareFragment()
     }
 }

@@ -1,20 +1,14 @@
 package com.example.notpokemon
 
-import android.content.Intent
-import android.os.AsyncTask
-import android.os.Handler
-import androidx.core.content.ContextCompat.startActivity
 
+class Character(square: SteppableTile) {
+    private var currentSquare: SteppableTile;
+    private var squareHistory = ArrayList<SteppableTile>();
+    val icon = R.drawable.low_res_tanuki
 
-class Character {
-    public lateinit var currentSquare: GameBoardSquareFragment;
-    public var squareHistory = ArrayList<GameBoardSquareFragment>();
-    private val maxSquareHistory = 10;
-    public val characterIcon = R.drawable.low_res_tanuki
-
-    constructor(square: GameBoardSquareFragment){
+    init {
         this.currentSquare = square;
-        indicateStandingOnSquare(currentSquare)
+        onMove(currentSquare)
     }
 
     fun moveThisManySpaces(number:Int){
@@ -25,8 +19,8 @@ class Character {
         var waitTime = 500L;
         var i = 1
         while (i <= number){
-            localCurrentSquare = localCurrentSquare.getNextSquare() // TODO:: Implement multiple routes
-            onMoveSquare(localCurrentSquare)
+            localCurrentSquare = localCurrentSquare.nextSquare // TODO:: Implement multiple routes
+            onMove(localCurrentSquare)
             i++;
             Thread.sleep(waitTime)
         }
@@ -36,20 +30,21 @@ class Character {
         // for now won't be used. but always good to have extra event opportunities
     }
 
-    public fun onMoveSquare(square:GameBoardSquareFragment){
-        currentSquare.clearSquareOverlay()
+    public fun onMove(square:SteppableTile){
+        currentSquare.onTileExit()
         addToSquareHistory(currentSquare)
         currentSquare = square
-        indicateStandingOnSquare(currentSquare)
-    }
-    fun indicateStandingOnSquare(square:GameBoardSquareFragment){
-        square.setOverlayFromResource(characterIcon)
+        currentSquare.onTileEntry(this)
     }
 
-    fun addToSquareHistory(square: GameBoardSquareFragment){
+    fun addToSquareHistory(square: SteppableTile){
         this.squareHistory.add(square)
         if(squareHistory.size > maxSquareHistory){
             squareHistory.removeFirst();
         }
+    }
+
+    companion object{
+        val maxSquareHistory = 10;
     }
 }
