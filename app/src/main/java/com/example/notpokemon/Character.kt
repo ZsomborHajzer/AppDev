@@ -10,8 +10,7 @@ class Character {
     public lateinit var currentSquare: GameBoardSquareFragment;
     public var squareHistory = ArrayList<GameBoardSquareFragment>();
     private val maxSquareHistory = 10;
-    public val characterIcon = R.drawable.board_square_occupied
-    public val defaultIcon = R.drawable.board_square
+    public val characterIcon = R.drawable.low_res_tanuki
 
     constructor(square: GameBoardSquareFragment){
         this.currentSquare = square;
@@ -26,7 +25,7 @@ class Character {
         var waitTime = 500L;
         var i = 1
         while (i <= number){
-            localCurrentSquare = localCurrentSquare.getNextSquares()[0] // TODO:: Implement multiple routes
+            localCurrentSquare = localCurrentSquare.getNextSquare() // TODO:: Implement multiple routes
             onMoveSquare(localCurrentSquare)
             i++;
             Thread.sleep(waitTime)
@@ -38,13 +37,13 @@ class Character {
     }
 
     public fun onMoveSquare(square:GameBoardSquareFragment){
+        currentSquare.clearSquareOverlay()
         addToSquareHistory(currentSquare)
-        squareHistory.last().setImageFromResource(defaultIcon)
         currentSquare = square
         indicateStandingOnSquare(currentSquare)
     }
     fun indicateStandingOnSquare(square:GameBoardSquareFragment){
-        square.setImageFromResource(characterIcon)
+        square.setOverlayFromResource(characterIcon)
     }
 
     fun addToSquareHistory(square: GameBoardSquareFragment){

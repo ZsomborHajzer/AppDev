@@ -1,8 +1,7 @@
 package com.example.notpokemon
 
-import android.content.res.Resources
-import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,21 +16,12 @@ import androidx.constraintlayout.widget.ConstraintSet
  */
 class GameBoardSquareFragment : Fragment() {
 
-    private lateinit var nextSquares: ArrayList<GameBoardSquareFragment>
-    private lateinit var constraintSet: ConstraintSet
-    private lateinit var constraintLayout: ConstraintLayout
+    private lateinit var nextSquare: GameBoardSquareFragment
+    protected lateinit var baseImage: ImageView
+    protected lateinit var overlayImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        this.nextSquares = ArrayList();
-    }
-
-    public fun setNextSquares(nextSquares: ArrayList<GameBoardSquareFragment>){
-        this.nextSquares = nextSquares
-    }
-    public fun getNextSquares(): ArrayList<GameBoardSquareFragment>{
-        return this.nextSquares
     }
 
     override fun onCreateView(
@@ -39,22 +29,45 @@ class GameBoardSquareFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        println("VIEW CREATED")
         return inflater.inflate(R.layout.fragment_game_board_square, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        baseImage = requireView().findViewById(R.id.gameBoardSquareBaseImage)
+        overlayImage = requireView().findViewById(R.id.gameBoardSquareOverlayImage)
         InitializationCheck.haveInitialized()
     }
 
-    fun setImageFromResource(resource: Int){
-        val imageView = getImageView();
-        imageView.setImageResource(resource)
+    public fun setNextSquare(nextSquare: GameBoardSquareFragment){
+        this.nextSquare = nextSquare
+    }
+    public fun getNextSquare(): GameBoardSquareFragment{
+        return this.nextSquare
     }
 
-    fun getImageView() : ImageView{
-        return this.requireView().findViewById<ImageView>(R.id.gameBoardSquareImageView)
+    fun setOverlayFromResource(resource: Int){
+        // TODO:: temporary solution before merge
+        Handler(this.requireContext().mainLooper).post(
+            Runnable {
+                run {
+                    overlayImage.setImageResource(resource)
+                }
+
+            }
+        )
+    }
+
+    fun clearSquareOverlay(){
+        // TODO:: also temporary and sub-optimal
+        Handler(this.requireContext().mainLooper).post(
+            Runnable {
+                run {
+                    overlayImage.setImageResource(transparentOverlay)
+                }
+
+            }
+        )
     }
 
 
@@ -65,6 +78,8 @@ class GameBoardSquareFragment : Fragment() {
          *
          * @return A new instance of fragment GameBoardSquareFragment.
          */
+        val transparentOverlay = R.drawable.transparency
+
         @JvmStatic
         fun newInstance() =
             GameBoardSquareFragment()

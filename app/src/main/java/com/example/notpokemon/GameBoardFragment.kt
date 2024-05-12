@@ -34,11 +34,13 @@ class GameBoardFragment : Fragment(){
         return this.squares.get(squareNumber);
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        println("VIEW CREATED")
         return inflater.inflate(R.layout.fragment_game_board, container, false)
     }
 
@@ -57,6 +59,7 @@ class GameBoardFragment : Fragment(){
     private fun fetchChildSquares(){
         var viewGroup = this.view as ViewGroup;
         for (child in viewGroup.children){
+
             if(child::class == FragmentContainerView::class){
                 val fragmentChild = child as FragmentContainerView
                 squares.add(fragmentChild.getFragment<GameBoardSquareFragment>());
@@ -69,15 +72,11 @@ class GameBoardFragment : Fragment(){
     private fun assignLinearOrderToSquares(){
         var i = 0;
         while(i < squares.size){
-            var list = ArrayList<GameBoardSquareFragment>()
-
             if(i != squares.size - 1){ // if not final element
-                list.add(squares[i+1])
-                squares[i].setNextSquares(list)
+                squares[i].setNextSquare(squares[i+1])
             }
             else{ // if final element
-                list.add(squares[0])
-                squares[i].setNextSquares(list)
+                squares[i].setNextSquare(squares[0])
             }
             i++;
         }
@@ -93,7 +92,7 @@ class GameBoardFragment : Fragment(){
          * @return A new instance of fragment GameBoardFragment.
          */
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             GameBoardFragment()
     }
 }
