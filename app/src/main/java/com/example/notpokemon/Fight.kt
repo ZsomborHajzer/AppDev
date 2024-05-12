@@ -1,7 +1,6 @@
 package com.example.notpokemon
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.ImageView
 import android.widget.TableLayout
@@ -10,6 +9,7 @@ import android.widget.TextView
 import androidx.core.view.get
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import com.example.notpokemon.animations.AnimationCreator
 
 class Fight (val player1:Player, val player2: Player) : Fragment(R.layout.fight_layout){
 
@@ -30,6 +30,8 @@ class Fight (val player1:Player, val player2: Player) : Fragment(R.layout.fight_
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        AnimationCreator(this)
 
         // initializing the view components
         playerName1TV = requireView().findViewById(R.id.firstFighterTitle)
@@ -117,18 +119,5 @@ class Fight (val player1:Player, val player2: Player) : Fragment(R.layout.fight_
     private fun executeFight(){
         val fightSequence = FightSequence(this)
         Thread(fightSequence).start()
-    }
-
-    fun setBattleMapImage(image:Int){
-        runOnUiThread(Runnable {
-            run {
-                this.battleMapView.setImageResource(image)
-            }
-        })
-    }
-
-    private fun runOnUiThread(r: Runnable) {
-        val handler = Handler(requireContext().mainLooper)
-        handler.post(r)
     }
 }

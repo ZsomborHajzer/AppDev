@@ -1,7 +1,6 @@
 package com.example.notpokemon
 
-import com.example.notpokemon.animations.AnimationSequence
-import com.example.notpokemon.animations.AttackAnimation
+import com.example.notpokemon.animations.AnimationCreator
 import com.example.notpokemon.animations.DeathAnimation
 import com.example.notpokemon.animations.SwitchTeamAnimation
 
@@ -17,12 +16,12 @@ class FightSequence(val fight: Fight): Runnable {
 
             println("${attacker.getName()} is fighting ${defender.getName()}!")
             attacker.attack(defender)
-            AttackAnimation().run()
+            AnimationCreator.attackAnimation().run()
 
             // Check if the defender's creature is defeated
             if (defender.healthPoints <= 0) {
                 println("${defender.getName()} fainted!")
-                DeathAnimation(fight).run()
+                AnimationCreator.deathAnimation().run()
                 // Remove the defeated creature from the defending player's team
                 defendingPlayer.removeCreature(defenderIndex)
             }
@@ -49,7 +48,7 @@ class FightSequence(val fight: Fight): Runnable {
         defenderIndex = 0
         println("Attacker team: ${attackingPlayer.getName()}, Defender team: ${defendingPlayer.getName()}")
         println("${attackingPlayer.getName()} 's turn!")
-        SwitchTeamAnimation().run()
+        AnimationCreator.switchTeamAnimation().run()
     }
 
     private fun onFinish(){

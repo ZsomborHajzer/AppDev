@@ -1,7 +1,9 @@
 package com.example.notpokemon.animations
 
-class AttackAnimation(): AnimationSequence() {
-    override fun mainSequence() {
+import com.example.notpokemon.Fight
+
+class AttackAnimation(fight: Fight) : Animation(fight) {
+    override fun execute() {
         Thread.sleep(300)
     }
 
