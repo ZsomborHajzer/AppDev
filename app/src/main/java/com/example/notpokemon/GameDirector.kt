@@ -5,7 +5,7 @@ import kotlin.random.Random
 
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
 
-    private val character = Character(gameBoardFragment.getSquare(0))
+    private val character = Character(gameBoardFragment.getStartSquare())
 
     override fun run(){
         runAroundDemo(character);

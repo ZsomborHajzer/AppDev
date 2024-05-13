@@ -31,10 +31,6 @@ class BaseSquareFragment : SteppableTile() {
         overlayImage = requireView().findViewById(R.id.gameBoardSquareOverlayImage)
     }
 
-    public override fun getEntrySquare(): BaseSquareFragment{
-        return this
-    }
-
     override fun onTileEntry(character: Character) {
         this.setOverlayFromResource(character.icon)
     }

@@ -8,7 +8,11 @@ class DiceRoller {
          * rolls a 6 sided dice, landing between 1 and 6 inclusive
          */
         fun rollD6() : Int{
-            return Random.nextInt(6)+1;
+            return Random.nextInt(6)+1
+        }
+
+        fun rollArbitraryDice(max: Int) : Int{
+            return Random.nextInt(max)+1
         }
     }
 }

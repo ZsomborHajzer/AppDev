@@ -5,7 +5,20 @@ import android.view.View
 import androidx.fragment.app.Fragment
 
 abstract class SteppableTile: Fragment() {
-    public lateinit var nextSquare: SteppableTile
+    protected var _nextSquare: SteppableTile? = null
+    public var nextSquare: SteppableTile
+        get(){
+            return _nextSquare ?: throw UninitializedPropertyAccessException("\"nextSquare\" was queried before being initialized")
+        }
+        set(value) {
+            println(this.javaClass.simpleName)
+            _nextSquare = value
+            onNextSquareSet()
+        }
+
+    protected open fun onNextSquareSet(){
+        return
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,8 +28,6 @@ abstract class SteppableTile: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         InitializationCheck.haveInitialized()
     }
-
-    abstract fun getEntrySquare():SteppableTile
 
     abstract fun onTileEntry(character: Character)
     abstract fun onTileExit()

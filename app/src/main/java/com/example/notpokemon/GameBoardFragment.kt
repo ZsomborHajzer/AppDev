@@ -59,11 +59,10 @@ class GameBoardFragment : Fragment(){
         for (child in viewGroup.children){
 
             if(child::class == FragmentContainerView::class){
-
                 val fragmentChild = (child as FragmentContainerView).getFragment<Fragment>()
-                if(fragmentChild::class == BaseSquareFragment::class){
 
-                    squares.add(fragmentChild as BaseSquareFragment);
+                if(fragmentChild is SteppableTile){
+                    squares.add(fragmentChild as SteppableTile);
                 }
 
             }

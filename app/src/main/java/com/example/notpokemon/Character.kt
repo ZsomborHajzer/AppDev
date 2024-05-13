@@ -2,7 +2,7 @@ package com.example.notpokemon
 
 
 class Character(square: SteppableTile) {
-    private var currentSquare: SteppableTile;
+    var currentSquare: SteppableTile;
     private var squareHistory = ArrayList<SteppableTile>();
     val icon = R.drawable.low_res_tanuki
 
@@ -15,12 +15,11 @@ class Character(square: SteppableTile) {
         if (number < 1){
             throw IllegalArgumentException("function \"moveThisManySpaces\" from" + this.javaClass + "may not be less than 0")
         }
-        var localCurrentSquare = currentSquare
         var waitTime = 500L;
         var i = 1
         while (i <= number){
-            localCurrentSquare = localCurrentSquare.nextSquare // TODO:: Implement multiple routes
-            onMove(localCurrentSquare)
+            var nextSquare = currentSquare.nextSquare
+            onMove(nextSquare)
             i++;
             Thread.sleep(waitTime)
         }
