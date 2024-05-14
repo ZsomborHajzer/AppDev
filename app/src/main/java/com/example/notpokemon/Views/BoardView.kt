@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
+import android.view.View
 import android.widget.FrameLayout
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import com.example.notpokemon.R
@@ -19,8 +21,8 @@ class BoardView : FragmentActivity() {
     private var scaleFactor = 1.0f
     private val minimumGameBoardScale = 0.5f
     private val maximumGameBoardScale = 4f
-    private val maxHorizontalScroll = 1000f
-    private val maxVerticalScroll = 500f
+    private var maxHorizontalScroll = 0f // assigned later based on container
+    private var maxVerticalScroll = 0f
     private lateinit var gameBoardView: FragmentContainerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,6 +30,12 @@ class BoardView : FragmentActivity() {
 
         setContentView(R.layout.activity_game_board)
         gameBoardView = findViewById(R.id.fragmentContainerViewForGameBoard)
+
+        val gameBoardFrame = findViewById<FrameLayout>(R.id.gameBoardFrame)
+        gameBoardFrame.doOnLayout {
+            maxHorizontalScroll = (gameBoardFrame.width*0.8).toFloat()
+            maxVerticalScroll = (gameBoardFrame.height*0.8).toFloat()
+        }
 
         // initializing touch events
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())

@@ -7,16 +7,16 @@
     android:orientation="horizontal">
 
     <FrameLayout
-        android:id="@+id/frameLayout"
+        android:id="@+id/gameBoardFrame"
         android:layout_width="595dp"
         android:layout_height="337dp"
+        android:clipChildren="false"
         android:scaleX="1"
         android:scaleY="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        android:clipChildren="false">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerViewForGameBoard"
