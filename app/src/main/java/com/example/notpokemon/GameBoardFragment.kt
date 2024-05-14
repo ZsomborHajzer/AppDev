@@ -2,6 +2,7 @@ package com.example.notpokemon
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -46,6 +47,7 @@ class GameBoardFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setUpSquares();
     }
 
