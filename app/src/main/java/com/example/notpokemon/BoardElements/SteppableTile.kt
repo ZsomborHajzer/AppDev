@@ -1,8 +1,10 @@
-package com.example.notpokemon
+package com.example.notpokemon.BoardElements
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.example.notpokemon.Character
+import com.example.notpokemon.InitializationCheck
 
 abstract class SteppableTile: Fragment() {
     protected var _nextSquare: SteppableTile? = null

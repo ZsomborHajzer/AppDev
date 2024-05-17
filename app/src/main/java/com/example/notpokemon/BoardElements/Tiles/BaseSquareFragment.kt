@@ -1,4 +1,4 @@
-package com.example.notpokemon
+package com.example.notpokemon.BoardElements.Tiles
 
 import android.os.Bundle
 import android.os.Handler
@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import com.example.notpokemon.BoardElements.SteppableTile
+import com.example.notpokemon.Character
+import com.example.notpokemon.R
 
 /**
  * A simple [Fragment] subclass.
@@ -53,6 +56,9 @@ class BaseSquareFragment : SteppableTile() {
             }
         )
     }
+
+
+
 
     companion object {
         /**

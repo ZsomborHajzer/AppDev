@@ -1,5 +1,7 @@
 package com.example.notpokemon
 
+import com.example.notpokemon.BoardElements.SteppableTile
+
 
 class Character(square: SteppableTile) {
     var currentSquare: SteppableTile;
@@ -29,7 +31,7 @@ class Character(square: SteppableTile) {
         // for now won't be used. but always good to have extra event opportunities
     }
 
-    public fun onMove(square:SteppableTile){
+    public fun onMove(square: SteppableTile){
         currentSquare.onTileExit()
         addToSquareHistory(currentSquare)
         currentSquare = square

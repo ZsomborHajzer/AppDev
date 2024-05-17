@@ -1,4 +1,4 @@
-package com.example.notpokemon
+package com.example.notpokemon.BoardElements.PathSequences
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentContainerView
+import com.example.notpokemon.Character
+import com.example.notpokemon.DiceRoller
+import com.example.notpokemon.R
+import com.example.notpokemon.BoardElements.SteppableTile
 
 /**
  * A simple [Fragment] subclass.
@@ -13,7 +17,7 @@ import androidx.fragment.app.FragmentContainerView
  * create an instance of this fragment.
  */
 class MultiPathPattern1 : SteppableTile() {
-    lateinit var startingSquare:SteppableTile
+    lateinit var startingSquare: SteppableTile
     var paths = ArrayList <ArrayList <SteppableTile>>()
     var viewCreated = false
     var nextSquareSet = false
@@ -83,7 +87,7 @@ class MultiPathPattern1 : SteppableTile() {
         }
     }
 
-    private fun getTile(resource: Int): SteppableTile{
+    private fun getTile(resource: Int): SteppableTile {
         return requireView().findViewById<FragmentContainerView>(resource).getFragment<SteppableTile>()
     }
 

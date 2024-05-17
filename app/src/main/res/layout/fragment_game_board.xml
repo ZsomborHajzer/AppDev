@@ -10,7 +10,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView1"
-        android:name="com.example.notpokemon.BaseSquareFragment"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="12dp"
@@ -21,7 +21,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
-        android:name="com.example.notpokemon.BaseSquareFragment"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginEnd="12dp"
@@ -33,19 +33,19 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
-        android:name="com.example.notpokemon.BaseSquareFragment"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
+        android:layout_width="61dp"
+        android:layout_height="133dp"
         android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.783"
+        app:layout_constraintVertical_bias="0.767"
         tools:layout="@layout/fragment_game_board_square" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView5"
-        android:name="com.example.notpokemon.MultiPathPattern1"
+        android:name="com.example.notpokemon.BoardElements.PathSequences.MultiPathPattern1"
         android:layout_width="337dp"
         android:layout_height="247dp"
         android:layout_marginTop="16dp"
@@ -57,7 +57,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView6"
-        android:name="com.example.notpokemon.BaseSquareFragment"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="20dp"
@@ -69,7 +69,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView7"
-        android:name="com.example.notpokemon.BaseSquareFragment"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="12dp"
@@ -81,7 +81,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView8"
-        android:name="com.example.notpokemon.BaseSquareFragment"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="12dp"
@@ -92,7 +92,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView9"
-        android:name="com.example.notpokemon.BaseSquareFragment"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="12dp"
@@ -104,7 +104,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView10"
-        android:name="com.example.notpokemon.BaseSquareFragment"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="12dp"
@@ -123,4 +123,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
