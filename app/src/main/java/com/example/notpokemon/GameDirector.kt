@@ -1,20 +1,20 @@
 package com.example.notpokemon
 
-import android.os.Handler
-import kotlin.random.Random
-
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
 
-    private val character = Character(gameBoardFragment.getStartSquare())
+    private val character = PlayableCharacter(gameBoardFragment.getStartSquare(), "sally")
+    init {
+        character.addCreature(BattleManager.generateCreature())
+    }
 
     override fun run(){
         runAroundDemo(character);
     }
 
-    private fun runAroundDemo(character: Character){
+    private fun runAroundDemo(playableCharacter: PlayableCharacter){
         while(true){
             val number = DiceRoller.rollD6()
-            character.moveThisManySpaces(number)
+            playableCharacter.moveThisManySpaces(number)
             sleep(2000);
         }
     }

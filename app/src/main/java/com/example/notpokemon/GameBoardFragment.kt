@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import com.example.notpokemon.Views.MainActivity
 
 /**
  * A simple [Fragment] subclass.
@@ -19,7 +20,7 @@ class GameBoardFragment : Fragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        GameBoardFragment.instance = this
         InitializationCheck.gameBoardFragment = this
         squares = ArrayList()
     }
@@ -83,10 +84,10 @@ class GameBoardFragment : Fragment(){
             }
             i++;
         }
-
     }
 
     companion object {
+        lateinit var instance: GameBoardFragment
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -95,7 +96,6 @@ class GameBoardFragment : Fragment(){
          * @return A new instance of fragment GameBoardFragment.
          */
         @JvmStatic
-        fun newInstance() =
-            GameBoardFragment()
+        fun newInstance(): GameBoardFragment = GameBoardFragment()
     }
 }

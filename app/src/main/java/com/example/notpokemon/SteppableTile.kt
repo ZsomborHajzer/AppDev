@@ -29,6 +29,8 @@ abstract class SteppableTile: Fragment() {
         InitializationCheck.haveInitialized()
     }
 
-    abstract fun onTileEntry(character: Character)
+    abstract fun onTileEntry(playableCharacter: PlayableCharacter)
+
+    abstract fun onTileStay(playableCharacter: PlayableCharacter)
     abstract fun onTileExit()
 }
