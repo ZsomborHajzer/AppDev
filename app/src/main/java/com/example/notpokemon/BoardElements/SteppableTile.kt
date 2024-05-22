@@ -3,8 +3,8 @@ package com.example.notpokemon.BoardElements
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.notpokemon.Character
 import com.example.notpokemon.InitializationCheck
+import com.example.notpokemon.PlayableCharacter
 
 abstract class SteppableTile: Fragment() {
     protected var _nextSquare: SteppableTile? = null
@@ -31,6 +31,8 @@ abstract class SteppableTile: Fragment() {
         InitializationCheck.haveInitialized()
     }
 
-    abstract fun onTileEntry(character: Character)
+    abstract fun onTileEntry(playableCharacter: PlayableCharacter)
+
+    abstract fun onTileStay(playableCharacter: PlayableCharacter)
     abstract fun onTileExit()
 }

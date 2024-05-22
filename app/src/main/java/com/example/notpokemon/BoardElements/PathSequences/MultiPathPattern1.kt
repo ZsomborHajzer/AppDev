@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentContainerView
-import com.example.notpokemon.Character
 import com.example.notpokemon.DiceRoller
 import com.example.notpokemon.R
 import com.example.notpokemon.BoardElements.SteppableTile
+import com.example.notpokemon.PlayableCharacter
 
 /**
  * A simple [Fragment] subclass.
@@ -91,11 +91,15 @@ class MultiPathPattern1 : SteppableTile() {
         return requireView().findViewById<FragmentContainerView>(resource).getFragment<SteppableTile>()
     }
 
-    override fun onTileEntry(character: Character) {
-        character.currentSquare = startingSquare
-        startingSquare.onTileEntry(character)
+    override fun onTileEntry(playableCharacter: PlayableCharacter) {
+        playableCharacter.currentSquare = startingSquare
+        startingSquare.onTileEntry(playableCharacter)
         val pathNumber = DiceRoller.rollArbitraryDice(3)
         startingSquare.nextSquare = paths[pathNumber-1][0]
+    }
+
+    override fun onTileStay(playableCharacter: PlayableCharacter) {
+        return
     }
 
     override fun onTileExit() {

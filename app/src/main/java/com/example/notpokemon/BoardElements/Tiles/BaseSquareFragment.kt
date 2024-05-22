@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.example.notpokemon.BoardElements.SteppableTile
-import com.example.notpokemon.Character
+import com.example.notpokemon.PlayableCharacter
 import com.example.notpokemon.R
 
 /**
@@ -16,7 +16,7 @@ import com.example.notpokemon.R
  * Use the [BaseSquareFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class BaseSquareFragment : SteppableTile() {
+open class BaseSquareFragment : SteppableTile() {
     protected lateinit var baseImage: ImageView
     protected lateinit var overlayImage: ImageView
 
@@ -34,8 +34,12 @@ class BaseSquareFragment : SteppableTile() {
         overlayImage = requireView().findViewById(R.id.gameBoardSquareOverlayImage)
     }
 
-    override fun onTileEntry(character: Character) {
-        this.setOverlayFromResource(character.icon)
+    override fun onTileEntry(playableCharacter: PlayableCharacter) {
+        this.setOverlayFromResource(playableCharacter.icon)
+    }
+
+    override fun onTileStay(playableCharacter: PlayableCharacter) {
+        return
     }
 
     override fun onTileExit() {

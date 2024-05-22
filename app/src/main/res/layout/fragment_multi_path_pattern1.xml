@@ -88,7 +88,7 @@
         android:layout_width="65dp"
         android:layout_height="117dp"
         tools:layout="@layout/fragment_game_board_square"
-        tools:layout_editor_absoluteX="286dp"
-        tools:layout_editor_absoluteY="290dp" />
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

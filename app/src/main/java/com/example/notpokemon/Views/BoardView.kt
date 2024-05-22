@@ -9,6 +9,8 @@ import android.widget.FrameLayout
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
+import com.example.notpokemon.Fight
+import com.example.notpokemon.GameBoardFragment
 import com.example.notpokemon.R
 import kotlin.math.max
 import kotlin.math.min
@@ -27,6 +29,7 @@ class BoardView : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instance = this
 
         setContentView(R.layout.activity_game_board)
         gameBoardView = findViewById(R.id.fragmentContainerViewForGameBoard)
@@ -87,6 +90,26 @@ class BoardView : FragmentActivity() {
     }
     fun getClippedValue(minNumber:Float, number:Float, maxNumber:Float):Float{
         return max(minNumber, min(number, maxNumber))
+    }
+
+    fun initializeFight(fightFragment: Fight){
+        val fragmentManager = this.supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.setReorderingAllowed(true)
+        fragmentTransaction.add(R.id.fightFragmentContainer, fightFragment)
+        fragmentTransaction.commit()
+    }
+
+    fun removeFight(fightFragment: Fight){
+        val fragmentManager = this.supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.setReorderingAllowed(true)
+        fragmentTransaction.remove(fightFragment)
+        fragmentTransaction.commit()
+    }
+
+    companion object{
+        lateinit var instance: BoardView
     }
 
 }

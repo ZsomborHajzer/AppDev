@@ -3,13 +3,14 @@ package com.example.notpokemon
 import com.example.notpokemon.BoardElements.SteppableTile
 
 
-class Character(square: SteppableTile) {
+class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(name) {
     var currentSquare: SteppableTile;
+
     private var squareHistory = ArrayList<SteppableTile>();
     val icon = R.drawable.low_res_tanuki
 
     init {
-        this.currentSquare = square;
+        this.currentSquare = startingSquare;
         onMove(currentSquare)
     }
 
@@ -25,6 +26,7 @@ class Character(square: SteppableTile) {
             i++;
             Thread.sleep(waitTime)
         }
+        currentSquare.onTileStay(this)
     }
 
     public fun onInteractSquare(){
