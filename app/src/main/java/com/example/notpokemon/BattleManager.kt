@@ -102,13 +102,14 @@ class BattleManager : Runnable {
         fun generateCreature(): Creature {
             val types = arrayOf("Fire", "Water", "Earth", "Air") // TODO:: create enums
             val hp = arrayOf(100, 150, 200, 500)
+            val damage = arrayOf(1, 100, 150, 200, 500, 1000)
             val attackNames = arrayOf("Bite", "Throw", "Roll", "Whip", "Cry")
 
             val name = "Creature${(1..1000).random()}"
             val type = types.random()
             val health = hp.random()
-            val attackName = attackNames.random()
-            return Creature(name, type, health, attackName)
+            val attack = BiteAttack(attackNames.random(), "default", damage.random())
+            return ButterPig(name, type, health, attack)
         }
     }
 }
