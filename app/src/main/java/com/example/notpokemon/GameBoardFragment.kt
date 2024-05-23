@@ -15,12 +15,14 @@ import com.example.notpokemon.BoardElements.SteppableTile
  * create an instance of this fragment.
  */
 class GameBoardFragment : Fragment(){
+    private lateinit var squareContainers: ArrayList<FragmentContainerView> // parallel lists
     private lateinit var squares: ArrayList<SteppableTile>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GameBoardFragment.instance = this
         InitializationCheck.gameBoardFragment = this
+        squareContainers = ArrayList()
         squares = ArrayList()
     }
 
@@ -53,6 +55,7 @@ class GameBoardFragment : Fragment(){
     private fun setUpSquares(){
         fetchChildSquares()
         assignLinearOrderToSquares()
+        arrangeTiles()
     }
 
     private fun fetchChildSquares(){
@@ -60,12 +63,13 @@ class GameBoardFragment : Fragment(){
         for (child in viewGroup.children){
 
             if(child::class == FragmentContainerView::class){
-                val fragmentChild = (child as FragmentContainerView).getFragment<Fragment>()
 
-                if(fragmentChild is SteppableTile){
-                    squares.add(fragmentChild as SteppableTile);
+                val derivedFragment = (child as FragmentContainerView).getFragment<Fragment>()
+
+                if(derivedFragment is SteppableTile){
+                    squareContainers.add(child)
+                    squares.add(derivedFragment as SteppableTile);
                 }
-
             }
         }
         println(squares);
@@ -79,6 +83,38 @@ class GameBoardFragment : Fragment(){
             }
             else{ // if final element
                 squares[i].nextSquare = squares[0]
+            }
+            i++;
+        }
+    }
+
+    //temporary
+    private fun arrangeTiles(){
+        val arranger = TileArranger(requireContext())
+        arranger.initializeTileNudgeVariables()
+        var i = 0;
+        while(i < squareContainers.size*0.25){
+                arranger.attachTileBottomRight(squareContainers[i], squareContainers[i+1])
+            i++;
+        }
+
+        while(i < squareContainers.size*0.5){
+            arranger.attachTileTopRight(squareContainers[i], squareContainers[i+1])
+
+            i++;
+        }
+
+        while(i < squareContainers.size*0.75){
+            arranger.attachTileTopLeft(squareContainers[i], squareContainers[i+1])
+            i++;
+        }
+
+        while(i < squareContainers.size){
+            if(i != squareContainers.size - 1){ // if not final element
+                arranger.attachTileBottomLeft(squareContainers[i], squareContainers[i+1])
+            }
+            else{ // if final element
+                arranger.attachTileBottomLeft(squareContainers[i], squareContainers[0])
             }
             i++;
         }

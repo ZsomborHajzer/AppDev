@@ -13,7 +13,6 @@ abstract class SteppableTile: Fragment() {
             return _nextSquare ?: throw UninitializedPropertyAccessException("\"nextSquare\" was queried before being initialized")
         }
         set(value) {
-            println(this.javaClass.simpleName)
             _nextSquare = value
             onNextSquareSet()
         }

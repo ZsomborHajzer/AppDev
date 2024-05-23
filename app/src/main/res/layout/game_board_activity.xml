@@ -8,8 +8,12 @@
 
     <FrameLayout
         android:id="@+id/gameBoardFrame"
-        android:layout_width="595dp"
-        android:layout_height="337dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
         android:clipChildren="false"
         android:scaleX="1"
         android:scaleY="1"
@@ -29,16 +33,17 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="104dp"
-        android:layout_height="361dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:background="#BDBDBD"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        ></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fightFragmentContainer"

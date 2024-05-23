@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gameboardLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,115 +14,95 @@
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        tools:layout="@layout/game_board_square_fragment" />
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="112dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.094"
-        tools:layout="@layout/game_board_square_fragment" />
-
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="312dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView4"
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="57dp"
         android:layout_height="63dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tileWrapperView"
-        app:layout_constraintEnd_toEndOf="@+id/tileWrapperView"
-        app:layout_constraintStart_toStartOf="@+id/tileWrapperView"
-        app:layout_constraintTop_toTopOf="@+id/tileWrapperView"
-        tools:layout="@layout/game_board_square_fragment" />
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView5"
-        android:name="com.example.notpokemon.BoardElements.PathSequences.MultiPathPattern1"
-        android:layout_width="337dp"
-        android:layout_height="247dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        tools:layout="@layout/fragment_multi_path_pattern1" />
+        android:id="@+id/addedDefaultTile1"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="476dp"
+        android:layout_marginTop="128dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView6"
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.78"
-        tools:layout="@layout/game_board_square_fragment" />
+        android:layout_marginStart="512dp"
+        android:layout_marginTop="416dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView7"
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="12dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.119"
-        tools:layout="@layout/game_board_grass_tile_fragment" />
+        android:layout_marginStart="492dp"
+        android:layout_marginTop="252dp" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/addedDefaultTile2"
+        android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="492dp"
+        android:layout_marginTop="252dp" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/grassTile1"
+        android:name="com.example.notpokemon.BoardElements.Tiles.GrassTile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="476dp"
+        android:layout_marginTop="128dp" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/grassTile2"
+        android:name="com.example.notpokemon.BoardElements.Tiles.GrassTile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="476dp"
+        android:layout_marginTop="128dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView8"
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        tools:layout="@layout/game_board_grass_tile_fragment" />
+        android:layout_marginStart="476dp"
+        android:layout_marginTop="128dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView9"
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.757"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        tools:layout="@layout/game_board_grass_tile_fragment" />
+        android:layout_marginStart="344dp"
+        android:layout_marginTop="152dp" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView10"
         android:name="com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.262"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        tools:layout="@layout/game_board_square_fragment" />
+        android:layout_marginStart="192dp"
+        android:layout_marginTop="92dp" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="365dp"
-        android:layout_height="194dp"
-        android:src="?android:attr/selectableItemBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

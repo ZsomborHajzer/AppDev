@@ -1,10 +1,13 @@
-package com.example.notpokemon
+package com.example.notpokemon.BoardElements.Tiles
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.notpokemon.BoardElements.Tiles.BaseSquareFragment
+import com.example.notpokemon.BattleManager
+import com.example.notpokemon.Fighter
+import com.example.notpokemon.PlayableCharacter
+import com.example.notpokemon.R
 
 class GrassTile : BaseSquareFragment() {
     override fun onCreateView(
