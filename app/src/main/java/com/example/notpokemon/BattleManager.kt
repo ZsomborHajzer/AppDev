@@ -108,8 +108,13 @@ class BattleManager : Runnable {
             val name = "Creature${(1..1000).random()}"
             val type = types.random()
             val health = hp.random()
-            val attack = BiteAttack(attackNames.random(), "default", damage.random())
-            return ButterPig(name, type, health, attack)
+            val attack = BiteAttack(damage.random())
+            attack.attackName = attackNames.random()
+            val creature = ButterPig(attack)
+            creature.creatureName = name
+            creature.creatureType = type
+            creature.healthPoints = health
+            return creature
         }
     }
 }

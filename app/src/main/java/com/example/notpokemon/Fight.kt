@@ -61,7 +61,7 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
             var creatureIndex = 0
             while (creatureIndex < attackingPlayer.team.size){
 
-                getCreatureNameTextView(playerNumber, creatureIndex).text = getPlayerByNumber(playerNumber).team[creatureIndex].getName()
+                getCreatureNameTextView(playerNumber, creatureIndex).text = getPlayerByNumber(playerNumber).team[creatureIndex].creatureName
 
                 creatureIndex++
             }

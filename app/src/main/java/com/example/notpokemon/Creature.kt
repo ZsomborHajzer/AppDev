@@ -3,19 +3,20 @@ package com.example.notpokemon
 import kotlin.math.max
 
 //Generic Creature class
-abstract class Creature(private var name: String, private var type: String, private var maxHealthPoints: Int, private var attack: Attack) {
+abstract class Creature(open var attack: Attack) {
+    open var creatureType = "Default"
+    open var maxHealthPoints = 100
+    open var creatureName = "Default"
+
     var healthPoints = maxHealthPoints
 
-    fun getName(): String {
-        return name
-    }
-
-    fun getType(): String {
-        return type
-    }
-
-    fun getAttack(): Attack {
-        return attack
+    fun takeDamage(damageAmount: Int){
+        if(damageAmount > healthPoints){ //in case of overkill
+            healthPoints = 0
+        }
+        else{
+            healthPoints -= damageAmount
+        }
     }
 
     fun heal(amount: Int){

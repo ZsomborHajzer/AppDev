@@ -1,4 +1,9 @@
 package com.example.notpokemon
 
-class ButterPig(var name: String, var type: String, var maxHealthPoints: Int, var attack: Attack) : Creature(name, type, maxHealthPoints, attack) {
+class ButterPig(override var attack: Attack) : Creature(attack) {
+    override var creatureName = "ButterPig"
+    override var creatureType = "Fire"
+    override var maxHealthPoints = 200
+
+
 }
