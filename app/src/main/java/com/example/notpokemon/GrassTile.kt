@@ -12,7 +12,7 @@ class GrassTile : BaseSquareFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_game_board_grass_tile, container, false)
+        return inflater.inflate(R.layout.game_board_grass_tile_fragment, container, false)
     }
     override fun onTileStay(character: PlayableCharacter) {
         val battleManager = BattleManager()

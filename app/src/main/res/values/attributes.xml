@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="neighborTile">
+        <attr name="topLeft" format="reference"/>
+        <attr name="topRight" format="reference"/>
+        <attr name="bottomLeft" format="reference"/>
+        <attr name="bottomRight" format="reference"/>
+    </declare-styleable>
+</resources>

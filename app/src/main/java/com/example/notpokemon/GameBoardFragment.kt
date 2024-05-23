@@ -42,7 +42,7 @@ class GameBoardFragment : Fragment(){
     ): View? {
         // Inflate the layout for this fragment
         println("VIEW CREATED")
-        return inflater.inflate(R.layout.fragment_game_board, container, false)
+        return inflater.inflate(R.layout.game_board_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -25,7 +25,7 @@ open class BaseSquareFragment : SteppableTile() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_game_board_square, container, false)
+        return inflater.inflate(R.layout.game_board_square_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
