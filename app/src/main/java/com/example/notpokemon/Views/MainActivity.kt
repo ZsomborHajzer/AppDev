@@ -17,4 +17,25 @@ class MainActivity : ComponentActivity() {
     companion object{
         lateinit var instance: MainActivity
     }
+
+
+    //TODO Figure out how to implement flow between views:
+//    private lateinit var uiInitializer: UIInitializer
+//    private lateinit var webSocketHandler: WebSocketHandler
+//    private lateinit var eventHandlers: EventHandlers
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_main)
+//
+//        uiInitializer = UIInitializer(this)
+//        uiInitializer.initialize()
+//
+//        webSocketHandler = WebSocketHandler {
+//            uiInitializer.receivedMessages.append("\n$it")
+//        }
+//
+//        eventHandlers = EventHandlers(uiInitializer, webSocketHandler)
+//        eventHandlers.setupEventHandlers()
+//    }
 }

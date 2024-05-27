@@ -53,6 +53,10 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.okhttp)
+    implementation(libs.gson)
+    implementation(libs.androidx.activity)
     val fragment_version = "1.7.0"
 
     implementation(libs.androidx.core.ktx)

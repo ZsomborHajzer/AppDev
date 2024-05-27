@@ -2,4 +2,6 @@
 <resources>
 
     <style name="Theme.NotPokemon" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.AppCompat.DayNight.NoActionBar" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>
