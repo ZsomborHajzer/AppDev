@@ -7,6 +7,7 @@ abstract class Creature(open var attack: Attack) {
     open var creatureType = "Default"
     open var maxHealthPoints = 100
     open var creatureName = "Default"
+    open var imageResource = R.drawable.creature_harvey
 
     var healthPoints = maxHealthPoints
 
