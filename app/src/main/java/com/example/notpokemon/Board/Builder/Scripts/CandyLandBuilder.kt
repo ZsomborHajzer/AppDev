@@ -14,7 +14,7 @@ class CandyLandBuilder(caller: GameBoardFragment): GameBoardBuilder {
     private val builderHelper = GameBoardConstructorHelper(caller)
     override fun build() {
         // down to the right
-        val startSquare = builderHelper.createTile(BaseTile::class.java)
+        val startSquare = builderHelper.createStarterTile(BaseTile::class.java)
         builderHelper.asyncCreateTileBottomRight(GrassTile::class.java)
 
         builderHelper.asyncCreateTileBottomRight(BaseTile::class.java)

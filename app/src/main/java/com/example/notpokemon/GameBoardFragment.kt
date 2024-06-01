@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import com.example.notpokemon.Board.Builder.Scripts.CandyLandBuilder
+import com.example.notpokemon.Board.Builder.Scripts.DemoHighwayBuilder
+import com.example.notpokemon.Board.Builder.Utilities.GameBoardBuilder
 import com.example.notpokemon.Board.Elements.SteppableTile
 
 /**
@@ -17,6 +19,7 @@ import com.example.notpokemon.Board.Elements.SteppableTile
 class GameBoardFragment : Fragment(){
     private lateinit var squareContainers: ArrayList<FragmentContainerView> // parallel lists
     private lateinit var squares: ArrayList<SteppableTile>
+    private lateinit var boardBuilder: GameBoardBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +27,7 @@ class GameBoardFragment : Fragment(){
         InitializationCheck.gameBoardFragment = this
         squareContainers = ArrayList()
         squares = ArrayList()
-    }
-
-    public fun addSquare(square: SteppableTile){
-        this.squares.add(square);
+        boardBuilder = CandyLandBuilder(this)
     }
 
     public fun getStartSquare() : SteppableTile {
@@ -49,7 +49,6 @@ class GameBoardFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val boardBuilder = CandyLandBuilder(this)
         boardBuilder.build()
         this.squares = boardBuilder.tiles
 

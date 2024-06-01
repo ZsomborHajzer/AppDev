@@ -102,6 +102,21 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         thread.start()
         return  attachedTile
     }
+
+    public fun createStarterTile(tileClass: Class<out SteppableTile>):SteppableTile{
+        val tile = createTile(tileClass)
+        var thread = Thread {
+            run {
+                waitUntilViewIsCreated(tile)
+                val tileContainer = tile.view as View
+                arranger.standardizeViewSize(tileContainer)
+            }
+        }
+        thread.start()
+
+        return tile
+    }
+
     public fun createTile(tileClass: Class<out SteppableTile>): SteppableTile {
         val fragmentManager = caller.childFragmentManager
         val tile = tileClass.getDeclaredConstructor().newInstance()
@@ -119,6 +134,11 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         }
     }
 
+    private fun waitUntilViewIsCreated(frag:Fragment){
+        while (frag.view == null){
+            Thread.sleep(200)
+        }
+    }
     private fun isCurrentThreadHeadOfCreationQueue(): Boolean{
         if(viewCreationQueue.first() == Thread.currentThread()){
             return true
