@@ -1,4 +1,4 @@
-package com.example.notpokemon.BoardElements.Tiles
+package com.example.notpokemon.Board.Elements.Tiles
 
 import android.os.Bundle
 import android.os.Handler
@@ -7,24 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.example.notpokemon.BoardElements.SteppableTile
+import com.example.notpokemon.Board.Elements.SteppableTile
+import com.example.notpokemon.GameBoardFragment
 import com.example.notpokemon.PlayableCharacter
 import com.example.notpokemon.R
 
 /**
  * A simple [Fragment] subclass.
- * Use the [BaseSquareFragment.newInstance] factory method to
+ * Use the [BaseTile.newInstance] factory method to
  * create an instance of this fragment.
  */
-open class BaseSquareFragment : SteppableTile() {
+open class BaseTile : SteppableTile() {
     protected lateinit var baseImage: ImageView
     protected lateinit var overlayImage: ImageView
+
+    protected open val baseImageResource = R.drawable.cube_orthographic
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        super.onCreateView(inflater, container, savedInstanceState)
         return inflater.inflate(R.layout.game_board_square_fragment, container, false)
     }
 
@@ -32,6 +36,7 @@ open class BaseSquareFragment : SteppableTile() {
         super.onViewCreated(view, savedInstanceState)
         baseImage = requireView().findViewById(R.id.gameBoardSquareBaseImage)
         overlayImage = requireView().findViewById(R.id.gameBoardSquareOverlayImage)
+        baseImage.setImageResource(baseImageResource)
     }
 
     override fun onTileEntry(playableCharacter: PlayableCharacter) {
@@ -51,7 +56,7 @@ open class BaseSquareFragment : SteppableTile() {
     }
 
     private fun setOverlayFromResource(resource: Int){
-        Handler(this.requireContext().mainLooper).post(
+        Handler(GameBoardFragment.instance.requireContext().mainLooper).post(
             Runnable {
                 run {
                     overlayImage.setImageResource(resource)
@@ -75,6 +80,6 @@ open class BaseSquareFragment : SteppableTile() {
 
         @JvmStatic
         fun newInstance() =
-            BaseSquareFragment()
+            BaseTile()
     }
 }

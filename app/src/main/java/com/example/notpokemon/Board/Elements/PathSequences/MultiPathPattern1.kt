@@ -1,4 +1,4 @@
-package com.example.notpokemon.BoardElements.PathSequences
+package com.example.notpokemon.Board.Elements.PathSequences
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentContainerView
 import com.example.notpokemon.DiceRoller
 import com.example.notpokemon.R
-import com.example.notpokemon.BoardElements.SteppableTile
+import com.example.notpokemon.Board.Elements.SteppableTile
 import com.example.notpokemon.PlayableCharacter
 
 /**
@@ -22,6 +22,14 @@ class MultiPathPattern1 : SteppableTile() {
     var viewCreated = false
     var nextSquareSet = false
 
+    override var nextSquare: SteppableTile
+        get() = super.nextSquare
+        set(value) {
+            nextSquare = value
+            nextSquareSet = true
+            attemptInitialize()
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,11 +41,6 @@ class MultiPathPattern1 : SteppableTile() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewCreated = true
-        attemptInitialize()
-    }
-
-    override fun onNextSquareSet(){
-        nextSquareSet = true
         attemptInitialize()
     }
 

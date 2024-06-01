@@ -1,16 +1,13 @@
-package com.example.notpokemon
+package com.example.notpokemon.Board.Builder.Utilities
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
-import androidx.fragment.app.FragmentContainerView
 
 
-class TileArranger(val context: Context) {
+open class TileArranger(val context: Context) {
 
     private var horizontalNudge = 0
 
@@ -26,25 +23,25 @@ class TileArranger(val context: Context) {
         }
     }
 
-    fun attachTileTopLeft(baseTile:FragmentContainerView, targetTile:FragmentContainerView){
+    open fun attachTileTopLeft(baseTile:View, targetTile:View){
         standardizeViewSize(targetTile)
         copyPosition(baseTile, targetTile)
         nudgeByAmount(targetTile, -horizontalNudge, -verticalNudge)
         setLowerThan(baseTile, targetTile)
     }
-    fun attachTileTopRight(baseTile:FragmentContainerView, targetTile:FragmentContainerView){
+    open fun attachTileTopRight(baseTile:View, targetTile:View){
         standardizeViewSize(targetTile)
         copyPosition(baseTile, targetTile)
         nudgeByAmount(targetTile, horizontalNudge, -verticalNudge)
         setLowerThan(baseTile,targetTile)
     }
-    fun attachTileBottomLeft(baseTile:FragmentContainerView, targetTile:FragmentContainerView){
+    open fun attachTileBottomLeft(baseTile:View, targetTile:View){
         standardizeViewSize(targetTile)
         copyPosition(baseTile, targetTile)
         nudgeByAmount(targetTile, -horizontalNudge, verticalNudge)
         setHigherThan(baseTile,targetTile)
     }
-    fun attachTileBottomRight(baseTile:FragmentContainerView, targetTile:FragmentContainerView){
+    open fun attachTileBottomRight(baseTile:View, targetTile:View){
         standardizeViewSize(targetTile)
         copyPosition(baseTile, targetTile)
         nudgeByAmount(targetTile, horizontalNudge, verticalNudge)

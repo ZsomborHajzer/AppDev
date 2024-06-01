@@ -1,6 +1,6 @@
 package com.example.notpokemon
 
-import com.example.notpokemon.BoardElements.SteppableTile
+import com.example.notpokemon.Board.Elements.SteppableTile
 
 
 class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(name) {

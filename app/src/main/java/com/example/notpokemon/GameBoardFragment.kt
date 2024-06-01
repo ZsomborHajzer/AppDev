@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import com.example.notpokemon.BoardElements.SteppableTile
+import com.example.notpokemon.Board.Builder.Scripts.CandyLandBuilder
+import com.example.notpokemon.Board.Elements.SteppableTile
 
 /**
  * A simple [Fragment] subclass.
@@ -49,75 +49,10 @@ class GameBoardFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpSquares();
-    }
+        val boardBuilder = CandyLandBuilder(this)
+        boardBuilder.build()
+        this.squares = boardBuilder.tiles
 
-    private fun setUpSquares(){
-        fetchChildSquares()
-        assignLinearOrderToSquares()
-        arrangeTiles()
-    }
-
-    private fun fetchChildSquares(){
-        var viewGroup = this.view as ViewGroup;
-        for (child in viewGroup.children){
-
-            if(child::class == FragmentContainerView::class){
-
-                val derivedFragment = (child as FragmentContainerView).getFragment<Fragment>()
-
-                if(derivedFragment is SteppableTile){
-                    squareContainers.add(child)
-                    squares.add(derivedFragment as SteppableTile);
-                }
-            }
-        }
-        println(squares);
-    }
-
-    private fun assignLinearOrderToSquares(){
-        var i = 0;
-        while(i < squares.size){
-            if(i != squares.size - 1){ // if not final element
-                squares[i].nextSquare = squares[i+1]
-            }
-            else{ // if final element
-                squares[i].nextSquare = squares[0]
-            }
-            i++;
-        }
-    }
-
-    //temporary
-    private fun arrangeTiles(){
-        val arranger = TileArranger(requireContext())
-        arranger.initializeTileNudgeVariables()
-        var i = 0;
-        while(i < squareContainers.size*0.25){
-                arranger.attachTileBottomRight(squareContainers[i], squareContainers[i+1])
-            i++;
-        }
-
-        while(i < squareContainers.size*0.5){
-            arranger.attachTileTopRight(squareContainers[i], squareContainers[i+1])
-
-            i++;
-        }
-
-        while(i < squareContainers.size*0.75){
-            arranger.attachTileTopLeft(squareContainers[i], squareContainers[i+1])
-            i++;
-        }
-
-        while(i < squareContainers.size){
-            if(i != squareContainers.size - 1){ // if not final element
-                arranger.attachTileBottomLeft(squareContainers[i], squareContainers[i+1])
-            }
-            else{ // if final element
-                arranger.attachTileBottomLeft(squareContainers[i], squareContainers[0])
-            }
-            i++;
-        }
     }
 
     companion object {

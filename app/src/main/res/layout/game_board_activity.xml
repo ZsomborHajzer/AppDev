@@ -25,9 +25,11 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerViewForGameBoard"
             android:name="com.example.notpokemon.GameBoardFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/game_board_fragment" />
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            tools:layout="@layout/game_board_fragment"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
     </FrameLayout>
 
     <LinearLayout
@@ -52,6 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
