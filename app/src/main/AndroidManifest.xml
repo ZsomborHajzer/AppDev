@@ -14,18 +14,13 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".ConnnectPageActivity"
+            android:name=".ConnectPageActivity"
             android:exported="false" />
-        <activity
-            android:name=".ConnectActivity"
-            android:exported="false"
-            android:label="@string/title_activity_connect"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".Views.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:screenOrientation="landscape">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
