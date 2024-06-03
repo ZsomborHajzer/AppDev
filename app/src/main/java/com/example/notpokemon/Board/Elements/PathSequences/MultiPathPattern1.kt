@@ -1,4 +1,4 @@
-package com.example.notpokemon
+package com.example.notpokemon.Board.Elements.PathSequences
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,6 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentContainerView
+import com.example.notpokemon.DiceRoller
+import com.example.notpokemon.R
+import com.example.notpokemon.Board.Elements.SteppableTile
+import com.example.notpokemon.PlayableCharacter
 
 /**
  * A simple [Fragment] subclass.
@@ -13,10 +17,18 @@ import androidx.fragment.app.FragmentContainerView
  * create an instance of this fragment.
  */
 class MultiPathPattern1 : SteppableTile() {
-    lateinit var startingSquare:SteppableTile
+    lateinit var startingSquare: SteppableTile
     var paths = ArrayList <ArrayList <SteppableTile>>()
     var viewCreated = false
     var nextSquareSet = false
+
+    override var nextSquare: SteppableTile
+        get() = super.nextSquare
+        set(value) {
+            nextSquare = value
+            nextSquareSet = true
+            attemptInitialize()
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,11 +41,6 @@ class MultiPathPattern1 : SteppableTile() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewCreated = true
-        attemptInitialize()
-    }
-
-    override fun onNextSquareSet(){
-        nextSquareSet = true
         attemptInitialize()
     }
 
@@ -83,7 +90,7 @@ class MultiPathPattern1 : SteppableTile() {
         }
     }
 
-    private fun getTile(resource: Int): SteppableTile{
+    private fun getTile(resource: Int): SteppableTile {
         return requireView().findViewById<FragmentContainerView>(resource).getFragment<SteppableTile>()
     }
 

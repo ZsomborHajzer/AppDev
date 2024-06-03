@@ -1,5 +1,7 @@
 package com.example.notpokemon
 
+import com.example.notpokemon.Board.Elements.SteppableTile
+
 
 class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(name) {
     var currentSquare: SteppableTile;
@@ -31,7 +33,7 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
         // for now won't be used. but always good to have extra event opportunities
     }
 
-    public fun onMove(square:SteppableTile){
+    public fun onMove(square: SteppableTile){
         currentSquare.onTileExit()
         addToSquareHistory(currentSquare)
         currentSquare = square
