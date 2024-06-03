@@ -9,7 +9,7 @@ class BattleManager : Runnable {
     private val team2 = ArrayList<Creature>()
     public var fighter1 = Fighter("Sillie")
     public var fighter2 = Fighter("Sally")
-    private val xpPerBattle = 500
+    private val xpPerBattle = 5
 
     override fun run() {
         performRound(fighter1, fighter2)
@@ -100,20 +100,16 @@ class BattleManager : Runnable {
     }
     companion object{
         fun generateCreature(): Creature {
-            val types = arrayOf("Fire", "Water", "Earth", "Air") // TODO:: create enums
-            val hp = arrayOf(100, 150, 200, 500)
-            val damage = arrayOf(1, 100, 150, 200, 500, 1000)
+            val types = arrayOf("Haunted", "Space", "Aquatic", "Sugar") // TODO:: create enums
             val attackNames = arrayOf("Bite", "Throw", "Roll", "Whip", "Cry")
 
             val name = "Creature${(1..1000).random()}"
             val type = types.random()
-            val health = hp.random()
-            val attack = BiteAttack(damage.random())
+            val attack = BiteAttack()
             attack.attackName = attackNames.random()
             val creature = ButterPig(attack)
             creature.creatureName = name
             creature.creatureType = type
-            creature.healthPoints = health
             return creature
         }
     }

@@ -1,19 +1,17 @@
 package com.example.notpokemon
 
-import kotlin.math.max
-
 //Generic Creature class
 abstract class Creature(open var attack: Attack) {
     open var creatureType = "Default"
-    open var maxHealthPoints = 100
+    open var maxHealthPoints = 240 as Double
     open var creatureName = "Default"
     open var imageResource = R.drawable.creature_harvey
 
     var healthPoints = maxHealthPoints
 
-    fun takeDamage(damageAmount: Int){
+    fun takeDamage(damageAmount: Double){
         if(damageAmount > healthPoints){ //in case of overkill
-            healthPoints = 0
+            healthPoints = 0.0
         }
         else{
             healthPoints -= damageAmount

@@ -1,6 +1,7 @@
 package com.example.notpokemon
 
-class BiteAttack(damage: Int) : Attack(damage) {
-    override var attackName = "Fly"
+class BiteAttack() : Attack() {
+    override var attackName = "Bite"
+    override var damage = 260.0
 }
 
