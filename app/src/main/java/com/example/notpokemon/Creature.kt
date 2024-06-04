@@ -3,7 +3,7 @@ package com.example.notpokemon
 //Generic Creature class
 abstract class Creature(open var attack: Attack) {
     open var creatureType = "Default"
-    open var maxHealthPoints = 240 as Double
+    open var maxHealthPoints = 240.00
     open var creatureName = "Default"
     open var imageResource = R.drawable.creature_harvey
 
