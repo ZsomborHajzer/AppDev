@@ -10,6 +10,7 @@ class BattleManager : Runnable {
     public var fighter1 = Fighter("Sillie")
     public var fighter2 = Fighter("Sally")
     private val xpPerBattle = 5
+    public lateinit var winner: Fighter
 
     override fun run() {
         performRound(fighter1, fighter2)
@@ -68,8 +69,7 @@ class BattleManager : Runnable {
 
         initializeFight(fight)
         fight.startFight()
-        val winner = awaitUntilFightIsFinished(fight)
-
+        winner = awaitUntilFightIsFinished(fight)
         winner.addXP(xpPerBattle)
 
         //revert the teams back to how they were before the fight to continue the board game

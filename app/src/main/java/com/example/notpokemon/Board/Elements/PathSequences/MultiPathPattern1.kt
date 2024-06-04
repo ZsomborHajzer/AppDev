@@ -105,7 +105,7 @@ class MultiPathPattern1 : SteppableTile() {
         return
     }
 
-    override fun onTileExit() {
+    override fun onTileExit(playableCharacter: PlayableCharacter) {
         return
     }
 
