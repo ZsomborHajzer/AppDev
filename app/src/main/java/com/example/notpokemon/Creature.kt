@@ -1,36 +1,22 @@
 package com.example.notpokemon
 
-import kotlin.math.max
-
 //Generic Creature class
-class Creature(private var name: String, private var type: String, private var maxHealthPoints: Int, private var attackName: String) {
+abstract class Creature(open var attack: Attack) {
+    open var creatureType = "Default"
+    open var maxHealthPoints = 240.00
+    open var creatureName = "Default"
+    open var imageResource = R.drawable.creature_harvey
+
     var healthPoints = maxHealthPoints
 
-    fun getName(): String {
-        return name
-    }
-
-    fun getType(): String {
-        return type
-    }
-
-    fun getAttackName(): String {
-        return attackName
-    }
-
-    //Basic attack function. We can maybe turn the class into an abstract and override it or something
-    fun attack(opposingCreature: Creature) {
-        val damage = (0..50).random() //does random damage
-
-        val newHealthPoints = opposingCreature.healthPoints - damage
-        if (newHealthPoints < 0) { //in case of overkill
-            opposingCreature.healthPoints = 0
-        } else {
-            opposingCreature.healthPoints = newHealthPoints
+    fun takeDamage(damageAmount: Double){
+        if(damageAmount > healthPoints){ //in case of overkill
+            healthPoints = 0.0
         }
-        println("${getName()} used ${getAttackName()} and dealt $damage damage to ${opposingCreature.getName()}")
+        else{
+            healthPoints -= damageAmount
+        }
     }
-
 
     fun heal(amount: Int){
         healthPoints += amount

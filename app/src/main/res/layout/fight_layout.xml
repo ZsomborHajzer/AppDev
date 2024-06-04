@@ -5,6 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DFDFDF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/transparency" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,8 +44,9 @@
                     android:id="@+id/firstFighterTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="Fighter 1"
                     android:textAlignment="center"
+                    android:textColor="@color/fight_FighterTextColor"
                     android:textSize="24sp" />
             </TableRow>
 
@@ -47,53 +59,112 @@
                 <TableRow
                     android:id="@+id/firstFighterCreature1Container"
                     android:layout_width="match_parent"
-                    android:layout_height="41dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:layout_height="match_parent"
+                        android:gravity="center|fill_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView0"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
+
                 </TableRow>
 
                 <TableRow
+
                     android:id="@+id/firstFighterCreature2Container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView1"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/firstFighterCreature3Container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/firstFighterCreature4Container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
                 </TableRow>
             </TableLayout>
         </TableLayout>
@@ -138,8 +209,9 @@
                     android:id="@+id/secondFighterTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="Fighter 2"
                     android:textAlignment="center"
+                    android:textColor="@color/fight_FighterTextColor"
                     android:textSize="24sp" />
             </TableRow>
 
@@ -153,55 +225,112 @@
                     android:id="@+id/secondFighterCreature1Container"
                     android:layout_width="wrap_content"
                     android:layout_height="41dp"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/secondFighterCreature2Container"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/secondFighterCreature3Container"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView6"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/secondFighterCreature4Container"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:gravity="center_horizontal">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:textAlignment="center"
+                            android:textColor="@color/fight_CreatureTextColor" />
+                    </LinearLayout>
                 </TableRow>
             </TableLayout>
         </TableLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

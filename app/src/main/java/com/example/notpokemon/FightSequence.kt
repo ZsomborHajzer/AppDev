@@ -14,13 +14,13 @@ class FightSequence(val fight: Fight): Runnable {
             val attacker = attackingPlayer.team[attackerIndex]
             val defender = defendingPlayer.team[defenderIndex]
 
-            println("${attacker.getName()} is fighting ${defender.getName()}!")
-            attacker.attack(defender)
+            println("${attacker.creatureName} is fighting ${defender.creatureName}!")
+            attacker.attack.doAttack(attacker, defender)
             AnimationCreator.attackAnimation().run()
 
             // Check if the defender's creature is defeated
             if (defender.healthPoints <= 0) {
-                println("${defender.getName()} fainted!")
+                println("${defender.creatureName} fainted!")
                 AnimationCreator.deathAnimation().run()
                 // Remove the defeated creature from the defending player's team
                 defendingPlayer.removeCreature(defenderIndex)
