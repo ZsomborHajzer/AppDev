@@ -1,4 +1,5 @@
 package com.example.notpokemon
+import android.content.Intent
 import com.example.notpokemon.dataobjects.EndGame
 import com.example.notpokemon.dataobjects.EndTurn
 import com.example.notpokemon.dataobjects.MoveAction
@@ -21,8 +22,14 @@ class EventHandlers(
             if (usernameText.isNotBlank() && !webSocketHandler.isInitialized()) {
                 webSocketHandler.startWebSocket(
                     //url = "ws://10.0.2.2:8081",
-                    url = "ws://ec2-16-16-156-20.eu-north-1.compute.amazonaws.com:8081",
-                    onOpen = { uiInitializer.receivedMessages.setText("Connected to the server") },
+                    url = "ws:/16.16.126.99:8081",
+                    onOpen = {
+                        uiInitializer.receivedMessages.setText("Connected to the server")
+
+                        val intent = Intent(uiInitializer.activity, LobbyHost::class.java)
+                        uiInitializer.activity.startActivity(intent)
+
+                             },
                     onClose = { reason -> uiInitializer.receivedMessages.append("\nConnection is closing: $reason") },
                     onError = { error -> uiInitializer.receivedMessages.setText("Error: $error") }
                 )

@@ -10,9 +10,6 @@ import com.example.notpokemon.WebSocketHandler
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var uiInitializer: UIInitializer
-    private lateinit var webSocketHandler: WebSocketHandler
-    private lateinit var eventHandlers: EventHandlers
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MainActivity.instance = this
@@ -20,15 +17,7 @@ class MainActivity : ComponentActivity() {
         // Redirect to ConnectPageActivity
         val intent = Intent(this@MainActivity, ConnectPageActivity::class.java)
         startActivity(intent)
-        uiInitializer = UIInitializer(this)
-        uiInitializer.initialize()
-
-        webSocketHandler = WebSocketHandler {
-            uiInitializer.receivedMessages.append("\n$it")
-        }
-
-        eventHandlers = EventHandlers(uiInitializer, webSocketHandler)
-        eventHandlers.setupEventHandlers()
+        finish()  // Call finish to close MainActivity after redirection
     }
 
     companion object {
