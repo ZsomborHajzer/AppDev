@@ -34,7 +34,7 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
     }
 
     public fun onMove(square: SteppableTile){
-        currentSquare.onTileExit()
+        currentSquare.onTileExit(this)
         addToSquareHistory(currentSquare)
         currentSquare = square
         currentSquare.onTileEntry(this)

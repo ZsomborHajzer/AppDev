@@ -66,5 +66,5 @@ abstract class SteppableTile: Fragment() {
     abstract fun onTileEntry(playableCharacter: PlayableCharacter)
 
     abstract fun onTileStay(playableCharacter: PlayableCharacter)
-    abstract fun onTileExit()
+    abstract fun onTileExit(playableCharacter: PlayableCharacter)
 }
