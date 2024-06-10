@@ -16,7 +16,7 @@ class FightSequence(val fight: Fight): Runnable {
 
             println("${attacker.creatureName} is fighting ${defender.creatureName}!")
             attacker.attack.doAttack(attacker, defender)
-            AnimationCreator.attackAnimation().run()
+            AnimationCreator.attackAnimation(attacker, defender).run()
 
             // Check if the defender's creature is defeated
             if (defender.healthPoints <= 0) {

@@ -14,8 +14,6 @@ class SwitchTeamAnimation(fight:Fight, val futureAttacker: Fighter, val futureDe
 
     val playerName1TV = fight.requireView().findViewById<TextView>(R.id.firstFighterTitle)
     val playerName2TV = fight.requireView().findViewById<TextView>(R.id.secondFighterTitle)
-    val player1CreaturesView = fight.requireView().findViewById<TableLayout>(R.id.firstFighterCreatures)
-    val player2CreaturesView = fight.requireView().findViewById<TableLayout>(R.id.secondFighterCreatures)
 
     override fun execute() {
         runOnUiThread(createRunnable())
@@ -55,29 +53,6 @@ class SwitchTeamAnimation(fight:Fight, val futureAttacker: Fighter, val futureDe
             }
 
             playerNumber++
-        }
-    }
-
-    fun getCreatureImageView(playerNumber: Int, creatureIndex: Int): ImageView {
-        return getCreatureContainer(playerNumber, creatureIndex)[0] as ImageView
-    }
-    fun getCreatureNameTextView(playerNumber: Int, creatureIndex: Int): TextView {
-        return getCreatureContainer(playerNumber, creatureIndex)[1] as TextView
-    }
-    fun getCreatureContainer(playerNumber: Int, creatureIndex: Int): ViewGroup{
-        val containerParent = getCreatureLayoutByPlayerNumber(playerNumber)[creatureIndex] as ViewGroup
-        return containerParent[0] as ViewGroup
-    }
-
-    fun getCreatureLayoutByPlayerNumber(playerNumber: Int): TableLayout {
-        if(playerNumber == 1){
-            return player1CreaturesView
-        }
-        else if(playerNumber == 2){
-            return player2CreaturesView
-        }
-        else{
-            throw IllegalArgumentException("there cannot be more than 2 players per battle as of now. ${this.javaClass}")
         }
     }
 

@@ -203,17 +203,6 @@
                 app:layout_constraintStart_toStartOf="@+id/battlemapImage"
                 app:layout_constraintTop_toTopOf="@+id/battlemapImage" />
 
-            <pl.droidsonroids.gif.GifImageView
-                android:id="@+id/attackView"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter2"
-                app:layout_constraintHorizontal_bias="0.9"
-                app:layout_constraintStart_toEndOf="@+id/activeCreatureFighter1"
-                app:layout_constraintTop_toTopOf="@+id/battlemapImage"
-                tools:srcCompat="@tools:sample/avatars" />
-
             <ImageView
                 android:id="@+id/activeCreatureFighter2"
                 android:layout_width="170dp"
@@ -225,6 +214,17 @@
                 app:layout_constraintHorizontal_bias="0.88"
                 app:layout_constraintStart_toStartOf="@+id/battlemapImage"
                 app:layout_constraintTop_toTopOf="@+id/battlemapImage" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/attackView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter2"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toEndOf="@+id/activeCreatureFighter1"
+                app:layout_constraintTop_toTopOf="@+id/battlemapImage"
+                tools:srcCompat="@tools:sample/avatars" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

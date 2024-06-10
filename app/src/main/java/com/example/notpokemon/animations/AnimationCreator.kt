@@ -1,5 +1,6 @@
 package com.example.notpokemon.animations
 
+import com.example.notpokemon.Creature
 import com.example.notpokemon.Fight
 import com.example.notpokemon.Fighter
 
@@ -8,8 +9,8 @@ class AnimationCreator(val fight: Fight) {
         Companion.instance = this
     }
 
-    fun createAttackAnimation():AttackAnimation{
-        return AttackAnimation(fight)
+    fun createAttackAnimation(attackingCreature:Creature, defendingCreature:Creature):ExecuteAttackAnimation{
+        return ExecuteAttackAnimation(fight, attackingCreature, defendingCreature)
     }
     fun createDeathAnimation():DeathAnimation{
         return DeathAnimation(fight)
@@ -21,8 +22,8 @@ class AnimationCreator(val fight: Fight) {
     // singleton
     companion object{
         lateinit var instance: AnimationCreator
-        fun attackAnimation(): AttackAnimation{
-            return instance.createAttackAnimation()
+        fun attackAnimation(attackingCreature:Creature, defendingCreature:Creature): ExecuteAttackAnimation{
+            return instance.createAttackAnimation(attackingCreature, defendingCreature)
         }
 
         fun deathAnimation(): DeathAnimation{
