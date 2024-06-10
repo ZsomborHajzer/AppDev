@@ -7,7 +7,7 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
     var currentSquare: SteppableTile;
 
     private var squareHistory = ArrayList<SteppableTile>();
-    val icon = R.drawable.low_res_tanuki
+    var icon = R.drawable.low_res_tanuki
 
     init {
         this.currentSquare = startingSquare;

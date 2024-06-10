@@ -4,12 +4,31 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
     public var characterAmount = 2
     public var characters = ArrayList<PlayableCharacter>()
     private var playerTurn = 0
+    private val characterSprites = ArrayList<Int>()
+    private var spriteNumber = 0
+
+    init {
+        characterSprites.add(R.drawable.char_aquaboy)
+        characterSprites.add(R.drawable.char_emogirl)
+        characterSprites.add(R.drawable.char_nerdyboy)
+        characterSprites.add(R.drawable.char_spoopygirl)
+    }
 
     fun addCharacter(): PlayableCharacter{
         val character = PlayableCharacter(gameBoardFragment.getStartSquare(), "sally")
         character.addCreature(ButterPig(BiteAttack()))
+        character.icon = iterateOverSprites()
         characters.add(character)
         return character
+    }
+
+    private fun iterateOverSprites(): Int{
+        var sprite = characterSprites[spriteNumber]
+        spriteNumber++
+        if(spriteNumber >= characterSprites.size){
+            spriteNumber = 0
+        }
+        return sprite
     }
 
     fun playTurn(character: PlayableCharacter){
