@@ -1,10 +1,97 @@
 package com.example.notpokemon.animations
 
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TableLayout
+import android.widget.TextView
+import androidx.core.view.get
+import androidx.core.view.size
 import com.example.notpokemon.Fight
+import com.example.notpokemon.Fighter
+import com.example.notpokemon.R
 
-class SwitchTeamAnimation(fight: Fight) : Animation(fight) {
+class SwitchTeamAnimation(fight:Fight, val futureAttacker: Fighter, val futureDefender:Fighter) : Animation(fight) {
+
+    val playerName1TV = fight.requireView().findViewById<TextView>(R.id.firstFighterTitle)
+    val playerName2TV = fight.requireView().findViewById<TextView>(R.id.secondFighterTitle)
+    val player1CreaturesView = fight.requireView().findViewById<TableLayout>(R.id.firstFighterCreatures)
+    val player2CreaturesView = fight.requireView().findViewById<TableLayout>(R.id.secondFighterCreatures)
+
     override fun execute() {
-        Thread.sleep(2000)
+        runOnUiThread(createRunnable())
+        Thread.sleep(1000)
+    }
+
+    fun createRunnable(): Runnable{
+        return Runnable {
+            run {
+                setNames()
+                assignCreaturesToUI()
+            }
+        }
+    }
+
+    fun setNames(){
+        // setting the inner variables of the text components
+        playerName1TV.text = futureAttacker.getName()
+        playerName2TV.text = futureDefender.getName()
+    }
+
+    fun assignCreaturesToUI(){
+        if(futureAttacker.team.size > player1CreaturesView.size || futureDefender.team.size > player2CreaturesView.size){
+            throw IllegalStateException("attacking player cannot have more creatures than there are creature slots in fight_layout. ${this.javaClass}")
+        }
+
+        var playerNumber = 1
+        while (playerNumber <= 2){
+
+            var creatureIndex = 0
+            while (creatureIndex < getPlayerByNumber(playerNumber).team.size){
+
+                getCreatureNameTextView(playerNumber, creatureIndex).text = getPlayerByNumber(playerNumber).team[creatureIndex].creatureName
+                getCreatureImageView(playerNumber, creatureIndex).setImageResource(getPlayerByNumber(playerNumber).team[creatureIndex].imageResource)
+
+                creatureIndex++
+            }
+
+            playerNumber++
+        }
+    }
+
+    fun getCreatureImageView(playerNumber: Int, creatureIndex: Int): ImageView {
+        return getCreatureContainer(playerNumber, creatureIndex)[0] as ImageView
+    }
+    fun getCreatureNameTextView(playerNumber: Int, creatureIndex: Int): TextView {
+        return getCreatureContainer(playerNumber, creatureIndex)[1] as TextView
+    }
+    fun getCreatureContainer(playerNumber: Int, creatureIndex: Int): ViewGroup{
+        val containerParent = getCreatureLayoutByPlayerNumber(playerNumber)[creatureIndex] as ViewGroup
+        return containerParent[0] as ViewGroup
+    }
+
+    fun getCreatureLayoutByPlayerNumber(playerNumber: Int): TableLayout {
+        if(playerNumber == 1){
+            return player1CreaturesView
+        }
+        else if(playerNumber == 2){
+            return player2CreaturesView
+        }
+        else{
+            throw IllegalArgumentException("there cannot be more than 2 players per battle as of now. ${this.javaClass}")
+        }
+    }
+
+    fun getPlayerByNumber(playerNumber: Int): Fighter{
+        if(playerNumber == 1){
+            return futureAttacker
+        }
+        else if(playerNumber == 2){
+            return futureDefender
+        }
+
+        else{
+            throw IllegalArgumentException("there cannot be more than 2 players per battle as of now. ${this.javaClass}")
+        }
     }
 
 

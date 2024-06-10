@@ -48,7 +48,7 @@ class FightSequence(val fight: Fight): Runnable {
         defenderIndex = 0
         println("Attacker team: ${attackingPlayer.getName()}, Defender team: ${defendingPlayer.getName()}")
         println("${attackingPlayer.getName()} 's turn!")
-        AnimationCreator.switchTeamAnimation().run()
+        AnimationCreator.switchTeamAnimation(attackingPlayer, defendingPlayer).run()
     }
 
     private fun onFinish(){

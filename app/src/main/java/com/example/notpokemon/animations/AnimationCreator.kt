@@ -1,6 +1,7 @@
 package com.example.notpokemon.animations
 
 import com.example.notpokemon.Fight
+import com.example.notpokemon.Fighter
 
 class AnimationCreator(val fight: Fight) {
     init {
@@ -13,8 +14,8 @@ class AnimationCreator(val fight: Fight) {
     fun createDeathAnimation():DeathAnimation{
         return DeathAnimation(fight)
     }
-    fun createSwitchTeamAnimation():SwitchTeamAnimation{
-        return SwitchTeamAnimation(fight)
+    fun createSwitchTeamAnimation(futureAttacker:Fighter, futureDefender:Fighter):SwitchTeamAnimation{
+        return SwitchTeamAnimation(fight, futureAttacker, futureDefender)
     }
 
     // singleton
@@ -28,8 +29,8 @@ class AnimationCreator(val fight: Fight) {
             return instance.createDeathAnimation()
         }
 
-        fun switchTeamAnimation(): SwitchTeamAnimation{
-            return instance.createSwitchTeamAnimation()
+        fun switchTeamAnimation(futureAttacker:Fighter, futureDefender:Fighter): SwitchTeamAnimation{
+            return instance.createSwitchTeamAnimation(futureAttacker, futureDefender)
         }
     }
 }
