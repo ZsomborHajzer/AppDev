@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lobbyHost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f1eee7"
     tools:context=".LobbyHost">
 
     <androidx.cardview.widget.CardView
@@ -12,8 +12,9 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="#9CB0EC"
+        android:background="#f1eee7"
         android:visibility="visible"
+        app:cardBackgroundColor="#D3B8AE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -30,13 +31,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/profile_picture1"
+                android:scaleType="fitCenter"
+                 />
 
             <TextView
                 android:id="@+id/textViewPlayer1Status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Host"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewPlayer1"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPlayer1" />
@@ -48,6 +52,7 @@
                 android:layout_marginStart="52dp"
                 android:layout_marginTop="4dp"
                 android:text="Player 1"
+                android:textColor="#000000"
                 app:layout_constraintStart_toEndOf="@+id/imageViewPlayer1"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="92dp"
                 android:text="username"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textViewPlayer1"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +75,8 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="#9CB0EC"
+        android:background="#f1eee7"
+        app:cardBackgroundColor="#D3B8AE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Player1CardView">
@@ -86,13 +93,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/profile_picture2"
+                android:scaleType="fitCenter"/>
 
             <TextView
                 android:id="@+id/textViewPlayer2Status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Connected"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewPlayer2"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPlayer2" />
@@ -103,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="52dp"
                 android:text="Player 2"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageViewPlayer2"
                 app:layout_constraintTop_toTopOf="parent"
@@ -114,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="92dp"
                 android:text="username"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textViewPlayer2"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -126,8 +137,9 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="#9CB0EC"
         android:visibility="visible"
+        android:background="#f1eee7"
+        app:cardBackgroundColor="#D3B8AE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Player2CardView">
@@ -144,13 +156,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/profile_picture3"
+                android:scaleType="fitCenter"/>
 
             <TextView
                 android:id="@+id/textViewPlayer3Status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Empty"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewPlayer3"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPlayer3" />
@@ -161,6 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="52dp"
                 android:text="Player 3"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageViewPlayer3"
                 app:layout_constraintTop_toTopOf="parent"
@@ -172,6 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="92dp"
                 android:text="username"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textViewPlayer3"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -183,7 +199,8 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="#9CB0EC"
+        android:background="#f1eee7"
+        app:cardBackgroundColor="#D3B8AE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Player3CardView">
@@ -200,13 +217,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/profile_picture4"
+                android:scaleType="fitCenter"/>
 
             <TextView
                 android:id="@+id/textViewPlayer4Status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Empty"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textViewPlayer4"
                 app:layout_constraintTop_toBottomOf="@+id/textViewPlayer4" />
@@ -217,7 +236,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="52dp"
                 android:layout_marginTop="4dp"
-                android:text="Player 1"
+                android:text="Player 4"
+                android:textColor="#000000"
                 app:layout_constraintStart_toEndOf="@+id/imageViewPlayer4"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -227,6 +247,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="92dp"
                 android:text="username"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textViewPlayer4"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -234,15 +255,13 @@
     </androidx.cardview.widget.CardView>
 
 
-    <EditText
-        android:id="@+id/editTextTextMultiLine"
+    <TextView
+        android:id="@+id/gameStartTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:hint="Waiting for host to:  walk their dog(some funny messages here)"
-        android:inputType="textMultiLine"
+        android:text="Waiting for game to start..."
+        android:textColor="#0e1118"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -252,19 +271,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lobby Size 1/4"
+        android:textColor="#0e1118"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Player4CardView" />
 
+
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Button"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine"
+        android:text="Start"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffffff"
+        android:backgroundTint="#0e1118"
+        app:layout_constraintBottom_toTopOf="@+id/gameStartTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

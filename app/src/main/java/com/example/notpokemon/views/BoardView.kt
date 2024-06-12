@@ -1,16 +1,14 @@
-package com.example.notpokemon.Views
+package com.example.notpokemon.views
 
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import android.view.View
 import android.widget.FrameLayout
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import com.example.notpokemon.Fight
-import com.example.notpokemon.GameBoardFragment
 import com.example.notpokemon.R
 import kotlin.math.max
 import kotlin.math.min

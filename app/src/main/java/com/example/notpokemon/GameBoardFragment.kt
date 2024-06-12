@@ -2,13 +2,11 @@ package com.example.notpokemon
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.ScaleGestureDetector
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
-import com.example.notpokemon.Views.MainActivity
 
 /**
  * A simple [Fragment] subclass.

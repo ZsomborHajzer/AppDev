@@ -1,11 +1,8 @@
-package com.example.notpokemon.Views
+package com.example.notpokemon.views
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import com.example.notpokemon.ConnectPageActivity
-import com.example.notpokemon.EventHandlers
-import com.example.notpokemon.UIInitializer
-import com.example.notpokemon.WebSocketHandler
 
 
 class MainActivity : ComponentActivity() {

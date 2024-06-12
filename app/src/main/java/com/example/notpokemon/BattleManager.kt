@@ -1,5 +1,5 @@
 package com.example.notpokemon
-import com.example.notpokemon.Views.BoardView
+import com.example.notpokemon.views.BoardView
 import kotlin.random.Random
 
 //Simulate how the battle logic would go, kinda
