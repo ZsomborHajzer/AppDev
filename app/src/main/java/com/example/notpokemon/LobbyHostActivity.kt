@@ -24,16 +24,12 @@ class LobbyHostActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             intent?.let {
                 when (it.action) {
-                    "UPDATE_PLAYERS" -> {
-                        val players = it.getParcelableArrayListExtra<Player>("data")
-                        players?.let { playerList ->
-                            updatePlayerCards(playerList)
-                        }
-                    }
                     "NEW_PLAYER" -> {
+                        println("RAN NEW PLAYER")
                         val player = it.getParcelableExtra<Player>("data")
                         player?.let { playerData ->
-                            updatePlayerCard(playerData)
+                            players.add(player)
+                            updatePlayerCard()
                         }
                     }
 
@@ -46,6 +42,7 @@ class LobbyHostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lobby_host)
+        Companion.instance = this
 
         player1Card = findViewById(R.id.Player1CardView)
         player2Card = findViewById(R.id.Player2CardView)
@@ -61,15 +58,7 @@ class LobbyHostActivity : AppCompatActivity() {
             addAction("NEW_PLAYER")
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(playerReceiver, filter)
-
-        // Get the user data passed from ConnectPageActivity
-        intent.getParcelableArrayListExtra<Player>("players")?.let { players ->
-            updatePlayerCards(players)
-        } ?: run {
-            intent.getParcelableExtra<Player>("player")?.let { player ->
-                updatePlayerCard(player)
-            }
-        }
+        updatePlayerCard()
     }
 
     override fun onDestroy() {
@@ -79,42 +68,54 @@ class LobbyHostActivity : AppCompatActivity() {
     }
 
     private fun hideAllPlayerCards() {
-        player1Card.visibility = View.GONE
-        player2Card.visibility = View.GONE
-        player3Card.visibility = View.GONE
-        player4Card.visibility = View.GONE
+        player1Card.visibility = View.INVISIBLE
+        player2Card.visibility = View.INVISIBLE
+        player3Card.visibility = View.INVISIBLE
+        player4Card.visibility = View.INVISIBLE
     }
 
     private fun updatePlayerCards(players: List<Player>) {
         hideAllPlayerCards()
         players.forEach { player ->
-            updatePlayerCard(player)
+            updatePlayerCard()
         }
     }
 
-    private fun updatePlayerCard(player: Player) {
-        Log.d("LobbyHostActivity", "Updating card for ${player.username}")
-        when (player.role) {
-            "player1" -> {
-                player1Card.visibility = View.VISIBLE
-                findViewById<TextView>(R.id.textViewUsernamePlayer1).text = player.username
-                findViewById<TextView>(R.id.textViewPlayer1Status).text = "Connected"
+    fun updatePlayerCard() {
+        players.forEach { player ->
+            Log.d("LobbyHostActivity", "Updating card for ${player.username}")
+            when (player.role) {
+                "player1" -> {
+                    player1Card.visibility = View.VISIBLE
+                    findViewById<TextView>(R.id.textViewUsernamePlayer1).text = player.username
+                    findViewById<TextView>(R.id.textViewPlayer1Status).text = "Connected"
+                }
+
+                "player2" -> {
+                    player2Card.visibility = View.VISIBLE
+                    findViewById<TextView>(R.id.textViewUsernamePlayer2).text = player.username
+                    findViewById<TextView>(R.id.textViewPlayer2Status).text = "Connected"
+                }
+
+                "player3" -> {
+                    player3Card.visibility = View.VISIBLE
+                    findViewById<TextView>(R.id.textViewUsernamePlayer3).text = player.username
+                    findViewById<TextView>(R.id.textViewPlayer3Status).text = "Connected"
+                }
+
+                "player4" -> {
+                    player4Card.visibility = View.VISIBLE
+                    findViewById<TextView>(R.id.textViewUsernamePlayer4).text = player.username
+                    findViewById<TextView>(R.id.textViewPlayer4Status).text = "Connected"
+                }
             }
-            "player2" -> {
-                player2Card.visibility = View.VISIBLE
-                findViewById<TextView>(R.id.textViewUsernamePlayer2).text = player.username
-                findViewById<TextView>(R.id.textViewPlayer2Status).text = "Connected"
-            }
-            "player3" -> {
-                player3Card.visibility = View.VISIBLE
-                findViewById<TextView>(R.id.textViewUsernamePlayer3).text = player.username
-                findViewById<TextView>(R.id.textViewPlayer3Status).text = "Connected"
-            }
-            "player4" -> {
-                player4Card.visibility = View.VISIBLE
-                findViewById<TextView>(R.id.textViewUsernamePlayer4).text = player.username
-                findViewById<TextView>(R.id.textViewPlayer4Status).text = "Connected"
-            }
+        }
+    }
+    companion object{
+        lateinit var instance: LobbyHostActivity
+        var players = ArrayList<Player>()
+        fun hasInstance():Boolean{
+            return ::instance.isInitialized
         }
     }
 }

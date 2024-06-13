@@ -69,26 +69,27 @@ class EventHandlers(
 
         when (event) {
             "currentPlayers" -> {
+                println("CURRENT PLAYER EVENTHANDLER")
                 val players = gson.fromJson(jsonObject.get("players").asJsonArray, Array<Player>::class.java).toList()
-                sendPlayersBroadcast("UPDATE_PLAYERS", ArrayList(players))
-                val intent = Intent(uiInitializer.activity, LobbyHostActivity::class.java)
-                intent.putParcelableArrayListExtra("players", ArrayList(players))
-                uiInitializer.activity.startActivity(intent)
+                 LobbyHostActivity.players = ArrayList(players)
             }
             "connect" -> {
                 val player = gson.fromJson(message, Player::class.java)
                 sendPlayerBroadcast("NEW_PLAYER", player)
-                val intent = Intent(uiInitializer.activity, LobbyHostActivity::class.java)
-                intent.putExtra("player", player)
-                uiInitializer.activity.startActivity(intent)
+                getPlayersArray().add(player)
+                tryStartLobbyHostActivity()
             }
         }
     }
 
-    private fun sendPlayersBroadcast(action: String, players: ArrayList<Player>) {
-        val intent = Intent(action)
-        intent.putParcelableArrayListExtra("data", players)
-        LocalBroadcastManager.getInstance(uiInitializer.activity).sendBroadcast(intent)
+    private fun getPlayersArray():ArrayList<Player>{
+        return LobbyHostActivity.players
+    }
+    private fun tryStartLobbyHostActivity(){
+        if(!LobbyHostActivity.hasInstance()) {
+            val intent = Intent(uiInitializer.activity, LobbyHostActivity::class.java)
+            uiInitializer.activity.startActivity(intent)
+        }
     }
 
     private fun sendPlayerBroadcast(action: String, player: Player) {
