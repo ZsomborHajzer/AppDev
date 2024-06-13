@@ -9,6 +9,11 @@ class WebSocketHandler(
 ) {
 
     private var webSocket: WebSocket? = null
+    private var onMessageReceivedListener: ((String) -> Unit)? = null
+
+    fun setOnMessageReceivedListener(listener: (String) -> Unit) {
+        onMessageReceivedListener = listener
+    }
 
     fun startWebSocket(
         url: String,
@@ -28,6 +33,7 @@ class WebSocketHandler(
             override fun onMessage(webSocket: WebSocket, text: String) {
                 Handler(Looper.getMainLooper()).post {
                     receivedMessages(text)
+                    onMessageReceivedListener?.invoke(text)
                 }
             }
 

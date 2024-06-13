@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 }
 
 
-    //TODO Figure out how to implement flow between views:
+//TODO Figure out how to implement flow between views:
 //    private lateinit var uiInitializer: UIInitializer
 //    private lateinit var webSocketHandler: WebSocketHandler
 //    private lateinit var eventHandlers: EventHandlers

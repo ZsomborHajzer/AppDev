@@ -1,11 +1,16 @@
-package com.example.notpokemon
 import android.content.Intent
+import android.util.Log
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.notpokemon.LobbyHostActivity
+import com.example.notpokemon.UIInitializer
+import com.example.notpokemon.WebSocketHandler
 import com.example.notpokemon.dataobjects.EndGame
 import com.example.notpokemon.dataobjects.EndTurn
 import com.example.notpokemon.dataobjects.MoveAction
+import com.example.notpokemon.dataobjects.Player
 import com.example.notpokemon.dataobjects.StartGame
 import com.google.gson.Gson
-
+import com.google.gson.JsonObject
 
 class EventHandlers(
     private val uiInitializer: UIInitializer,
@@ -17,19 +22,16 @@ class EventHandlers(
             val usernameText = uiInitializer.username.text.toString()
             if (usernameText.isBlank()) {
                 uiInitializer.usernameLayout.error = "This field is required!"
+                return@setOnClickListener
             }
 
             if (usernameText.isNotBlank() && !webSocketHandler.isInitialized()) {
                 webSocketHandler.startWebSocket(
-                    //url = "ws://10.0.2.2:8081",
-                    url = "ws:/16.16.126.99:8081",
+                    url = "ws://16.16.126.99:8081",
                     onOpen = {
                         uiInitializer.receivedMessages.setText("Connected to the server")
-
-                        val intent = Intent(uiInitializer.activity, LobbyHost::class.java)
-                        uiInitializer.activity.startActivity(intent)
-
-                             },
+                        Log.d("WebSocket", "Connected to the server")
+                    },
                     onClose = { reason -> uiInitializer.receivedMessages.append("\nConnection is closing: $reason") },
                     onError = { error -> uiInitializer.receivedMessages.setText("Error: $error") }
                 )
@@ -38,6 +40,10 @@ class EventHandlers(
             if (webSocketHandler.isInitialized()) {
                 webSocketHandler.sendMessage("{\"username\": \"$usernameText\"}")
             }
+        }
+
+        webSocketHandler.setOnMessageReceivedListener { message ->
+            handleWebSocketMessage(message)
         }
 
         uiInitializer.sendButton.setOnClickListener {
@@ -52,5 +58,42 @@ class EventHandlers(
             }
             webSocketHandler.sendMessage(messageText)
         }
+    }
+
+    private fun handleWebSocketMessage(message: String) {
+        val gson = Gson()
+        val jsonObject = gson.fromJson(message, JsonObject::class.java)
+        val event = jsonObject.get("event").asString
+
+        Log.d("WebSocket", "Received message: $message")
+
+        when (event) {
+            "currentPlayers" -> {
+                val players = gson.fromJson(jsonObject.get("players").asJsonArray, Array<Player>::class.java).toList()
+                sendPlayersBroadcast("UPDATE_PLAYERS", ArrayList(players))
+                val intent = Intent(uiInitializer.activity, LobbyHostActivity::class.java)
+                intent.putParcelableArrayListExtra("players", ArrayList(players))
+                uiInitializer.activity.startActivity(intent)
+            }
+            "connect" -> {
+                val player = gson.fromJson(message, Player::class.java)
+                sendPlayerBroadcast("NEW_PLAYER", player)
+                val intent = Intent(uiInitializer.activity, LobbyHostActivity::class.java)
+                intent.putExtra("player", player)
+                uiInitializer.activity.startActivity(intent)
+            }
+        }
+    }
+
+    private fun sendPlayersBroadcast(action: String, players: ArrayList<Player>) {
+        val intent = Intent(action)
+        intent.putParcelableArrayListExtra("data", players)
+        LocalBroadcastManager.getInstance(uiInitializer.activity).sendBroadcast(intent)
+    }
+
+    private fun sendPlayerBroadcast(action: String, player: Player) {
+        val intent = Intent(action)
+        intent.putExtra("data", player)
+        LocalBroadcastManager.getInstance(uiInitializer.activity).sendBroadcast(intent)
     }
 }
