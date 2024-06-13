@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
+import com.example.notpokemon.Board.Builder.Scripts.CandyLandBuilder
+import com.example.notpokemon.Board.Builder.Scripts.DemoHighwayBuilder
+import com.example.notpokemon.Board.Builder.Utilities.GameBoardBuilder
+import com.example.notpokemon.Board.Elements.SteppableTile
 
 /**
  * A simple [Fragment] subclass.
@@ -14,20 +17,20 @@ import androidx.fragment.app.FragmentContainerView
  * create an instance of this fragment.
  */
 class GameBoardFragment : Fragment(){
+    private lateinit var squareContainers: ArrayList<FragmentContainerView> // parallel lists
     private lateinit var squares: ArrayList<SteppableTile>
+    private lateinit var boardBuilder: GameBoardBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         GameBoardFragment.instance = this
         InitializationCheck.gameBoardFragment = this
+        squareContainers = ArrayList()
         squares = ArrayList()
+        boardBuilder = CandyLandBuilder(this)
     }
 
-    public fun addSquare(square: SteppableTile){
-        this.squares.add(square);
-    }
-
-    public fun getStartSquare() : SteppableTile{
+    public fun getStartSquare() : SteppableTile {
         return this.getSquare(0)
     }
     public fun getSquare(squareNumber: Int): SteppableTile {
@@ -41,47 +44,13 @@ class GameBoardFragment : Fragment(){
     ): View? {
         // Inflate the layout for this fragment
         println("VIEW CREATED")
-        return inflater.inflate(R.layout.fragment_game_board, container, false)
+        return inflater.inflate(R.layout.game_board_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setUpSquares();
-    }
-
-    private fun setUpSquares(){
-        fetchChildSquares()
-        assignLinearOrderToSquares()
-    }
-
-    private fun fetchChildSquares(){
-        var viewGroup = this.view as ViewGroup;
-        for (child in viewGroup.children){
-
-            if(child::class == FragmentContainerView::class){
-                val fragmentChild = (child as FragmentContainerView).getFragment<Fragment>()
-
-                if(fragmentChild is SteppableTile){
-                    squares.add(fragmentChild as SteppableTile);
-                }
-
-            }
-        }
-        println(squares);
-    }
-
-    private fun assignLinearOrderToSquares(){
-        var i = 0;
-        while(i < squares.size){
-            if(i != squares.size - 1){ // if not final element
-                squares[i].nextSquare = squares[i+1]
-            }
-            else{ // if final element
-                squares[i].nextSquare = squares[0]
-            }
-            i++;
-        }
+        boardBuilder.build()
+        this.squares = boardBuilder.tiles
     }
 
     companion object {

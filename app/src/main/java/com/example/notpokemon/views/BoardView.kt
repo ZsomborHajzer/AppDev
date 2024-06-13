@@ -29,7 +29,7 @@ class BoardView : FragmentActivity() {
         super.onCreate(savedInstanceState)
         instance = this
 
-        setContentView(R.layout.activity_game_board)
+        setContentView(R.layout.game_board_activity)
         gameBoardView = findViewById(R.id.fragmentContainerViewForGameBoard)
 
         val gameBoardFrame = findViewById<FrameLayout>(R.id.gameBoardFrame)

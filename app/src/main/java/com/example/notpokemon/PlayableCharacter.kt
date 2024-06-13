@@ -1,5 +1,8 @@
 package com.example.notpokemon
 
+import com.example.notpokemon.Board.Elements.SteppableTile
+import com.example.notpokemon.dataobjects.Player
+
 
 class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(name) {
     var currentSquare: SteppableTile;
@@ -7,6 +10,14 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
     private var squareHistory = ArrayList<SteppableTile>();
     val icon = R.drawable.low_res_tanuki
 
+
+    lateinit var id: String
+    lateinit var role: String
+
+    constructor(player:Player, startingSquare: SteppableTile) : this(startingSquare, player.username) {
+        this.id = player.id
+        this.role = player.role
+    }
     init {
         this.currentSquare = startingSquare;
         onMove(currentSquare)
@@ -31,8 +42,8 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
         // for now won't be used. but always good to have extra event opportunities
     }
 
-    public fun onMove(square:SteppableTile){
-        currentSquare.onTileExit()
+    public fun onMove(square: SteppableTile){
+        currentSquare.onTileExit(this)
         addToSquareHistory(currentSquare)
         currentSquare = square
         currentSquare.onTileEntry(this)

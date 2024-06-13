@@ -2,6 +2,7 @@ package com.example.notpokemon
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TableRow
@@ -41,8 +42,8 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
         battleMapView = requireView().findViewById(R.id.battlemapImage)
 
         // setting the inner variables of the text components
-        playerName1TV.text = attackingPlayer.getName()
-        playerName2TV.text = defendingPlayer.getName()
+        playerName1TV.text = attackingPlayer.name
+        playerName2TV.text = defendingPlayer.name
 
         assignCreaturesToUI()
 
@@ -61,7 +62,8 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
             var creatureIndex = 0
             while (creatureIndex < attackingPlayer.team.size){
 
-                getCreatureNameTextView(playerNumber, creatureIndex).text = getPlayerByNumber(playerNumber).team[creatureIndex].getName()
+                getCreatureNameTextView(playerNumber, creatureIndex).text = getPlayerByNumber(playerNumber).team[creatureIndex].creatureName
+                getCreatureImageView(playerNumber, creatureIndex).setImageResource(getPlayerByNumber(playerNumber).team[creatureIndex].imageResource)
 
                 creatureIndex++
             }
@@ -70,11 +72,15 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
         }
     }
 
-    fun getCreatureNameTextView(playerNumber: Int, creatureIndex: Int): TextView{
-        return getCreatureContainer(playerNumber, creatureIndex)[0] as TextView
+    fun getCreatureImageView(playerNumber: Int, creatureIndex: Int): ImageView{
+        return getCreatureContainer(playerNumber, creatureIndex)[0] as ImageView
     }
-    fun getCreatureContainer(playerNumber: Int, creatureIndex: Int): TableRow{
-        return getCreatureLayoutByPlayerNumber(playerNumber)[creatureIndex] as TableRow
+    fun getCreatureNameTextView(playerNumber: Int, creatureIndex: Int): TextView{
+        return getCreatureContainer(playerNumber, creatureIndex)[1] as TextView
+    }
+    fun getCreatureContainer(playerNumber: Int, creatureIndex: Int): ViewGroup{
+        val containerParent = getCreatureLayoutByPlayerNumber(playerNumber)[creatureIndex] as ViewGroup
+        return containerParent[0] as ViewGroup
     }
 
     fun getCreatureLayoutByPlayerNumber(playerNumber: Int): TableLayout{

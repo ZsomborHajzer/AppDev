@@ -7,11 +7,13 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.notpokemon.dataobjects.Player
+import com.example.notpokemon.views.BoardView
 
 class LobbyHostActivity : AppCompatActivity() {
 
@@ -59,7 +61,18 @@ class LobbyHostActivity : AppCompatActivity() {
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(playerReceiver, filter)
         updatePlayerCard()
+
+        addStartButtonListener()
     }
+
+    fun addStartButtonListener(){
+        findViewById<Button>(R.id.button).setOnClickListener {
+            GameDirector.players = players
+            val intent = Intent(this@LobbyHostActivity, BoardView::class.java)
+            startActivity(intent);
+        }
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

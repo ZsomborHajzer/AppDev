@@ -9,7 +9,8 @@ class BattleManager : Runnable {
     private val team2 = ArrayList<Creature>()
     public var fighter1 = Fighter("Sillie")
     public var fighter2 = Fighter("Sally")
-    private val xpPerBattle = 500
+    private val xpPerBattle = 5
+    public lateinit var winner: Fighter
 
     override fun run() {
         performRound(fighter1, fighter2)
@@ -39,11 +40,11 @@ class BattleManager : Runnable {
             val player2Roll = rollDice(6)
 
             if (player1Roll > player2Roll) {
-                println("${fighter1.getName()} goes first!")
+                println("${fighter1.name} goes first!")
                 fight(fighter1, fighter2)
                 diceWinner = true
             } else if (player2Roll > player1Roll) {
-                println("${fighter2.getName()} goes first!")
+                println("${fighter2.name} goes first!")
                 fight(fighter2, fighter1)
                 diceWinner = true
             } else {
@@ -68,8 +69,7 @@ class BattleManager : Runnable {
 
         initializeFight(fight)
         fight.startFight()
-        val winner = awaitUntilFightIsFinished(fight)
-
+        winner = awaitUntilFightIsFinished(fight)
         winner.addXP(xpPerBattle)
 
         //revert the teams back to how they were before the fight to continue the board game
@@ -100,15 +100,17 @@ class BattleManager : Runnable {
     }
     companion object{
         fun generateCreature(): Creature {
-            val types = arrayOf("Fire", "Water", "Earth", "Air") // TODO:: create enums
-            val hp = arrayOf(100, 150, 200, 500)
+            val types = arrayOf("Haunted", "Space", "Aquatic", "Sugar") // TODO:: create enums
             val attackNames = arrayOf("Bite", "Throw", "Roll", "Whip", "Cry")
 
             val name = "Creature${(1..1000).random()}"
             val type = types.random()
-            val health = hp.random()
-            val attackName = attackNames.random()
-            return Creature(name, type, health, attackName)
+            val attack = BiteAttack()
+            attack.attackName = attackNames.random()
+            val creature = ButterPig(attack)
+            creature.creatureName = name
+            creature.creatureType = type
+            return creature
         }
     }
 }

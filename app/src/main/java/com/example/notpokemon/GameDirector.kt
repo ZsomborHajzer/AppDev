@@ -1,21 +1,40 @@
 package com.example.notpokemon
 
+import com.example.notpokemon.dataobjects.Player
+
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
+    public var characters = ArrayList<PlayableCharacter>()
+    private var playerTurn = 0
 
-    private val character = PlayableCharacter(gameBoardFragment.getStartSquare(), "sally")
-    init {
-        character.addCreature(BattleManager.generateCreature())
+    fun addCharacter(): PlayableCharacter{
+        val character = PlayableCharacter(players[playerTurn], gameBoardFragment.getStartSquare())
+        character.addCreature(ButterPig(BiteAttack()))
+        characters.add(character)
+        return character
     }
 
+    fun playTurn(character: PlayableCharacter){
+        val number = DiceRoller.rollD6()
+        character.moveThisManySpaces(number)
+        playerTurn++
+    }
     override fun run(){
-        runAroundDemo(character);
+        while(true){
+            if(playerTurn < characters.size){
+                playTurn(characters[playerTurn])
+            }
+            else if(characters.size < players.size){
+                val character = addCharacter()
+                playTurn(character)
+            }
+            else{
+                playerTurn = 0
+                playTurn(characters[playerTurn])
+            }
+        }
     }
 
-    private fun runAroundDemo(playableCharacter: PlayableCharacter){
-        while(true){
-            val number = DiceRoller.rollD6()
-            playableCharacter.moveThisManySpaces(number)
-            sleep(2000);
-        }
+    companion object{
+        var players = ArrayList<Player>()
     }
 }
