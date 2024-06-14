@@ -1,5 +1,6 @@
 package com.example.notpokemon
 
+import EventHandlers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -67,9 +68,7 @@ class LobbyHostActivity : AppCompatActivity() {
 
     fun addStartButtonListener(){
         findViewById<Button>(R.id.button).setOnClickListener {
-            GameDirector.players = players
-            val intent = Intent(this@LobbyHostActivity, BoardView::class.java)
-            startActivity(intent);
+            EventHandlers.instance.sendStartGameMessage()
         }
     }
 

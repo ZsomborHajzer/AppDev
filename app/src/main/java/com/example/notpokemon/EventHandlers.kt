@@ -1,6 +1,7 @@
 import android.content.Intent
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.notpokemon.GameDirector
 import com.example.notpokemon.LobbyHostActivity
 import com.example.notpokemon.UIInitializer
 import com.example.notpokemon.WebSocketHandler
@@ -9,6 +10,7 @@ import com.example.notpokemon.dataobjects.EndTurn
 import com.example.notpokemon.dataobjects.MoveAction
 import com.example.notpokemon.dataobjects.Player
 import com.example.notpokemon.dataobjects.StartGame
+import com.example.notpokemon.views.BoardView
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 
@@ -16,6 +18,10 @@ class EventHandlers(
     private val uiInitializer: UIInitializer,
     private val webSocketHandler: WebSocketHandler
 ) {
+
+    init {
+        Companion.instance = this
+    }
 
     fun setupEventHandlers() {
         uiInitializer.connectButton.setOnClickListener {
@@ -64,6 +70,7 @@ class EventHandlers(
         val gson = Gson()
         val jsonObject = gson.fromJson(message, JsonObject::class.java)
         val event = jsonObject.get("event").asString
+        println(event)
 
         Log.d("WebSocket", "Received message: $message")
 
@@ -79,7 +86,31 @@ class EventHandlers(
                 getPlayersArray().add(player)
                 tryStartLobbyHostActivity()
             }
+            "startGame" -> {
+                print("I got the startgame!")
+                var jsonPlayers = jsonObject.get("clients").asJsonArray
+                var playerObjects = ArrayList<Player>()
+                for(player in jsonPlayers){
+                    println(player)
+                    playerObjects.add(Player.fromJsonObject(player.asJsonObject))
+                }
+
+
+                recieveStartGame(playerObjects)
+            }
         }
+    }
+
+    private fun recieveStartGame(players: ArrayList<Player>){
+        GameDirector.players = players
+        val intent = Intent(LobbyHostActivity.instance, BoardView::class.java)
+        LobbyHostActivity.instance.startActivity(intent);
+    }
+
+    public fun sendStartGameMessage(){
+        val gson = Gson()
+        val startGameMessage = gson.toJson(StartGame(event = "startGame", timeStamp = System.currentTimeMillis()))
+        webSocketHandler.sendMessage(startGameMessage)
     }
 
     private fun getPlayersArray():ArrayList<Player>{
@@ -96,5 +127,9 @@ class EventHandlers(
         val intent = Intent(action)
         intent.putExtra("data", player)
         LocalBroadcastManager.getInstance(uiInitializer.activity).sendBroadcast(intent)
+    }
+
+    companion object{
+        lateinit var instance: EventHandlers
     }
 }

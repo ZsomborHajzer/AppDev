@@ -2,6 +2,7 @@ package com.example.notpokemon.dataobjects
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.JsonObject
 
 data class Player(
     val id: String,
@@ -32,5 +33,14 @@ data class Player(
         override fun newArray(size: Int): Array<Player?> {
             return arrayOfNulls(size)
         }
+
+        fun fromJsonObject(jsonObject:JsonObject):Player{
+            return Player(
+                jsonObject.get("id").asString,
+                jsonObject.get("username").asString,
+                jsonObject.get("role").asString
+            )
+        }
     }
+
 }
