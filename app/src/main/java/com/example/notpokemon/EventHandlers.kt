@@ -7,6 +7,7 @@ import com.example.notpokemon.UIInitializer
 import com.example.notpokemon.WebSocketHandler
 import com.example.notpokemon.dataobjects.EndGame
 import com.example.notpokemon.dataobjects.EndTurn
+import com.example.notpokemon.dataobjects.GameInitialized
 import com.example.notpokemon.dataobjects.MoveAction
 import com.example.notpokemon.dataobjects.Player
 import com.example.notpokemon.dataobjects.StartGame
@@ -84,6 +85,10 @@ class EventHandlers(
                 val player = gson.fromJson(message, Player::class.java)
                 sendPlayerBroadcast("NEW_PLAYER", player)
                 getPlayersArray().add(player)
+                if(!hasConnected){
+                    thisPlayerId = player.id
+                    hasConnected = true
+                }
                 tryStartLobbyHostActivity()
             }
             "startGame" -> {
@@ -94,9 +99,11 @@ class EventHandlers(
                     println(player)
                     playerObjects.add(Player.fromJsonObject(player.asJsonObject))
                 }
-
-
                 recieveStartGame(playerObjects)
+            }
+            "startTurn" -> {
+                val playerId = jsonObject.get("id").asString
+                GameDirector.instance.startTurn(playerId)
             }
         }
     }
@@ -123,6 +130,12 @@ class EventHandlers(
         }
     }
 
+    fun sendIsInitialized() {
+        val gson = Gson()
+        val inInitializeMessage = gson.toJson(GameInitialized(playerID = thisPlayerId))
+        webSocketHandler.sendMessage(inInitializeMessage)
+    }
+
     private fun sendPlayerBroadcast(action: String, player: Player) {
         val intent = Intent(action)
         intent.putExtra("data", player)
@@ -131,5 +144,7 @@ class EventHandlers(
 
     companion object{
         lateinit var instance: EventHandlers
+        lateinit var thisPlayerId: String
+        var hasConnected = false
     }
 }
