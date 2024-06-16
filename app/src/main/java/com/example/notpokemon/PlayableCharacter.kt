@@ -56,6 +56,11 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
         }
     }
 
+    // for if we have any character interactions with movement in the future (like status effects)
+    fun rollMovement(): Int{
+        return DiceRoller.rollD6()
+    }
+
     companion object{
         val maxSquareHistory = 10;
     }

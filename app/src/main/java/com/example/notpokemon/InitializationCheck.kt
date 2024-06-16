@@ -22,9 +22,9 @@ class InitializationCheck {
         }
 
         fun execution(){
+            println("haveInitialized has been executed")
             GameDirector(gameBoardFragment);
             EventHandlers.instance.sendIsInitialized()
-            println("EXECUTTEEEDDD")
         }
 
         fun reset(){

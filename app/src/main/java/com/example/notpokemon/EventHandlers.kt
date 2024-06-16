@@ -9,6 +9,7 @@ import com.example.notpokemon.dataobjects.EndGame
 import com.example.notpokemon.dataobjects.EndTurn
 import com.example.notpokemon.dataobjects.GameInitialized
 import com.example.notpokemon.dataobjects.MoveAction
+import com.example.notpokemon.dataobjects.MovementRollResult
 import com.example.notpokemon.dataobjects.Player
 import com.example.notpokemon.dataobjects.StartGame
 import com.example.notpokemon.views.BoardView
@@ -85,9 +86,9 @@ class EventHandlers(
                 val player = gson.fromJson(message, Player::class.java)
                 sendPlayerBroadcast("NEW_PLAYER", player)
                 getPlayersArray().add(player)
-                if(!hasConnected){
-                    thisPlayerId = player.id
-                    hasConnected = true
+                if(!hasConnectedToLobby){
+                    thisDevicePlayerId = player.id
+                    hasConnectedToLobby = true
                 }
                 tryStartLobbyHostActivity()
             }
@@ -99,16 +100,24 @@ class EventHandlers(
                     println(player)
                     playerObjects.add(Player.fromJsonObject(player.asJsonObject))
                 }
-                recieveStartGame(playerObjects)
+                receiveStartGame(playerObjects)
             }
             "startTurn" -> {
                 val playerId = jsonObject.get("id").asString
                 GameDirector.instance.startTurn(playerId)
             }
+            "rollMovementDice" -> {
+                onRollMovementDice()
+            }
+            "moveCharacter" -> {
+                val id = jsonObject.get("id").asString
+                val distance = jsonObject.get("distance").asString
+                GameDirector.instance.moveCharacterById(id, distance.toInt())
+            }
         }
     }
 
-    private fun recieveStartGame(players: ArrayList<Player>){
+    private fun receiveStartGame(players: ArrayList<Player>){
         GameDirector.players = players
         val intent = Intent(LobbyHostActivity.instance, BoardView::class.java)
         LobbyHostActivity.instance.startActivity(intent);
@@ -117,6 +126,11 @@ class EventHandlers(
     public fun sendStartGameMessage(){
         val gson = Gson()
         val startGameMessage = gson.toJson(StartGame(event = "startGame", timeStamp = System.currentTimeMillis()))
+        webSocketHandler.sendMessage(startGameMessage)
+    }
+
+    public fun sendEndTurnMessage(){
+        val startGameMessage = Gson().toJson(StartGame(event = "endTurn", timeStamp = System.currentTimeMillis()))
         webSocketHandler.sendMessage(startGameMessage)
     }
 
@@ -131,8 +145,10 @@ class EventHandlers(
     }
 
     fun sendIsInitialized() {
+        println("initialization message has been sent")
+        GameDirector.thisPlayerId = thisDevicePlayerId
         val gson = Gson()
-        val inInitializeMessage = gson.toJson(GameInitialized(playerID = thisPlayerId))
+        val inInitializeMessage = gson.toJson(GameInitialized(playerID = thisDevicePlayerId))
         webSocketHandler.sendMessage(inInitializeMessage)
     }
 
@@ -142,9 +158,19 @@ class EventHandlers(
         LocalBroadcastManager.getInstance(uiInitializer.activity).sendBroadcast(intent)
     }
 
+    private fun onRollMovementDice(){
+        val roll = GameDirector.instance.rollMovementDice()
+        val message = Gson().toJson(MovementRollResult(event = "movementRollResult", roll, timeStamp = System.currentTimeMillis()))
+        webSocketHandler.sendMessage(message)
+    }
+
+    private fun sendMovementRollResult(roll:Int){
+
+    }
+
     companion object{
         lateinit var instance: EventHandlers
-        lateinit var thisPlayerId: String
-        var hasConnected = false
+        lateinit var thisDevicePlayerId: String
+        var hasConnectedToLobby = false
     }
 }

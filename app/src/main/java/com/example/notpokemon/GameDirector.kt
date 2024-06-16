@@ -1,5 +1,6 @@
 package com.example.notpokemon
 
+import EventHandlers
 import com.example.notpokemon.dataobjects.Player
 
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
@@ -9,18 +10,48 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         instance = this
     }
 
+    fun startTurn(playerId:String){
+        getStartTurnRunnable(playerId).start()
+    }
+
+    fun getStartTurnRunnable(playerId: String): Thread{
+        return Thread {
+            run {
+                println("RAN RAN RAN")
+
+
+                playTurn(getCharacterFromId(playerId))
+
+                endTurn()
+            }
+        }
+    }
+
+    fun moveCharacterById(id: String, distance: Int){
+        getCharacterMoveThread(id, distance).start()
+    }
+
+    fun getCharacterMoveThread(id:String, distance: Int):Thread{
+        return Thread{
+            run{
+                if(!seeIfPlayerExists(id)){
+                    addCharacter(id)
+                }
+
+                getCharacterFromId(id).moveThisManySpaces(distance)
+
+                endTurn()
+            }
+        }
+    }
+
     fun playTurn(character: PlayableCharacter){
         val number = DiceRoller.rollD6()
         character.moveThisManySpaces(number)
     }
-    fun startTurn(playerId:String){
 
-        if(!seeIfPlayerExists(playerId)){
-            addCharacter(playerId)
-        }
-
-        playTurn(getCharacterFromId(playerId))
-
+    fun endTurn(){
+        EventHandlers.instance.sendEndTurnMessage()
     }
 
     fun seeIfPlayerExists(playerId:String):Boolean{
@@ -39,6 +70,11 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         characters.add(character)
         return character
     }
+
+    fun rollMovementDice(): Int{
+        return getCharacterFromId(thisPlayerId).rollMovement()
+    }
+
     fun getPlayerById(playerId: String): Player{
         for(player in players){
             if(player.id == playerId){
@@ -54,11 +90,12 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
                 return character
             }
         }
-        throw IllegalArgumentException("character does not exist from ID")
+        return addCharacter(id)
     }
 
     companion object{
         lateinit var instance: GameDirector
         var players = ArrayList<Player>()
+        lateinit var thisPlayerId: String
     }
 }
