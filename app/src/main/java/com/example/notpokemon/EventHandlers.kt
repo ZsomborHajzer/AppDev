@@ -1,13 +1,21 @@
 import android.content.Intent
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.notpokemon.Attack
+import com.example.notpokemon.Creature
 import com.example.notpokemon.GameDirector
 import com.example.notpokemon.LobbyHostActivity
 import com.example.notpokemon.UIInitializer
 import com.example.notpokemon.WebSocketHandler
+import com.example.notpokemon.dataobjects.BattleFinishedAttack
+import com.example.notpokemon.dataobjects.BattleReadyToFight
 import com.example.notpokemon.dataobjects.EndGame
 import com.example.notpokemon.dataobjects.EndTurn
+import com.example.notpokemon.dataobjects.FightCreatureAttack
+import com.example.notpokemon.dataobjects.FightSwitchTeams
 import com.example.notpokemon.dataobjects.GameInitialized
+import com.example.notpokemon.dataobjects.InterruptStartFightAgainstPlayer
+import com.example.notpokemon.dataobjects.InterruptStartFightAgainstRandom
 import com.example.notpokemon.dataobjects.MoveAction
 import com.example.notpokemon.dataobjects.MovementRollResult
 import com.example.notpokemon.dataobjects.Player
@@ -114,6 +122,28 @@ class EventHandlers(
                 val distance = jsonObject.get("distance").asString
                 GameDirector.instance.moveCharacterById(id, distance.toInt())
             }
+            "startFightBetweenPlayers" -> {
+                //TODO:: add
+            }
+            "startPVEFight" -> {
+
+            }
+            "creatureAttackRequest" -> {
+
+            }
+            "creatureAttacks" -> {
+
+            }
+            "simpleCreatureAttacks" -> {
+
+            }
+            "switchTeams" -> {
+
+            }
+            "endBattle" -> {
+
+            }
+
         }
     }
 
@@ -160,12 +190,69 @@ class EventHandlers(
 
     private fun onRollMovementDice(){
         val roll = GameDirector.instance.rollMovementDice()
+        sendMovementRollResult(roll)
+    }
+
+    private fun sendMovementRollResult(roll:Int){
         val message = Gson().toJson(MovementRollResult(event = "movementRollResult", roll, timeStamp = System.currentTimeMillis()))
         webSocketHandler.sendMessage(message)
     }
 
-    private fun sendMovementRollResult(roll:Int){
+    public fun sendInterruptFightAgainstPlayer(player1:Player, player2:Player){
+        val message = Gson().toJson(
+            InterruptStartFightAgainstPlayer(
+                player1.id,
+                player2.id
+            )
+        )
+        webSocketHandler.sendMessage(message)
+    }
 
+    public fun sendInterruptFightAgainstAI(player: Player, creatureTemplateId:Int){
+        val message = Gson().toJson(
+            InterruptStartFightAgainstRandom(
+                player.id,
+                creatureTemplateId
+            )
+        )
+        webSocketHandler.sendMessage(message)
+    }
+
+    public fun sendReadyToFight(){
+        val message = Gson().toJson(
+            BattleReadyToFight()
+        )
+        webSocketHandler.sendMessage(message)
+    }
+
+    public fun sendCreatureAttacks(attackingCreature:Creature, defendingCreature:Creature, attackMoveIndex:Int, chanceModifier:Int){
+        val message = Gson().toJson(
+            FightCreatureAttack(
+                attackingCreature.id,
+                defendingCreature.id,
+                attackMoveIndex,
+                chanceModifier
+            )
+        )
+        webSocketHandler.sendMessage(message)
+    }
+
+    public fun notifyAttackIsFinished(creatureDied:Boolean, hasNextCreature:Boolean, playerWonId:String, ){
+        val message = Gson().toJson(
+            BattleFinishedAttack(
+                creatureDied,
+                hasNextCreature,
+                playerWonId
+            )
+        )
+        webSocketHandler.sendMessage(message)
+    }
+
+    public fun notifyTeamsHaveBeenSwitched(){
+        val message = Gson().toJson(
+            FightSwitchTeams()
+        )
+        webSocketHandler.sendMessage(message)
     }
 
     companion object{
