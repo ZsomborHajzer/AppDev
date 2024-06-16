@@ -6,6 +6,7 @@ abstract class Creature(open var attack: Attack) {
     open var maxHealthPoints = 240.00
     open var creatureName = "Default"
     open var imageResource = R.drawable.creature_harvey
+    open var effectStatuses: MutableList<StatusEffect> = mutableListOf()
 
     var healthPoints = maxHealthPoints
 
@@ -23,5 +24,13 @@ abstract class Creature(open var attack: Attack) {
         if(healthPoints > maxHealthPoints){
             healthPoints = maxHealthPoints
         }
+    }
+
+    fun addStatusEffect(effect: StatusEffect) {
+        effectStatuses.add(effect)
+    }
+    
+    fun removeStatusEffect(effect: StatusEffect) {
+        effectStatuses.remove(effect)
     }
 }

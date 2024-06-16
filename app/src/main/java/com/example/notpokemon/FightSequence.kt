@@ -28,6 +28,7 @@ class FightSequence(val fight: Fight): Runnable {
 
             // Switch teams if all creatures from the current attacking team have attacked
             if (shouldSwitch()) {
+                applyStatusEffects(attacker)
                 switchSides()
             } else {
                 attackerIndex++
@@ -36,6 +37,15 @@ class FightSequence(val fight: Fight): Runnable {
         }
         onFinish()
     }
+
+    protected fun applyStatusEffects(attacker: Creature){
+        if(attacker.effectStatuses.size != 0){
+            for(effect in attacker.effectStatuses){
+                effect.applicationOfEffectStatus(EffectTrigger.ONTURN)
+            }
+        }
+    }
+
     protected fun shouldSwitch(): Boolean{
         return attackerIndex >= attackingPlayer.team.lastIndex
                 || defenderIndex >= defendingPlayer.team.lastIndex
