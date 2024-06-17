@@ -16,7 +16,7 @@ class FightSequence(val fight: Fight): Runnable {
 
             println("${attacker.creatureName} is fighting ${defender.creatureName}!")
             attacker.attack.doAttack(attacker, defender)
-            AnimationCreator.attackAnimation().run()
+            AnimationCreator.attackAnimation(attacker, defender).run()
 
             // Check if the defender's creature is defeated
             if (defender.healthPoints <= 0) {
@@ -46,9 +46,10 @@ class FightSequence(val fight: Fight): Runnable {
         defendingPlayer = temp
         attackerIndex = 0
         defenderIndex = 0
+
         println("Attacker team: ${attackingPlayer.name}, Defender team: ${defendingPlayer.name}")
         println("${attackingPlayer.name} 's turn!")
-        AnimationCreator.switchTeamAnimation().run()
+        AnimationCreator.switchTeamAnimation(attackingPlayer, defendingPlayer).run()
     }
 
     private fun onFinish(){

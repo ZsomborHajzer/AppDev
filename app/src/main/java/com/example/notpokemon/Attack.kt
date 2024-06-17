@@ -3,6 +3,7 @@ package com.example.notpokemon
 abstract class Attack () {
     open var attackName = "DefaultAttack"
     open var damage: Double = 70.0
+    open var imageResource = R.drawable.bite_animation
 
     //Basic attack function. Can be overridden and customised.
     fun doAttack(attackingCreature: Creature, opposingCreature: Creature) {

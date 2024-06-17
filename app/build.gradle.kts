@@ -60,8 +60,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    val fragment_version = "1.7.0"
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -80,7 +78,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    implementation(libs.androidx.fragment.ktx)
     implementation (libs.androidx.constraintlayout)
+    implementation(libs.android.gif.drawable)
 
 }
