@@ -10,23 +10,6 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         instance = this
     }
 
-    fun startTurn(playerId:String){
-        getStartTurnRunnable(playerId).start()
-    }
-
-    fun getStartTurnRunnable(playerId: String): Thread{
-        return Thread {
-            run {
-                println("RAN RAN RAN")
-
-
-                playTurn(getCharacterFromId(playerId))
-
-                endTurn()
-            }
-        }
-    }
-
     fun moveCharacterById(id: String, distance: Int){
         getCharacterMoveThread(id, distance).start()
     }
@@ -38,9 +21,11 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
                     addCharacter(id)
                 }
 
-                getCharacterFromId(id).moveThisManySpaces(distance)
+                val isInterrupted = getCharacterFromId(id).moveThisManySpaces(distance)
 
-                endTurn()
+                if(!isInterrupted){
+                    EventHandlers.instance.sendEndTurnMessage()
+                }
             }
         }
     }
@@ -48,10 +33,6 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
     fun playTurn(character: PlayableCharacter){
         val number = DiceRoller.rollD6()
         character.moveThisManySpaces(number)
-    }
-
-    fun endTurn(){
-        EventHandlers.instance.sendEndTurnMessage()
     }
 
     fun seeIfPlayerExists(playerId:String):Boolean{
@@ -93,9 +74,37 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         return addCharacter(id)
     }
 
+    fun onStartPVPFight(fighter1Id: String, fighter2Id: String) {
+        battleManager = BattleManagerPVP()
+        battleManager.fighter1 = getCharacterFromId(fighter1Id)
+        battleManager.fighter2 = getCharacterFromId(fighter2Id)
+        battleManager.initializeFight()
+    }
+
+    fun onStartPVEFight(fighter1Id: String, creatureTemplate:Int){
+        battleManager = BattleManager()
+        battleManager.fighter1 = getCharacterFromId(fighter1Id)
+        val randomEncounterFighter = Fighter("the whispers in the woods")
+        randomEncounterFighter.addCreature(BattleManager.generateCreatureFromTemplate(creatureTemplate))
+        battleManager.fighter2 = randomEncounterFighter
+        battleManager.initializeFight()
+    }
+
+    fun onEndFight(winnerIndex:Int){
+        var winner:Fighter
+        if(winnerIndex == 0){
+            winner = battleManager.fighter1
+        }
+        else{
+            winner = battleManager.fighter2
+        }
+        battleManager.endFight(winner)
+    }
+
     companion object{
         lateinit var instance: GameDirector
         var players = ArrayList<Player>()
         lateinit var thisPlayerId: String
+        lateinit var battleManager: BattleManager
     }
 }

@@ -1,5 +1,6 @@
 package com.example.notpokemon.Board.Elements.Tiles
 
+import EventHandlers
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -46,16 +47,12 @@ open class BaseTile : SteppableTile() {
         onTile.add(playableCharacter)
     }
 
-    override fun onTileStay(playableCharacter: PlayableCharacter) {
+    override fun onTileStay(playableCharacter: PlayableCharacter): Boolean {
         if(onTile.size > 1){
-            val battleManager = BattleManager()
-            battleManager.fighter1 = onTile[1]
-            battleManager.fighter2 = onTile[0]
-            battleManager.run()
-            val winner = battleManager.winner as PlayableCharacter
-            winner.onMove(nextSquare)
+            EventHandlers.instance.sendInterruptFightAgainstPlayer(onTile[0], onTile[1])
+            return true
         }
-        return
+        return false
     }
 
     override fun onTileExit(playableCharacter: PlayableCharacter) {

@@ -3,7 +3,7 @@ package com.example.notpokemon.dataobjects
 data class BattleFinishedAttack(
     val creatureDied: Boolean,
     val hasNextCreature: Boolean,
-    val teamWonId: String = "",
+    val teamWonIndex: Int = -1,
     val timeStamp:Long = System.currentTimeMillis(),
-    val eventString: String = "finishedAttack"
+    val event: String = "finishedAttack"
 )

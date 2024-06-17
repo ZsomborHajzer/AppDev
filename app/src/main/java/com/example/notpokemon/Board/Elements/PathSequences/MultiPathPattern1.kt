@@ -101,8 +101,8 @@ class MultiPathPattern1 : SteppableTile() {
         startingSquare.nextSquare = paths[pathNumber-1][0]
     }
 
-    override fun onTileStay(playableCharacter: PlayableCharacter) {
-        return
+    override fun onTileStay(playableCharacter: PlayableCharacter): Boolean {
+        return false
     }
 
     override fun onTileExit(playableCharacter: PlayableCharacter) {

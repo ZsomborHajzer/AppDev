@@ -16,6 +16,10 @@ abstract class Creature(open var attack: Attack) {
         incrementedId++
     }
 
+    fun attack(attackedCreature:Creature, damageModifier:Int){
+        this.attack.doAttack(this, attackedCreature, damageModifier)
+    }
+
     fun takeDamage(damageAmount: Double){
         if(damageAmount > healthPoints){ //in case of overkill
             healthPoints = 0.0
@@ -30,6 +34,10 @@ abstract class Creature(open var attack: Attack) {
         if(healthPoints > maxHealthPoints){
             healthPoints = maxHealthPoints
         }
+    }
+
+    fun isDead():Boolean{
+        return healthPoints<=0.0
     }
 
     companion object{

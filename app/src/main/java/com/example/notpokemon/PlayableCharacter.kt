@@ -23,7 +23,7 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
         onMove(currentSquare)
     }
 
-    fun moveThisManySpaces(number:Int){
+    fun moveThisManySpaces(number:Int): Boolean { //boolean = isInterrupted
         if (number < 1){
             throw IllegalArgumentException("function \"moveThisManySpaces\" from" + this.javaClass + "may not be less than 0")
         }
@@ -35,7 +35,7 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
             i++;
             Thread.sleep(waitTime)
         }
-        currentSquare.onTileStay(this)
+        return currentSquare.onTileStay(this)
     }
 
     public fun onInteractSquare(){

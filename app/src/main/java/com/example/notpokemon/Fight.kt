@@ -1,27 +1,22 @@
 package com.example.notpokemon
 
+import EventHandlers
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
-import androidx.core.view.get
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import com.example.notpokemon.animations.AnimationCreator
-import com.example.notpokemon.animations.SwitchTeamAnimation
 
 class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fight_layout){
 
     var attackingPlayer = fighter1
     var defendingPlayer = fighter2
     var isFinished = false
-    private var viewCreated = false
-    private var startHasBeenCalled = false
     lateinit var winner: Fighter
+    var creatureIndex = 0
 
+    init {
+        instance = this
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -29,27 +24,91 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
 
         AnimationCreator.switchTeamAnimation(attackingPlayer, defendingPlayer).run()
 
-
-        viewCreated = true
-        confirmStart()
+        EventHandlers.instance.sendReadyToFight()
     }
 
-    // abstraction
-    fun startFight(){
-        startHasBeenCalled = true
-        confirmStart()
+    fun run() {
+        while (attackingPlayer.team.isNotEmpty() && defendingPlayer.team.isNotEmpty()) { //Neither team has "lost" yet
+            val attacker = attackingPlayer.team[creatureIndex]
+            val defender = defendingPlayer.team[creatureIndex]
+
+
+            // Switch teams if all creatures from the current attacking team have attacked
+            if (shouldSwitch()) {
+                switchSides()
+            } else {
+                creatureIndex++
+            }
+        }
+        onFinish()
+    }
+    protected fun shouldSwitch(): Boolean{
+        return creatureIndex >= attackingPlayer.team.lastIndex
+                || creatureIndex >= defendingPlayer.team.lastIndex
+    }
+    fun switchSides(){
+        val temp = attackingPlayer
+        attackingPlayer = defendingPlayer
+        defendingPlayer = temp
+        creatureIndex = 0
+
+        println("Attacker team: ${attackingPlayer.name}, Defender team: ${defendingPlayer.name}")
+        println("${attackingPlayer.name} 's turn!")
+        AnimationCreator.switchTeamAnimation(attackingPlayer, defendingPlayer).run()
+        EventHandlers.instance.sendReadyToFight()
     }
 
-    // confirms that both the view has been created, and start has been called
-    private fun confirmStart(){
-        if(viewCreated && startHasBeenCalled){
-            executeFight()
+    fun onRequestAttackMove(creatureIndex:Int){
+        EventHandlers.instance.sendCreatureAttacks(creatureIndex, creatureIndex, 0, DiceRoller.rollD6())
+    }
+
+    // attackMoveIndex is unused for now due to the creatures only knowing one move
+    fun onAttack(attackingCreatureIndex: Int, defendingCreatureIndex:Int, attackMoveIndex:Int, attackModifierValue:Int){
+        val attackPokemon = attackingPlayer.team[attackingCreatureIndex]
+        val defencePokemon = defendingPlayer.team[defendingCreatureIndex]
+        attackPokemon.attack(defencePokemon, attackModifierValue)
+        AnimationCreator.attackAnimation(attackPokemon, defencePokemon).run()
+
+        notifyAttackIsFinished(defencePokemon.isDead())
+    }
+
+    fun notifyAttackIsFinished(creatureHasDied:Boolean){
+        val hasNextCreature = !shouldSwitch()
+        val winner = seeWhichTeamWon()
+        EventHandlers.instance.notifyAttackIsFinished(creatureHasDied, hasNextCreature, winner)
+    }
+
+    fun seeWhichTeamWon(): Int {
+        return if(defendingPlayer.team.isEmpty()){
+            0
+        } else if(attackingPlayer.team.isEmpty()){
+            1
+        } else{
+            -1
         }
     }
 
-    // actual function
-    private fun executeFight(){
-        val fightSequence = FightSequence(this)
-        Thread(fightSequence).start()
+    fun onCreatureHasDied(){
+        killCurrentDefendingCreature()
+        notifyAttackIsFinished(false)
+    }
+    fun killCurrentDefendingCreature(){
+        println("${defendingPlayer.team[creatureIndex].creatureName} fainted!")
+        AnimationCreator.deathAnimation().run()
+        // Remove the defeated creature from the defending player's team
+        defendingPlayer.removeCreature(creatureIndex)
+    }
+
+    private fun onFinish(){
+        isFinished = true
+        if (attackingPlayer.team.isEmpty()) {
+            winner = defendingPlayer
+        } else {
+            winner = attackingPlayer
+        }
+    }
+
+    companion object{
+        lateinit var instance:Fight
     }
 }
