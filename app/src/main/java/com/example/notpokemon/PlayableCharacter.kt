@@ -14,6 +14,8 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
     lateinit var id: String
     lateinit var role: String
 
+    var stepsTaken = 0
+
     constructor(player:Player, startingSquare: SteppableTile) : this(startingSquare, player.username) {
         this.id = player.id
         this.role = player.role
@@ -23,16 +25,18 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
         onMove(currentSquare)
     }
 
-    fun moveThisManySpaces(number:Int): Boolean { //boolean = isInterrupted
-        if (number < 1){
+    fun moveThisManySpaces(totalSteps:Int): Boolean { //boolean = isInterrupted
+        if (totalSteps < 1){
             throw IllegalArgumentException("function \"moveThisManySpaces\" from" + this.javaClass + "may not be less than 0")
         }
         var waitTime = 500L;
-        var i = 1
-        while (i <= number){
+        stepsTaken = 0
+        while (stepsTaken < totalSteps){
             var nextSquare = currentSquare.nextSquare
-            onMove(nextSquare)
-            i++;
+            if(onMove(nextSquare)){
+                return true
+            }
+            stepsTaken++;
             Thread.sleep(waitTime)
         }
         return currentSquare.onTileStay(this)
@@ -42,11 +46,11 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
         // for now won't be used. but always good to have extra event opportunities
     }
 
-    public fun onMove(square: SteppableTile){
+    public fun onMove(square: SteppableTile):Boolean{
         currentSquare.onTileExit(this)
         addToSquareHistory(currentSquare)
         currentSquare = square
-        currentSquare.onTileEntry(this)
+        return currentSquare.onTileEntry(this)
     }
 
     fun addToSquareHistory(square: SteppableTile){

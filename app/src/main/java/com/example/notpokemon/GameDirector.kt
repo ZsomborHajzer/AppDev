@@ -1,7 +1,9 @@
 package com.example.notpokemon
 
 import EventHandlers
+import com.example.notpokemon.Board.Elements.Tiles.SwitchTile
 import com.example.notpokemon.dataobjects.Player
+import kotlin.math.floor
 
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
     public var characters = ArrayList<PlayableCharacter>()
@@ -12,6 +14,12 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
 
     fun moveCharacterById(id: String, distance: Int){
         getCharacterMoveThread(id, distance).start()
+    }
+
+    fun onChangeDirectionMove(playerId: String, steps: Int, directionIndex:Int){
+        val switchTile = getCharacterFromId(playerId).currentSquare as SwitchTile
+        switchTile.switchNextTileByIndex(directionIndex)
+        getCharacterMoveThread(playerId, steps).start()
     }
 
     fun getCharacterMoveThread(id:String, distance: Int):Thread{
@@ -100,6 +108,15 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         }
         battleManager.endFight(winner)
     }
+
+    fun onDirectionRequest(steps:Int){
+        val switchTile = getCharacterFromId(thisPlayerId).currentSquare as SwitchTile
+        val switchTileSize = switchTile.nextSquaresList.size
+        val directionIndex = floor(Math.random()*switchTileSize).toInt()
+        EventHandlers.instance.sendChangeDirectionMove(thisPlayerId, steps, directionIndex)
+    }
+
+
 
     companion object{
         lateinit var instance: GameDirector

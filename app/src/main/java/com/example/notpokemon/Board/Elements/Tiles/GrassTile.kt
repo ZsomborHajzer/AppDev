@@ -14,4 +14,6 @@ class GrassTile : BaseTile() {
         EventHandlers.instance.sendInterruptFightAgainstAI(character, 0)
         return true
     }
+
+
 }

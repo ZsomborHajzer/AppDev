@@ -1,9 +1,6 @@
 import android.content.Intent
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.notpokemon.Attack
-import com.example.notpokemon.BattleManager
-import com.example.notpokemon.Creature
 import com.example.notpokemon.Fight
 import com.example.notpokemon.GameDirector
 import com.example.notpokemon.LobbyHostActivity
@@ -12,6 +9,7 @@ import com.example.notpokemon.UIInitializer
 import com.example.notpokemon.WebSocketHandler
 import com.example.notpokemon.dataobjects.BattleFinishedAttack
 import com.example.notpokemon.dataobjects.BattleReadyToFight
+import com.example.notpokemon.dataobjects.DirectionChangeMessage
 import com.example.notpokemon.dataobjects.EndGame
 import com.example.notpokemon.dataobjects.EndTurn
 import com.example.notpokemon.dataobjects.FightCreatureAttack
@@ -19,6 +17,7 @@ import com.example.notpokemon.dataobjects.FightSwitchTeams
 import com.example.notpokemon.dataobjects.GameInitialized
 import com.example.notpokemon.dataobjects.InterruptStartFightAgainstPlayer
 import com.example.notpokemon.dataobjects.InterruptStartFightAgainstRandom
+import com.example.notpokemon.dataobjects.InterruptSwitch
 import com.example.notpokemon.dataobjects.MoveAction
 import com.example.notpokemon.dataobjects.MovementRollResult
 import com.example.notpokemon.dataobjects.Player
@@ -104,8 +103,8 @@ class EventHandlers(
             }
             "startGame" -> {
                 print("I got the startgame!")
-                var jsonPlayers = jsonObject.get("clients").asJsonArray
-                var playerObjects = ArrayList<Player>()
+                val jsonPlayers = jsonObject.get("clients").asJsonArray
+                val playerObjects = ArrayList<Player>()
                 for(player in jsonPlayers){
                     println(player)
                     playerObjects.add(Player.fromJsonObject(player.asJsonObject))
@@ -173,6 +172,18 @@ class EventHandlers(
                 }.start()
             }
 
+            "requestDirection" -> {
+                val playerId = jsonObject.get("id").asString
+                val steps = jsonObject.get("steps").asInt
+                GameDirector.instance.onDirectionRequest(steps)
+            }
+
+            "changeDirectionMove" -> {
+                val playerId = jsonObject.get("id").asString
+                val steps = jsonObject.get("steps").asInt
+                val directionIndex = jsonObject.get("directionIndex").asInt
+                GameDirector.instance.onChangeDirectionMove(playerId,steps,directionIndex)
+            }
         }
     }
 
@@ -275,6 +286,28 @@ class EventHandlers(
             )
         )
         webSocketHandler.sendMessage(message)
+    }
+
+    fun sendInterruptDirectionChange(playerId : String, steps: Int){
+        val message = Gson().toJson(
+            InterruptSwitch(
+                playerId,
+                steps
+            )
+        )
+        webSocketHandler.sendMessage(message)
+    }
+
+    fun sendChangeDirectionMove(id:String, steps:Int, directionIndex:Int){
+        val message = Gson().toJson(
+            DirectionChangeMessage(
+                "changeDirectionMove",
+                id,
+                steps,
+                directionIndex
+            )
+        )
+        webSocketHandler.sendMessage((message))
     }
 
     public fun notifyTeamsHaveBeenSwitched(){

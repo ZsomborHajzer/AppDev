@@ -42,9 +42,10 @@ open class BaseTile : SteppableTile() {
         baseImage.setImageResource(baseImageResource)
     }
 
-    override fun onTileEntry(playableCharacter: PlayableCharacter) {
+    override fun onTileEntry(playableCharacter: PlayableCharacter):Boolean {
         this.setOverlayFromResource(playableCharacter.icon)
         onTile.add(playableCharacter)
+        return false
     }
 
     override fun onTileStay(playableCharacter: PlayableCharacter): Boolean {

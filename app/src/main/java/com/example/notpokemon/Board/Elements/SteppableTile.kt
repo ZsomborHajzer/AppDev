@@ -63,7 +63,7 @@ abstract class SteppableTile: Fragment() {
         }
     }
 
-    abstract fun onTileEntry(playableCharacter: PlayableCharacter)
+    abstract fun onTileEntry(playableCharacter: PlayableCharacter): Boolean
 
     abstract fun onTileStay(playableCharacter: PlayableCharacter): Boolean // triggered event
     abstract fun onTileExit(playableCharacter: PlayableCharacter)
