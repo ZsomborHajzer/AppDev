@@ -91,6 +91,9 @@ class LobbyHostActivity : AppCompatActivity() {
     fun updatePlayerCards() {
         players.forEach { player ->
             Log.d("LobbyHostActivity", "Updating card for ${player.username}")
+            if(player.imageResource == 0){
+                player.imageResource = Player.imageResources[0]
+            }
             when (player.role) {
                 "player1" -> {
                     player1Card.visibility = View.VISIBLE

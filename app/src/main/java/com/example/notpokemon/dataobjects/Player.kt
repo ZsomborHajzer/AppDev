@@ -10,9 +10,8 @@ class Player(
     val id: String,
     val username: String,
     val role: String,
-    var imageResource: Int = R.drawable.low_res_tanuki
+    var imageResource:Int = imageResources[0]
 ) : Parcelable {
-
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -62,7 +61,7 @@ class Player(
             )
         }
 
-        val imageResources = intArrayOf(R.drawable.kel_fullbody_profile, R.drawable.low_res_tanuki, R.drawable.char_aquaboy, R.drawable.char_emogirl, R.drawable.char_nerdyboy, R.drawable.char_spoopygirl)
+        val imageResources = intArrayOf(R.drawable.low_res_tanuki, R.drawable.kel_fullbody_profile, R.drawable.char_aquaboy, R.drawable.char_emogirl, R.drawable.char_nerdyboy, R.drawable.char_spoopygirl)
     }
 
 }
