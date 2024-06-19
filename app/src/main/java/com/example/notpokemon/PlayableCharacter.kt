@@ -4,11 +4,10 @@ import com.example.notpokemon.Board.Elements.SteppableTile
 import com.example.notpokemon.dataobjects.Player
 
 
-class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(name) {
+class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:Int = R.drawable.low_res_tanuki) : Fighter(name) {
     var currentSquare: SteppableTile;
 
     private var squareHistory = ArrayList<SteppableTile>();
-    val icon = R.drawable.low_res_tanuki
 
 
     lateinit var id: String
@@ -16,10 +15,11 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
 
     var stepsTaken = 0
 
-    constructor(player:Player, startingSquare: SteppableTile) : this(startingSquare, player.username) {
+    constructor(player:Player, startingSquare: SteppableTile) : this(startingSquare, player.username, player.imageResource) {
         this.id = player.id
         this.role = player.role
     }
+
     init {
         this.currentSquare = startingSquare;
         onMove(currentSquare)

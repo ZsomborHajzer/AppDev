@@ -5,6 +5,7 @@ import com.example.notpokemon.Fight
 import com.example.notpokemon.GameDirector
 import com.example.notpokemon.views.LobbyHostActivity
 import com.example.notpokemon.PlayableCharacter
+import com.example.notpokemon.R
 import com.example.notpokemon.UIInitializer
 import com.example.notpokemon.WebSocketHandler
 import com.example.notpokemon.dataobjects.BattleFinishedAttack
@@ -90,13 +91,17 @@ class EventHandlers(
             "currentPlayers" -> {
                 println("CURRENT PLAYER EVENTHANDLER")
                 val players = gson.fromJson(jsonObject.get("players").asJsonArray, Array<Player>::class.java).toList()
-                 LobbyHostActivity.players = ArrayList(players)
+                LobbyHostActivity.players = ArrayList(players)
             }
             "connect" -> {
                 val player = gson.fromJson(message, Player::class.java)
+                if(player.imageResource == 0){
+                    player.imageResource = R.drawable.low_res_tanuki
+                }
                 sendPlayerBroadcast("NEW_PLAYER", player)
-                getPlayersArray().add(player)
+                println("ADDED PLAYER")
                 if(!hasConnectedToLobby){
+                    LobbyHostActivity.players.add(player)
                     thisDevicePlayerId = player.id
                     hasConnectedToLobby = true
                 }
@@ -212,9 +217,6 @@ class EventHandlers(
         webSocketHandler.sendMessage(startGameMessage)
     }
 
-    private fun getPlayersArray():ArrayList<Player>{
-        return LobbyHostActivity.players
-    }
     private fun tryStartLobbyHostActivity(){
         if(!LobbyHostActivity.hasInstance()) {
             val intent = Intent(uiInitializer.activity, LobbyHostActivity::class.java)

@@ -137,11 +137,14 @@ class LobbyHostActivity : AppCompatActivity() {
                 }
             }
         }
+        val textString = "Lobby Size "+ players.size +"/4"
+        findViewById<TextView>(R.id.lobbySizeText).text = textString
     }
 
     inner class PortraitOnClickListener(val view: ImageView, val player: Player): View.OnClickListener{
         override fun onClick(p0: View?) {
             player.cycleImage()
+            Log.d("onclick portrait", "clicked")
             EventHandlers.instance.sendPlayerPortraitChangedMessage(player.id, player.imageResource)
         }
 
@@ -149,6 +152,7 @@ class LobbyHostActivity : AppCompatActivity() {
     companion object{
         lateinit var instance: LobbyHostActivity
         var players = ArrayList<Player>()
+
         fun getPlayerById(id:String):Player{
             for (player in players){
                 if(player.id == id){

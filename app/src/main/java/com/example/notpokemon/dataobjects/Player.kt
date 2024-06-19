@@ -2,19 +2,22 @@ package com.example.notpokemon.dataobjects
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import com.example.notpokemon.R
 import com.google.gson.JsonObject
 
-data class Player(
+class Player(
     val id: String,
     val username: String,
     val role: String,
-    var imageResource: Int = R.drawable.kel_fullbody_profile
+    var imageResource: Int = R.drawable.low_res_tanuki
 ) : Parcelable {
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readInt()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -30,6 +33,7 @@ data class Player(
     fun cycleImage(){
         val currentIndex = imageResources.indexOf(imageResource)
         if (currentIndex == -1){
+            Log.w("ImageCycling", "imageResource $imageResource, could not be found in list")
             imageResource = imageResources[0]
         }
         else if (currentIndex == imageResources.size-1){
@@ -53,11 +57,12 @@ data class Player(
             return Player(
                 jsonObject.get("id").asString,
                 jsonObject.get("username").asString,
-                jsonObject.get("role").asString
+                jsonObject.get("role").asString,
+                jsonObject.get("imageResource").asInt
             )
         }
 
-        val imageResources = intArrayOf(R.drawable.kel_fullbody_profile, R.drawable.low_res_tanuki)
+        val imageResources = intArrayOf(R.drawable.kel_fullbody_profile, R.drawable.low_res_tanuki, R.drawable.char_aquaboy, R.drawable.char_emogirl, R.drawable.char_nerdyboy, R.drawable.char_spoopygirl)
     }
 
 }
