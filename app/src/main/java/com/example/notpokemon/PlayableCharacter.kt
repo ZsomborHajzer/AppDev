@@ -26,18 +26,15 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
     }
 
     fun moveThisManySpaces(totalSteps:Int): Boolean { //boolean = isInterrupted
-        if (totalSteps < 1){
-            throw IllegalArgumentException("function \"moveThisManySpaces\" from" + this.javaClass + "may not be less than 0")
-        }
         var waitTime = 500L;
         stepsTaken = 0
         while (stepsTaken < totalSteps){
+            Thread.sleep(waitTime)
             var nextSquare = currentSquare.nextSquare
             if(onMove(nextSquare)){
                 return true
             }
             stepsTaken++;
-            Thread.sleep(waitTime)
         }
         return currentSquare.onTileStay(this)
     }

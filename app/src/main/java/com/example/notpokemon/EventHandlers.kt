@@ -229,11 +229,10 @@ class EventHandlers(
     }
 
     private fun onRollMovementDice(){
-        val roll = GameDirector.instance.rollMovementDice()
-        sendMovementRollResult(roll)
+        GameDirector.instance.onRequestMovementDice()
     }
 
-    private fun sendMovementRollResult(roll:Int){
+    fun sendMovementRollResult(roll:Int){
         val message = Gson().toJson(MovementRollResult(event = "movementRollResult", roll, timeStamp = System.currentTimeMillis()))
         webSocketHandler.sendMessage(message)
     }

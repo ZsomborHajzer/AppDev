@@ -3,6 +3,7 @@ package com.example.notpokemon
 import EventHandlers
 import com.example.notpokemon.Board.Elements.Tiles.SwitchTile
 import com.example.notpokemon.dataobjects.Player
+import com.example.notpokemon.views.BoardView
 import kotlin.math.floor
 
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
@@ -59,6 +60,16 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         characters.add(character)
         return character
     }
+
+    fun onRequestMovementDice(){
+        BoardView.instance.showRollBanner()
+    }
+
+    fun onRolled(){
+        val roll = rollMovementDice()
+        EventHandlers.instance.sendMovementRollResult(roll)
+    }
+
 
     fun rollMovementDice(): Int{
         return getCharacterFromId(thisPlayerId).rollMovement()
