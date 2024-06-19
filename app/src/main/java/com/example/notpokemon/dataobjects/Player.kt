@@ -53,11 +53,18 @@ class Player(
         }
 
         fun fromJsonObject(jsonObject:JsonObject):Player{
+            var imageResource:Int
+            if (jsonObject.get("imageResource") != null){
+                imageResource = jsonObject.get("imageResource").asInt
+            }
+            else{
+                imageResource = Player.imageResources[0]
+            }
             return Player(
                 jsonObject.get("id").asString,
                 jsonObject.get("username").asString,
                 jsonObject.get("role").asString,
-                jsonObject.get("imageResource").asInt
+                imageResource
             )
         }
 

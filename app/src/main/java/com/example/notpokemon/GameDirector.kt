@@ -122,9 +122,17 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
 
     fun onDirectionRequest(steps:Int){
         val switchTile = getCharacterFromId(thisPlayerId).currentSquare as SwitchTile
-        val switchTileSize = switchTile.nextSquaresList.size
-        val directionIndex = floor(Math.random()*switchTileSize).toInt()
-        EventHandlers.instance.sendChangeDirectionMove(thisPlayerId, steps, directionIndex)
+        val squareList = switchTile.nextSquaresList
+        val squareNames = ArrayList<String>()
+        for (square in squareList){
+            squareNames.add(square.cardinalDirection)
+        }
+        val senderScript: (Int) -> Unit = {
+            directionIndex ->
+            EventHandlers.instance.sendChangeDirectionMove(thisPlayerId, steps, directionIndex)
+        }
+
+        BoardView.instance.spawnOptionsMenu(senderScript, squareNames)
     }
 
 

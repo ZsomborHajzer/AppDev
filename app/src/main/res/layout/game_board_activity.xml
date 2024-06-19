@@ -38,6 +38,17 @@
             android:translationZ="1dp" />
     </FrameLayout>
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/decisionPanelFragmentContainer"
+        android:name="com.example.notpokemon.DecisionPanel"
+        android:layout_width="421dp"
+        android:layout_height="143dp"
+        android:layout_marginBottom="10dp"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/gameBoardFrame"
+        app:layout_constraintEnd_toEndOf="@+id/gameBoardFrame"
+        app:layout_constraintStart_toStartOf="@+id/gameBoardFrame" />
+
     <FrameLayout
         android:id="@+id/gameBoardFrame"
         android:layout_width="0dp"
@@ -63,6 +74,11 @@
             android:clipToPadding="false"
             tools:layout="@layout/game_board_fragment" />
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fightFragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </FrameLayout>
 
     <LinearLayout
@@ -79,14 +95,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></LinearLayout>
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fightFragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

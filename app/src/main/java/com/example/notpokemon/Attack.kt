@@ -1,7 +1,7 @@
 package com.example.notpokemon
 
 abstract class Attack () {
-    open var attackName = "DefaultAttack"
+    open var name = "DefaultAttack"
     open var damage: Double = 50.0
     open var imageResource = R.drawable.bite_animation
 
@@ -18,7 +18,7 @@ abstract class Attack () {
         }
 
         opposingCreature.takeDamage(damage)
-        println("${attackingCreature.creatureName} used ${attackName} dealt $damage damage to ${opposingCreature.creatureName}")
+        println("${attackingCreature.creatureName} used ${name} dealt $damage damage to ${opposingCreature.creatureName}")
     }
 
     fun creatureTypeAdvantageCheck(attackingCreature: Creature, opposingCreature: Creature): Pair<Boolean, Boolean> {

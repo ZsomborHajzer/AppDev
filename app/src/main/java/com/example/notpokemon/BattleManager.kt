@@ -1,7 +1,6 @@
 package com.example.notpokemon
 import EventHandlers
 import com.example.notpokemon.views.BoardView
-import kotlin.random.Random
 
 //Simulate how the battle logic would go, kinda
 open class BattleManager {
@@ -54,7 +53,7 @@ open class BattleManager {
             val name = "Creature${(1..1000).random()}"
             val type = types.random()
             val attack = BiteAttack()
-            attack.attackName = attackNames.random()
+            attack.name = attackNames.random()
             val creature = ButterPig(attack)
             creature.creatureName = name
             creature.creatureType = type

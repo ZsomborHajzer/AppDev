@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
+import com.example.notpokemon.DecisionPanel
+import com.example.notpokemon.DecisionTrackingClass
 import com.example.notpokemon.Fight
 import com.example.notpokemon.GameDirector
 import com.example.notpokemon.R
@@ -18,7 +20,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 
-class BoardView : FragmentActivity() {
+class BoardView : FragmentActivity(), DecisionTrackingClass {
 
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private lateinit var scrollGestureDetector: GestureDetector
@@ -31,6 +33,8 @@ class BoardView : FragmentActivity() {
     private lateinit var bannerParent: FrameLayout
     private lateinit var bannerText: TextView
     private lateinit var bannerImage: ImageView
+    private lateinit var decisionPanel: DecisionPanel
+    lateinit var currentDecisionPanelExecution: (Int)->Unit
     private var isAwaitingTap = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +46,7 @@ class BoardView : FragmentActivity() {
         bannerParent = findViewById(R.id.bannerParent)
         bannerText = findViewById(R.id.bannerText)
         bannerImage = findViewById(R.id.bannerBackgroundImage)
+        decisionPanel = findViewById<FragmentContainerView>(R.id.decisionPanelFragmentContainer).getFragment()
 
         val gameBoardFrame = findViewById<FrameLayout>(R.id.gameBoardFrame)
         gameBoardFrame.doOnLayout {
@@ -134,6 +139,15 @@ class BoardView : FragmentActivity() {
         bannerParent.visibility = View.INVISIBLE
         isAwaitingTap = false
         GameDirector.instance.onRolled()
+    }
+
+    fun spawnOptionsMenu(execution:(Int) -> Unit, options:ArrayList<String>){
+        this.currentDecisionPanelExecution = execution
+        decisionPanel.startDecisionPanel(this, options)
+    }
+
+    override fun onDecisionMade(decisionIndex: Int) {
+        currentDecisionPanelExecution(decisionIndex)
     }
 
     companion object{

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.notpokemon.animations.AnimationCreator
+import com.example.notpokemon.views.BoardView
 
 class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fight_layout){
 
@@ -59,7 +60,15 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
     }
 
     fun onRequestAttackMove(creatureIndex:Int){
-        EventHandlers.instance.sendCreatureAttacks(creatureIndex, creatureIndex, 0, DiceRoller.rollD6())
+        val options = ArrayList<String>()
+        options.add(attackingPlayer.team[creatureIndex].attack.name)
+
+        val execution: (Int) -> Unit = {
+            moveIndex ->
+            EventHandlers.instance.sendCreatureAttacks(creatureIndex, creatureIndex, moveIndex, DiceRoller.rollD6())
+        }
+
+        BoardView.instance.spawnOptionsMenu(execution, options)
     }
 
     // attackMoveIndex is unused for now due to the creatures only knowing one move

@@ -23,6 +23,8 @@ abstract class SteppableTile: Fragment() {
             initializeNextTile()
         }
 
+    var cardinalDirection:String = ""
+
     protected var nextSquareInitialized = false
     protected var viewInitialized = false
     protected var initialized = false
