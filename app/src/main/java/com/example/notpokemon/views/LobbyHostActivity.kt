@@ -1,4 +1,4 @@
-package com.example.notpokemon
+package com.example.notpokemon.views
 
 import EventHandlers
 import android.content.BroadcastReceiver
@@ -9,12 +9,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.notpokemon.R
 import com.example.notpokemon.dataobjects.Player
-import com.example.notpokemon.views.BoardView
 
 class LobbyHostActivity : AppCompatActivity() {
 
@@ -25,6 +26,7 @@ class LobbyHostActivity : AppCompatActivity() {
 
     private val playerReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
+            println(intent)
             intent?.let {
                 when (it.action) {
                     "NEW_PLAYER" -> {
@@ -32,7 +34,7 @@ class LobbyHostActivity : AppCompatActivity() {
                         val player = it.getParcelableExtra<Player>("data")
                         player?.let { playerData ->
                             players.add(player)
-                            updatePlayerCard()
+                            updatePlayerCards()
                         }
                     }
 
@@ -45,7 +47,7 @@ class LobbyHostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lobby_host)
-        Companion.instance = this
+        instance = this
 
         player1Card = findViewById(R.id.Player1CardView)
         player2Card = findViewById(R.id.Player2CardView)
@@ -61,7 +63,7 @@ class LobbyHostActivity : AppCompatActivity() {
             addAction("NEW_PLAYER")
         }
         LocalBroadcastManager.getInstance(this).registerReceiver(playerReceiver, filter)
-        updatePlayerCard()
+        updatePlayerCards()
 
         addStartButtonListener()
     }
@@ -86,14 +88,7 @@ class LobbyHostActivity : AppCompatActivity() {
         player4Card.visibility = View.INVISIBLE
     }
 
-    private fun updatePlayerCards(players: List<Player>) {
-        hideAllPlayerCards()
-        players.forEach { player ->
-            updatePlayerCard()
-        }
-    }
-
-    fun updatePlayerCard() {
+    fun updatePlayerCards() {
         players.forEach { player ->
             Log.d("LobbyHostActivity", "Updating card for ${player.username}")
             when (player.role) {
@@ -101,33 +96,69 @@ class LobbyHostActivity : AppCompatActivity() {
                     player1Card.visibility = View.VISIBLE
                     findViewById<TextView>(R.id.textViewUsernamePlayer1).text = player.username
                     findViewById<TextView>(R.id.textViewPlayer1Status).text = "Connected"
+                    val image = findViewById<ImageView>(R.id.imageViewPlayer1)
+                    image.setImageResource(player.imageResource)
+                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                        image.setOnClickListener(PortraitOnClickListener(image, player))
+                    }
                 }
 
                 "player2" -> {
                     player2Card.visibility = View.VISIBLE
                     findViewById<TextView>(R.id.textViewUsernamePlayer2).text = player.username
                     findViewById<TextView>(R.id.textViewPlayer2Status).text = "Connected"
+                    val image = findViewById<ImageView>(R.id.imageViewPlayer2)
+                    image.setImageResource(player.imageResource)
+                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                        image.setOnClickListener(PortraitOnClickListener(image, player))
+                    }
                 }
 
                 "player3" -> {
                     player3Card.visibility = View.VISIBLE
                     findViewById<TextView>(R.id.textViewUsernamePlayer3).text = player.username
                     findViewById<TextView>(R.id.textViewPlayer3Status).text = "Connected"
+                    val image = findViewById<ImageView>(R.id.imageViewPlayer3)
+                    image.setImageResource(player.imageResource)
+                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                        image.setOnClickListener(PortraitOnClickListener(image, player))
+                    }
                 }
 
                 "player4" -> {
                     player4Card.visibility = View.VISIBLE
                     findViewById<TextView>(R.id.textViewUsernamePlayer4).text = player.username
                     findViewById<TextView>(R.id.textViewPlayer4Status).text = "Connected"
+                    val image = findViewById<ImageView>(R.id.imageViewPlayer4)
+                    image.setImageResource(player.imageResource)
+                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                        image.setOnClickListener(PortraitOnClickListener(image, player))
+                    }
                 }
             }
         }
     }
+
+    inner class PortraitOnClickListener(val view: ImageView, val player: Player): View.OnClickListener{
+        override fun onClick(p0: View?) {
+            player.cycleImage()
+            EventHandlers.instance.sendPlayerPortraitChangedMessage(player.id, player.imageResource)
+        }
+
+    }
     companion object{
         lateinit var instance: LobbyHostActivity
         var players = ArrayList<Player>()
+        fun getPlayerById(id:String):Player{
+            for (player in players){
+                if(player.id == id){
+                    return player
+                }
+            }
+            throw IllegalStateException("player does not exist")
+        }
         fun hasInstance():Boolean{
-            return ::instance.isInitialized
+            return Companion::instance.isInitialized
         }
     }
 }

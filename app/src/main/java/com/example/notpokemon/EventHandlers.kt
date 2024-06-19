@@ -3,12 +3,13 @@ import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.notpokemon.Fight
 import com.example.notpokemon.GameDirector
-import com.example.notpokemon.LobbyHostActivity
+import com.example.notpokemon.views.LobbyHostActivity
 import com.example.notpokemon.PlayableCharacter
 import com.example.notpokemon.UIInitializer
 import com.example.notpokemon.WebSocketHandler
 import com.example.notpokemon.dataobjects.BattleFinishedAttack
 import com.example.notpokemon.dataobjects.BattleReadyToFight
+import com.example.notpokemon.dataobjects.ChangedPlayerPortrait
 import com.example.notpokemon.dataobjects.DirectionChangeMessage
 import com.example.notpokemon.dataobjects.EndGame
 import com.example.notpokemon.dataobjects.EndTurn
@@ -184,6 +185,13 @@ class EventHandlers(
                 val directionIndex = jsonObject.get("directionIndex").asInt
                 GameDirector.instance.onChangeDirectionMove(playerId,steps,directionIndex)
             }
+
+            "changedPlayerPortrait" -> {
+                val playerId = jsonObject.get("player").asString
+                val imageResource = jsonObject.get("imageResource").asInt
+                LobbyHostActivity.getPlayerById(playerId).imageResource = imageResource
+                LobbyHostActivity.instance.updatePlayerCards()
+            }
         }
     }
 
@@ -313,6 +321,11 @@ class EventHandlers(
         val message = Gson().toJson(
             FightSwitchTeams()
         )
+        webSocketHandler.sendMessage(message)
+    }
+
+    public fun sendPlayerPortraitChangedMessage(playerId: String, imageResource:Int){
+        val message = Gson().toJson(ChangedPlayerPortrait(playerId, imageResource))
         webSocketHandler.sendMessage(message)
     }
 
