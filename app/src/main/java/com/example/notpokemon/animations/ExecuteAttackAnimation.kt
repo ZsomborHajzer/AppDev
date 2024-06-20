@@ -9,9 +9,10 @@ import pl.droidsonroids.gif.GifImageView
 class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val defendingCreature:Creature, val damage:Double) : Animation(fight) {
     val attackAnimationView = fight.requireView().findViewById<GifImageView>(R.id.attackView)
     override fun execute() {
-        Thread.sleep(1000)
         runOnUiThread(generateStartRunnable())
-        Thread.sleep(4000)
+        Thread.sleep(1500)
+        runOnUiThread(startAttackRunnable())
+        Thread.sleep(3000)
         runOnUiThread(generateEndRunnable())
         Thread.sleep(2000)
     }
@@ -20,12 +21,20 @@ class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val d
         return Runnable(){
             run{
                 setToFront()
+            }
+        }
+    }
+
+    fun startAttackRunnable(): Runnable{
+        return Runnable(){
+            run{
                 startAttackAnimation()
                 attackDamageText.visibility = View.VISIBLE
                 attackDamageText.text = damage.toString()
             }
         }
     }
+
     fun generateEndRunnable(): Runnable{
         return Runnable(){
             run{

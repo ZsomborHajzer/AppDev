@@ -156,16 +156,14 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
 
     fun updateStepsToGoText(number:Int){
         val string = "Steps to go: $number"
-        if(Looper.myLooper() != Looper.getMainLooper()){
-            val handler = Handler(mainLooper)
-            val runnable = Runnable(){
-                run {
-                    stepsToGoTextView.text = string
-                }
+
+        val handler = Handler(mainLooper)
+        val runnable = Runnable(){
+            run {
+                stepsToGoTextView.text = string
             }
-            handler.post(runnable)
         }
-        stepsToGoTextView.text = string
+        handler.post(runnable)
     }
 
     companion object{

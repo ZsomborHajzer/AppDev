@@ -6,13 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fightFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="49dp"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="15dp" />
+
     <TextView
         android:id="@+id/stepTrackingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
+        android:background="#FDF6FE"
+        android:outlineProvider="none"
+        android:padding="5dp"
         android:text="Steps to go: 0"
         android:textSize="20sp"
+        android:translationZ="45dp"
         app:layout_constraintBottom_toBottomOf="@+id/gameBoardFrame"
         app:layout_constraintEnd_toEndOf="@+id/gameBoardFrame"
         app:layout_constraintHorizontal_bias="0.9"
@@ -56,10 +68,10 @@
         android:layout_width="421dp"
         android:layout_height="143dp"
         android:layout_marginBottom="10dp"
-        android:translationZ="10dp"
+        android:translationZ="50dp"
         app:layout_constraintBottom_toBottomOf="@+id/gameBoardFrame"
-        app:layout_constraintEnd_toEndOf="@+id/gameBoardFrame"
-        app:layout_constraintStart_toStartOf="@+id/gameBoardFrame" />
+        app:layout_constraintEnd_toEndOf="@+id/fightFragmentContainer"
+        app:layout_constraintStart_toStartOf="@+id/fightFragmentContainer" />
 
     <FrameLayout
         android:id="@+id/gameBoardFrame"
@@ -85,11 +97,6 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             tools:layout="@layout/game_board_fragment" />
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fightFragmentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </FrameLayout>
 

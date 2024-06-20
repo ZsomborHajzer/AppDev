@@ -29,6 +29,8 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:In
     fun moveThisManySpaces(totalSteps:Int): Boolean { //boolean = isInterrupted
         var waitTime = 500L;
         stepsTaken = 0
+
+        BoardView.instance.updateStepsToGoText(totalSteps)
         while (stepsTaken < totalSteps){
             Thread.sleep(waitTime)
             var nextSquare = currentSquare.nextSquare

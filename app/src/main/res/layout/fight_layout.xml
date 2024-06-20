@@ -209,10 +209,11 @@
                 android:id="@+id/attackingCreatureHealth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="10dp"
                 android:background="#80000000"
                 android:text='Hp: 0'
                 android:textColor="#FFFFFF"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter1"
                 app:layout_constraintStart_toStartOf="@+id/activeCreatureFighter1"
                 app:layout_constraintTop_toBottomOf="@+id/activeCreatureFighter1" />
@@ -233,10 +234,11 @@
                 android:id="@+id/defendingCreatureHealth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="10dp"
                 android:background="#80000000"
                 android:text="Hp: 0"
                 android:textColor="#FFFFFF"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter2"
                 app:layout_constraintHorizontal_bias="0.508"
                 app:layout_constraintStart_toStartOf="@+id/activeCreatureFighter2"
@@ -246,7 +248,7 @@
                 android:id="@+id/attackView"
                 android:layout_width="300dp"
                 android:layout_height="300dp"
-                android:visibility="invisible"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter2"
                 app:layout_constraintHorizontal_bias="0.9"
@@ -262,11 +264,13 @@
                 android:text="damage: 0"
                 android:textColor="#E40A0A"
                 android:textSize="30sp"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/battlemapImage"
                 app:layout_constraintEnd_toStartOf="@+id/activeCreatureFighter2"
+                app:layout_constraintHorizontal_bias="0.494"
                 app:layout_constraintStart_toEndOf="@+id/activeCreatureFighter1"
-                app:layout_constraintTop_toBottomOf="@+id/attackView"
-                app:layout_constraintVertical_bias="0.19" />
+                app:layout_constraintTop_toTopOf="@+id/attackView"
+                app:layout_constraintVertical_bias="0.767" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

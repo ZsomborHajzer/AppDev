@@ -24,11 +24,11 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <ImageView
+            <com.example.notpokemon.TopCropImageView
                 android:id="@+id/imageViewPlayer1"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
-                android:scaleType="fitCenter"
+                android:scaleType="centerInside"
                 android:src="@drawable/profile_picture1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <ImageView
+            <com.example.notpokemon.TopCropImageView
                 android:id="@+id/imageViewPlayer2"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
@@ -148,7 +148,7 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <ImageView
+            <com.example.notpokemon.TopCropImageView
                 android:id="@+id/imageViewPlayer3"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
@@ -209,7 +209,7 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <ImageView
+            <com.example.notpokemon.TopCropImageView
                 android:id="@+id/imageViewPlayer4"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
