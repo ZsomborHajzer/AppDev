@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <TextView
+        android:id="@+id/stepTrackingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:text="Steps to go: 0"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/gameBoardFrame"
+        app:layout_constraintEnd_toEndOf="@+id/gameBoardFrame"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="@+id/gameBoardFrame" />
+
     <FrameLayout
         android:id="@+id/bannerParent"
         android:layout_width="0dp"

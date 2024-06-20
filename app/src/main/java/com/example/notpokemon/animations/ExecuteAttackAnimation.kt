@@ -1,11 +1,12 @@
 package com.example.notpokemon.animations
 
+import android.view.View
 import com.example.notpokemon.Creature
 import com.example.notpokemon.Fight
 import com.example.notpokemon.R
 import pl.droidsonroids.gif.GifImageView
 
-class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val defendingCreature:Creature) : Animation(fight) {
+class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val defendingCreature:Creature, val damage:Double) : Animation(fight) {
     val attackAnimationView = fight.requireView().findViewById<GifImageView>(R.id.attackView)
     override fun execute() {
         Thread.sleep(1000)
@@ -20,6 +21,8 @@ class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val d
             run{
                 setToFront()
                 startAttackAnimation()
+                attackDamageText.visibility = View.VISIBLE
+                attackDamageText.text = damage.toString()
             }
         }
     }
@@ -28,6 +31,8 @@ class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val d
             run{
                 stopAttackAnimation()
                 resetAnimation()
+                attackDamageText.visibility = View.INVISIBLE
+                attackDamageText.text = ""
             }
         }
     }
@@ -35,6 +40,10 @@ class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val d
     fun setToFront(){
         getActiveCreatureViewByPlayerNumber(1).setImageResource(attackingCreature.imageResource)
         getActiveCreatureViewByPlayerNumber(2).setImageResource(defendingCreature.imageResource)
+        activeAttackerHealth.visibility = View.VISIBLE
+        activeDefenderHealth.visibility = View.VISIBLE
+        activeAttackerHealth.text = attackingCreature.healthPoints.toString()
+        activeDefenderHealth.text = defendingCreature.healthPoints.toString()
     }
 
     fun startAttackAnimation(){
@@ -48,6 +57,9 @@ class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val d
     fun resetAnimation(){
         getActiveCreatureViewByPlayerNumber(1).setImageDrawable(null)
         getActiveCreatureViewByPlayerNumber(2).setImageDrawable(null)
+        activeAttackerHealth.visibility = View.INVISIBLE
+        activeDefenderHealth.visibility = View.INVISIBLE
+
     }
 
 }

@@ -6,7 +6,7 @@ abstract class Attack () {
     open var imageResource = R.drawable.bite_animation
 
     //Basic attack function. Can be overridden and customised.
-    fun doAttack(attackingCreature: Creature, opposingCreature: Creature, attackModifier:Int) {
+    fun doAttack(attackingCreature: Creature, opposingCreature: Creature, attackModifier:Int): Double {
         val (advantage, disadvantage) = creatureTypeAdvantageCheck(attackingCreature, opposingCreature)
         var damage = damage + (attackModifier * 10)
 
@@ -19,6 +19,7 @@ abstract class Attack () {
 
         opposingCreature.takeDamage(damage)
         println("${attackingCreature.creatureName} used ${name} dealt $damage damage to ${opposingCreature.creatureName}")
+        return damage
     }
 
     fun creatureTypeAdvantageCheck(attackingCreature: Creature, opposingCreature: Creature): Pair<Boolean, Boolean> {

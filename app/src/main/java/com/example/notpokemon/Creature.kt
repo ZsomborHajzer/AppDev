@@ -16,8 +16,8 @@ abstract class Creature(open var attack: Attack) {
         incrementedId++
     }
 
-    fun attack(attackedCreature:Creature, damageModifier:Int){
-        this.attack.doAttack(this, attackedCreature, damageModifier)
+    fun attack(attackedCreature:Creature, damageModifier:Int): Double{
+        return this.attack.doAttack(this, attackedCreature, damageModifier)
     }
 
     fun takeDamage(damageAmount: Double){

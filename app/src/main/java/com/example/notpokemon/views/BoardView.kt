@@ -1,6 +1,8 @@
 package com.example.notpokemon.views
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
@@ -34,6 +36,7 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
     private lateinit var bannerText: TextView
     private lateinit var bannerImage: ImageView
     private lateinit var decisionPanel: DecisionPanel
+    private lateinit var stepsToGoTextView: TextView
     lateinit var currentDecisionPanelExecution: (Int)->Unit
     private var isAwaitingTap = false
 
@@ -47,6 +50,7 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
         bannerText = findViewById(R.id.bannerText)
         bannerImage = findViewById(R.id.bannerBackgroundImage)
         decisionPanel = findViewById<FragmentContainerView>(R.id.decisionPanelFragmentContainer).getFragment()
+        stepsToGoTextView = findViewById(R.id.stepTrackingText)
 
         val gameBoardFrame = findViewById<FrameLayout>(R.id.gameBoardFrame)
         gameBoardFrame.doOnLayout {
@@ -148,6 +152,20 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
 
     override fun onDecisionMade(decisionIndex: Int) {
         currentDecisionPanelExecution(decisionIndex)
+    }
+
+    fun updateStepsToGoText(number:Int){
+        val string = "Steps to go: $number"
+        if(Looper.myLooper() != Looper.getMainLooper()){
+            val handler = Handler(mainLooper)
+            val runnable = Runnable(){
+                run {
+                    stepsToGoTextView.text = string
+                }
+            }
+            handler.post(runnable)
+        }
+        stepsToGoTextView.text = string
     }
 
     companion object{

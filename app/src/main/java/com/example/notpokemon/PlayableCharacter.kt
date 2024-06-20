@@ -2,6 +2,7 @@ package com.example.notpokemon
 
 import com.example.notpokemon.Board.Elements.SteppableTile
 import com.example.notpokemon.dataobjects.Player
+import com.example.notpokemon.views.BoardView
 
 
 class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:Int = R.drawable.low_res_tanuki) : Fighter(name) {
@@ -35,7 +36,9 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:In
                 return true
             }
             stepsTaken++;
+            BoardView.instance.updateStepsToGoText(totalSteps-stepsTaken)
         }
+
         return currentSquare.onTileStay(this)
     }
 

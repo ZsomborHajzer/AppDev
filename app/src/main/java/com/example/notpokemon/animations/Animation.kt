@@ -20,6 +20,9 @@ abstract class Animation(protected val fight: Fight): Runnable {
     val player2CreaturesView = fight.requireView().findViewById<TableLayout>(R.id.secondFighterCreatures)
     val player1ActiveCreatureView = fight.requireView().findViewById<ImageView>(R.id.activeCreatureFighter1)
     val player2ActiveCreatureView = fight.requireView().findViewById<ImageView>(R.id.activeCreatureFighter2)
+    val activeAttackerHealth = fight.requireView().findViewById<TextView>(R.id.attackingCreatureHealth)
+    val activeDefenderHealth = fight.requireView().findViewById<TextView>(R.id.defendingCreatureHealth)
+    val attackDamageText = fight.requireView().findViewById<TextView>(R.id.damageText)
 
     protected var finished = false
     override fun run(){

@@ -9,7 +9,7 @@ class AnimationCreator(val fight: Fight) {
         Companion.instance = this
     }
 
-    fun createAttackAnimation(attackingCreature:Creature, defendingCreature:Creature):ExecuteAttackAnimation{
+    fun createAttackAnimation(attackingCreature:Creature, defendingCreature:Creature, damage: Double):ExecuteAttackAnimation{
         return ExecuteAttackAnimation(fight, attackingCreature, defendingCreature)
     }
     fun createDeathAnimation():DeathAnimation{
@@ -22,7 +22,7 @@ class AnimationCreator(val fight: Fight) {
     // singleton
     companion object{
         lateinit var instance: AnimationCreator
-        fun attackAnimation(attackingCreature:Creature, defendingCreature:Creature): ExecuteAttackAnimation{
+        fun attackAnimation(attackingCreature:Creature, defendingCreature:Creature, damage:Double): ExecuteAttackAnimation{
             return instance.createAttackAnimation(attackingCreature, defendingCreature)
         }
 
