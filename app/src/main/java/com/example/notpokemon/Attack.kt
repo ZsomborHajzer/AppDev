@@ -2,27 +2,38 @@ package com.example.notpokemon
 
 abstract class Attack () {
     open var name = "DefaultAttack"
-    open var damage: Double = 50.0
+    open var baseDamage: Double = 50.0
     open var imageResource = R.drawable.bite_animation
+    open var attackMultiplier: Double = 10.0
 
     //Basic attack function. Can be overridden and customised.
     fun doAttack(attackingCreature: Creature, opposingCreature: Creature, attackModifier:Int): Double {
-        val (advantage, disadvantage) = creatureTypeAdvantageCheck(attackingCreature, opposingCreature)
-        var damage = damage + (attackModifier * 10)
-
-        // Adjust damage if the attacking creature has an advantage/disadvantage
-        if (advantage) {
-            damage *= 1.5
-        } else if (disadvantage) {
-            damage *= 0.5
-        }
+        val damage = calculateDamage(attackingCreature, opposingCreature, attackModifier)
 
         opposingCreature.takeDamage(damage)
         println("${attackingCreature.creatureName} used ${name} dealt $damage damage to ${opposingCreature.creatureName}")
         return damage
     }
 
-    fun creatureTypeAdvantageCheck(attackingCreature: Creature, opposingCreature: Creature): Pair<Boolean, Boolean> {
+    fun calculateDamage(attackingCreature: Creature, opposingCreature: Creature, attackModifier:Int): Double {
+        val advantage = creatureTypeAdvantageCheck(attackingCreature, opposingCreature)
+        var damage = baseDamage + (attackModifier * attackMultiplier)
+
+        // Adjust damage if the attacking creature has an advantage/disadvantage
+        if (advantage == 1) {
+            damage *= 1.5
+        } else if (advantage == 0) {
+            damage *= 0.5
+        }
+        return damage
+    }
+
+    /**
+     * returns -1 for no advantage or disadvantage,
+     * returns 0 for disadvantage,
+     * and 1 for advantage
+     */
+    fun creatureTypeAdvantageCheck(attackingCreature: Creature, opposingCreature: Creature): Int {
         val advantageMap = mapOf(
             "Haunted" to mapOf("Space" to true, "Sugar" to false),
             "Space" to mapOf("Aquatic" to true, "Haunted" to false),
@@ -30,17 +41,16 @@ abstract class Attack () {
             "Sugar" to mapOf("Haunted" to true, "Aquatic" to false)
         )
 
-        var advantage = false
-        var disadvantage = false
+        var advantage = -1
 
-        advantageMap[attackingCreature.creatureType]?.let {
-            when (it[opposingCreature.creatureType]) {
-                true -> advantage = true
-                false -> disadvantage = true
-                else -> {}
+
+        if (advantageMap[attackingCreature.creatureType]?.contains(opposingCreature.creatureType) == true){
+            advantage = 0
+            if (advantageMap[attackingCreature.creatureType]?.get(opposingCreature.creatureType) == true){
+                advantage = 1
             }
         }
 
-        return Pair(advantage, disadvantage)
+        return advantage
     }
 }

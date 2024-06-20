@@ -34,7 +34,7 @@ class SwitchTile : BaseTile() {
 
     override fun onTileEntry(playableCharacter: PlayableCharacter): Boolean {
         super.onTileEntry(playableCharacter)
-        EventHandlers.instance.sendInterruptDirectionChange(playableCharacter.id, playableCharacter.stepsTaken)
+        EventHandlers.instance.sendInterruptDirectionChange(playableCharacter.id, playableCharacter.stepsLeft)
         return true
     }
 }

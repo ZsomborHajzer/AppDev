@@ -3,21 +3,28 @@ package com.example.notpokemon
 //Generic Creature class
 abstract class Creature(open var attack: Attack) {
     open var creatureType = "Default"
-    open var maxHealthPoints = 240.00
+    open var maxHealthPoints = 0.0
     open var creatureName = "Default"
     open var imageResource = R.drawable.creature_harvey
 
-    var healthPoints = maxHealthPoints
+    var healthPoints = 0.0
 
-    public val id = incrementedId
+    val id = incrementedId
 
     init {
-        creatures.add(this)
+        maxHealthPoints = defaultHealth
         incrementedId++
+        heal(999)
+        println("maxhealth: $maxHealthPoints")
+        println("health: $healthPoints")
     }
 
     fun attack(attackedCreature:Creature, damageModifier:Int): Double{
         return this.attack.doAttack(this, attackedCreature, damageModifier)
+    }
+
+    fun calculateDamage(attackedCreature:Creature, damageModifier:Int): Double{
+        return this.attack.calculateDamage(this, attackedCreature, damageModifier)
     }
 
     fun takeDamage(damageAmount: Double){
@@ -42,6 +49,7 @@ abstract class Creature(open var attack: Attack) {
 
     companion object{
         var incrementedId = 0
-        var creatures = ArrayList<Creature>()
+        var defaultHealth = 240.00
     }
+
 }

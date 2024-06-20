@@ -47,7 +47,7 @@ open class Fighter(var name: String) {
 
     fun teamDMGLevelUp(inflationNumber: Double){
         for(creature in team){
-            creature.attack.damage *= inflationNumber
+            creature.attack.baseDamage *= inflationNumber
         }
     }
 

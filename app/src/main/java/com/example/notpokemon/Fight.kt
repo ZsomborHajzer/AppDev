@@ -75,8 +75,9 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
     fun onAttack(attackingCreatureIndex: Int, defendingCreatureIndex:Int, attackMoveIndex:Int, attackModifierValue:Int){
         val attackPokemon = attackingPlayer.team[attackingCreatureIndex]
         val defencePokemon = defendingPlayer.team[defendingCreatureIndex]
-        val damage = attackPokemon.attack(defencePokemon, attackModifierValue)
+        val damage = attackPokemon.calculateDamage(defencePokemon, attackModifierValue)
         AnimationCreator.attackAnimation(attackPokemon, defencePokemon, damage).run()
+        attackPokemon.attack(defencePokemon, attackModifierValue)
 
         notifyAttackIsFinished(defencePokemon.isDead())
     }

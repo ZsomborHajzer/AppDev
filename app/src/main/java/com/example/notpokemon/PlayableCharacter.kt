@@ -14,7 +14,7 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:In
     lateinit var id: String
     lateinit var role: String
 
-    var stepsTaken = 0
+    var stepsLeft = 0
 
     constructor(player:Player, startingSquare: SteppableTile) : this(startingSquare, player.username, player.imageResource) {
         this.id = player.id
@@ -28,17 +28,19 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:In
 
     fun moveThisManySpaces(totalSteps:Int): Boolean { //boolean = isInterrupted
         var waitTime = 500L;
-        stepsTaken = 0
+        var stepsTaken = 0
 
         BoardView.instance.updateStepsToGoText(totalSteps)
         while (stepsTaken < totalSteps){
             Thread.sleep(waitTime)
+            stepsTaken++;
+            stepsLeft = totalSteps-stepsTaken
+            BoardView.instance.updateStepsToGoText(stepsLeft)
+
             var nextSquare = currentSquare.nextSquare
             if(onMove(nextSquare)){
                 return true
             }
-            stepsTaken++;
-            BoardView.instance.updateStepsToGoText(totalSteps-stepsTaken)
         }
 
         return currentSquare.onTileStay(this)
