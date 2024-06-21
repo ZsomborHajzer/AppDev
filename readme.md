@@ -43,3 +43,5 @@ This is a kotlin game created by Zsombor / Yohan and Nefeli. The game is a multi
     - There was a mix up when inputting her hours. 
     - The issues were closed, but hours were not correctly logged. 
     - This has resulted in incorrect dates regarding certain tasks.
+
+    
