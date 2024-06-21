@@ -37,3 +37,9 @@ This is a kotlin game created by Zsombor / Yohan and Nefeli. The game is a multi
 4. Restarting the game
     - When you would like to restart a game, make sure everyone disconnects and fully closes the application. 
     - When you start the game again, it will cause you to be dropped into a newly started game.
+
+
+## Nefeli's TimeSheet
+    - There was a mix up when inputting her hours. 
+    - The issues were closed, but hours were not correctly logged. 
+    - This has resulted in incorrect dates regarding certain tasks.
