@@ -65,8 +65,14 @@ abstract class SteppableTile: Fragment() {
         }
     }
 
+    /**
+     * returns true when the player was interrupted
+     */
     abstract fun onTileEntry(playableCharacter: PlayableCharacter): Boolean
 
+    /**
+     * returns true when the player was interrupted
+     */
     abstract fun onTileStay(playableCharacter: PlayableCharacter): Boolean // triggered event
     abstract fun onTileExit(playableCharacter: PlayableCharacter)
 }

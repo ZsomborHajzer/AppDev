@@ -7,8 +7,10 @@ import com.example.notpokemon.views.BoardView
 
 class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:Int = R.drawable.low_res_tanuki) : Fighter(name) {
     var currentSquare: SteppableTile;
-
     private var squareHistory = ArrayList<SteppableTile>();
+
+    var effectStatuses: MutableList<StatusEffect> = mutableListOf()
+
 
 
     lateinit var id: String
@@ -71,5 +73,13 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:In
 
     companion object{
         val maxSquareHistory = 10;
+    }
+
+    fun addStatusEffect(effect: StatusEffect) {
+        effectStatuses.add(effect)
+    }
+
+    fun removeStatusEffect(effect: StatusEffect) {
+        effectStatuses.remove(effect)
     }
 }

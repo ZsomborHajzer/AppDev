@@ -36,6 +36,7 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
 
             // Switch teams if all creatures from the current attacking team have attacked
             if (shouldSwitch()) {
+                applyStatusEffects(attacker)
                 switchSides()
             } else {
                 creatureIndex++
@@ -108,6 +109,16 @@ class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fi
         // Remove the defeated creature from the defending player's team
         defendingPlayer.removeCreature(creatureIndex)
     }
+
+    protected fun applyStatusEffects(attacker: Creature){
+        if(attacker.effectStatuses.size != 0){
+            for(effect in attacker.effectStatuses){
+                effect.applicationOfEffectStatus(EffectTrigger.ONTURN)
+            }
+        }
+    }
+
+
 
     private fun onFinish(){
         isFinished = true
