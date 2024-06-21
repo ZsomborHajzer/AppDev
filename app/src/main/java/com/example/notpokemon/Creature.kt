@@ -3,12 +3,30 @@ package com.example.notpokemon
 //Generic Creature class
 abstract class Creature(open var attack: Attack) {
     open var creatureType = "Default"
-    open var maxHealthPoints = 240.00
+    open var maxHealthPoints = 0.0
     open var creatureName = "Default"
     open var imageResource = R.drawable.creature_harvey
     open var effectStatuses: MutableList<StatusEffect> = mutableListOf()
 
-    var healthPoints = maxHealthPoints
+    var healthPoints = 0.0
+
+    val id = incrementedId
+
+    init {
+        maxHealthPoints = defaultHealth
+        incrementedId++
+        heal(999)
+        println("maxhealth: $maxHealthPoints")
+        println("health: $healthPoints")
+    }
+
+    fun attack(attackedCreature:Creature, damageModifier:Int): Double{
+        return this.attack.doAttack(this, attackedCreature, damageModifier)
+    }
+
+    fun calculateDamage(attackedCreature:Creature, damageModifier:Int): Double{
+        return this.attack.calculateDamage(this, attackedCreature, damageModifier)
+    }
 
     fun takeDamage(damageAmount: Double){
         if(damageAmount > healthPoints){ //in case of overkill
@@ -32,5 +50,13 @@ abstract class Creature(open var attack: Attack) {
     
     fun removeStatusEffect(effect: StatusEffect) {
         effectStatuses.remove(effect)
+    }
+    fun isDead():Boolean{
+        return healthPoints<=0.0
+    }
+
+    companion object{
+        var incrementedId = 0
+        var defaultHealth = 240.00
     }
 }

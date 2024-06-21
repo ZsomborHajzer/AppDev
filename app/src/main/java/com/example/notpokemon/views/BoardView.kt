@@ -1,20 +1,28 @@
-package com.example.notpokemon.Views
+package com.example.notpokemon.views
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
+import com.example.notpokemon.DecisionPanel
+import com.example.notpokemon.DecisionTrackingClass
 import com.example.notpokemon.Fight
+import com.example.notpokemon.GameDirector
 import com.example.notpokemon.R
 import kotlin.math.max
 import kotlin.math.min
 
 
-class BoardView : FragmentActivity() {
+class BoardView : FragmentActivity(), DecisionTrackingClass {
 
     private lateinit var scaleGestureDetector: ScaleGestureDetector
     private lateinit var scrollGestureDetector: GestureDetector
@@ -24,6 +32,13 @@ class BoardView : FragmentActivity() {
     private var maxHorizontalScroll = 0f // assigned later based on container
     private var maxVerticalScroll = 0f
     private lateinit var gameBoardView: FragmentContainerView
+    private lateinit var bannerParent: FrameLayout
+    private lateinit var bannerText: TextView
+    private lateinit var bannerImage: ImageView
+    private lateinit var decisionPanel: DecisionPanel
+    private lateinit var stepsToGoTextView: TextView
+    lateinit var currentDecisionPanelExecution: (Int)->Unit
+    private var isAwaitingTap = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +46,11 @@ class BoardView : FragmentActivity() {
 
         setContentView(R.layout.game_board_activity)
         gameBoardView = findViewById(R.id.fragmentContainerViewForGameBoard)
+        bannerParent = findViewById(R.id.bannerParent)
+        bannerText = findViewById(R.id.bannerText)
+        bannerImage = findViewById(R.id.bannerBackgroundImage)
+        decisionPanel = findViewById<FragmentContainerView>(R.id.decisionPanelFragmentContainer).getFragment()
+        stepsToGoTextView = findViewById(R.id.stepTrackingText)
 
         val gameBoardFrame = findViewById<FrameLayout>(R.id.gameBoardFrame)
         gameBoardFrame.doOnLayout {
@@ -40,7 +60,7 @@ class BoardView : FragmentActivity() {
 
         // initializing touch events
         scaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
-        scrollGestureDetector = GestureDetector(this, ScrollListener())
+        scrollGestureDetector = GestureDetector(this, ScrollAndTapListener())
     }
 
     // When touched, GestureDetector records the motion event
@@ -61,7 +81,7 @@ class BoardView : FragmentActivity() {
         }
     }
 
-    private inner class ScrollListener : GestureDetector.SimpleOnGestureListener() {
+    private inner class ScrollAndTapListener : GestureDetector.SimpleOnGestureListener() {
         override fun onScroll(
             e1: MotionEvent?,
             e2: MotionEvent,
@@ -74,6 +94,13 @@ class BoardView : FragmentActivity() {
             gameBoardView.scrollY = getClippedDistanceY(yPosition).toInt()
 
             return super.onScroll(e1, e2, distanceX, distanceY)
+        }
+
+        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+            if(isAwaitingTap){
+                hasRolled()
+            }
+            return super.onSingleTapConfirmed(e)
         }
     }
 
@@ -104,6 +131,39 @@ class BoardView : FragmentActivity() {
         fragmentTransaction.setReorderingAllowed(true)
         fragmentTransaction.remove(fightFragment)
         fragmentTransaction.commit()
+    }
+
+    fun showRollBanner(){
+        bannerParent.visibility = View.VISIBLE
+        bannerText.text = "tap screen to roll"
+        isAwaitingTap = true
+    }
+
+    fun hasRolled(){
+        bannerParent.visibility = View.INVISIBLE
+        isAwaitingTap = false
+        GameDirector.instance.onRolled()
+    }
+
+    fun spawnOptionsMenu(execution:(Int) -> Unit, options:ArrayList<String>){
+        this.currentDecisionPanelExecution = execution
+        decisionPanel.startDecisionPanel(this, options)
+    }
+
+    override fun onDecisionMade(decisionIndex: Int) {
+        currentDecisionPanelExecution(decisionIndex)
+    }
+
+    fun updateStepsToGoText(number:Int){
+        val string = "Steps to go: $number"
+
+        val handler = Handler(mainLooper)
+        val runnable = Runnable(){
+            run {
+                stepsToGoTextView.text = string
+            }
+        }
+        handler.post(runnable)
     }
 
     companion object{

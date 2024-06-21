@@ -1,90 +1,37 @@
 package com.example.notpokemon
-import com.example.notpokemon.Views.BoardView
-import kotlin.random.Random
+import EventHandlers
+import com.example.notpokemon.views.BoardView
 
 //Simulate how the battle logic would go, kinda
-class BattleManager : Runnable {
+open class BattleManager {
     //Setup
-    private val team1 = ArrayList<Creature>()
-    private val team2 = ArrayList<Creature>()
     public var fighter1 = Fighter("Sillie")
     public var fighter2 = Fighter("Sally")
-    private val xpPerBattle = 5
-    public lateinit var winner: Fighter
+    open protected val xpPerBattle = 5
 
-    override fun run() {
-        performRound(fighter1, fighter2)
+    lateinit var originalFirstTeam: ArrayList<Creature>
+    lateinit var originalSecondTeam: ArrayList<Creature>
+
+    fun initializeFight(){
+        val fightFragment = Fight(fighter1, fighter2)
+        originalFirstTeam = fighter1.team.clone() as ArrayList<Creature>
+        originalSecondTeam = fighter2.team.clone() as ArrayList<Creature>
+        BoardView.instance.initializeFight(fightFragment)
     }
 
-    fun playWithRandomCreatures() {
-        //Create teams for both players...this is for simulation purposes only
-        for(i in 1..4){
-            val newCreature = generateCreature()
-            fighter1.addCreature(newCreature)
-        }
-        for(i in 1..4){
-            val newCreature = generateCreature()
-            fighter2.addCreature(newCreature)
-        }
-
-        performRound(fighter1, fighter2)
-    }
-
-    // Battle logic for one round
-    fun performRound(fighter1: Fighter, fighter2: Fighter) {
-        var diceWinner = false
-
-        while(diceWinner == false){
-            //Roll die at the beginning of each round
-            val player1Roll = rollDice(6)
-            val player2Roll = rollDice(6)
-
-            if (player1Roll > player2Roll) {
-                println("${fighter1.getName()} goes first!")
-                fight(fighter1, fighter2)
-                diceWinner = true
-            } else if (player2Roll > player1Roll) {
-                println("${fighter2.getName()} goes first!")
-                fight(fighter2, fighter1)
-                diceWinner = true
-            } else {
-                println("It's a tie!")
-            }
-        }
-    }
-
-    //Roll die function
-    fun rollDice(sides: Int): Int {
-        return Random.nextInt(1, sides + 1)
-    }
-
-    // How attacking works
-    fun fight(firstAttackingFighter: Fighter, firstDefendingFighter: Fighter) {
-        var attackingPlayer = firstAttackingFighter
-        var defendingPlayer = firstDefendingFighter
-        val originalWinningTeam = attackingPlayer.team.clone() as ArrayList<Creature>
-        val originalLosingTeam = defendingPlayer.team.clone() as ArrayList<Creature>
-
-        val fight = Fight(attackingPlayer, defendingPlayer)
-
-        initializeFight(fight)
-        fight.startFight()
-        winner = awaitUntilFightIsFinished(fight)
+    open fun endFight(winner:Fighter){
         winner.addXP(xpPerBattle)
 
         //revert the teams back to how they were before the fight to continue the board game
-        firstAttackingFighter.team = originalWinningTeam
-        firstDefendingFighter.team = originalLosingTeam
+        fighter1.team = originalFirstTeam
+        fighter2.team = originalSecondTeam
 
         // heal creatures
-        firstAttackingFighter.healCreaturesFully()
-        firstDefendingFighter.healCreaturesFully()
+        fighter1.healCreaturesFully()
+        fighter2.healCreaturesFully()
 
-        BoardView.instance.removeFight(fight)
-    }
-
-    private fun initializeFight(fightFragment: Fight){
-        BoardView.instance.initializeFight(fightFragment)
+        BoardView.instance.removeFight(Fight.instance)
+        EventHandlers.instance.sendEndTurnMessage()
     }
 
     /**
@@ -106,16 +53,23 @@ class BattleManager : Runnable {
             val name = "Creature${(1..1000).random()}"
             val type = types.random()
             val attack = BiteAttack()
-            attack.attackName = attackNames.random()
+            attack.name = attackNames.random()
             val creature = ButterPig(attack)
             creature.creatureName = name
             creature.creatureType = type
             return creature
         }
-    }
-}
 
-fun main() {
-    val game = BattleManager()
-    game.playWithRandomCreatures()
+        fun generateCreatureFromTemplate(creatureTemplateId:Int): Creature{
+            when(creatureTemplateId){
+                0 -> {
+                    return ButterPig(BiteAttack())
+                }
+                1 -> {
+                    return CandyLandBoss(BiteAttack())
+                }
+            }
+            throw IllegalArgumentException("$creatureTemplateId template creature does not exist")
+        }
+    }
 }

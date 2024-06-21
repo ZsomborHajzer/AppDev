@@ -30,6 +30,7 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
                 val attachedContainer = attachedTile.view as View
                 arranger.attachTileTopLeft(baseContainer, attachedContainer)
                 baseTile.nextSquare = attachedTile
+                attachedTile.cardinalDirection = "NW"
                 clearItemCreationQueue()
             }
         }
@@ -51,6 +52,7 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
                 val attachedContainer = attachedTile.view as View
                 arranger.attachTileTopRight(baseContainer, attachedContainer)
                 baseTile.nextSquare = attachedTile
+                attachedTile.cardinalDirection = "NE"
                 clearItemCreationQueue()
             }
         }
@@ -73,6 +75,7 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
                 val attachedContainer = attachedTile.view as View
                 arranger.attachTileBottomLeft(baseContainer, attachedContainer)
                 baseTile.nextSquare = attachedTile
+                attachedTile.cardinalDirection = "SW"
                 clearItemCreationQueue()
             }
         }
@@ -94,6 +97,7 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
                 val attachedContainer = attachedTile.view as View
                 arranger.attachTileBottomRight(baseContainer, attachedContainer)
                 baseTile.nextSquare = attachedTile
+                attachedTile.cardinalDirection = "SE"
                 clearItemCreationQueue()
             }
         }

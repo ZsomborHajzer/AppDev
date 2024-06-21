@@ -17,6 +17,7 @@
         app:srcCompat="@drawable/transparency" />
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"
@@ -59,7 +60,7 @@
                 <TableRow
                     android:id="@+id/firstFighterCreature1Container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_horizontal">
 
@@ -174,11 +175,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="100"
-            android:orientation="vertical">
+            android:layout_weight="100">
 
             <ImageView
                 android:id="@+id/battlemapImage"
@@ -186,8 +186,93 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/grass_field" />
-        </LinearLayout>
+                android:src="@drawable/grass_field"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/activeCreatureFighter1"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginStart="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/battlemapImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.12"
+                app:layout_constraintStart_toStartOf="@+id/battlemapImage"
+                app:layout_constraintTop_toTopOf="@+id/battlemapImage" />
+
+            <TextView
+                android:id="@+id/attackingCreatureHealth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#80000000"
+                android:text='Hp: 0'
+                android:textColor="#FFFFFF"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter1"
+                app:layout_constraintStart_toStartOf="@+id/activeCreatureFighter1"
+                app:layout_constraintTop_toBottomOf="@+id/activeCreatureFighter1" />
+
+            <ImageView
+                android:id="@+id/activeCreatureFighter2"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_marginEnd="15dp"
+                android:scaleX="-1"
+                app:layout_constraintBottom_toBottomOf="@+id/battlemapImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.88"
+                app:layout_constraintStart_toStartOf="@+id/battlemapImage"
+                app:layout_constraintTop_toTopOf="@+id/battlemapImage" />
+
+            <TextView
+                android:id="@+id/defendingCreatureHealth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#80000000"
+                android:text="Hp: 0"
+                android:textColor="#FFFFFF"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter2"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="@+id/activeCreatureFighter2"
+                app:layout_constraintTop_toBottomOf="@+id/activeCreatureFighter2" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/attackView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/activeCreatureFighter2"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintStart_toEndOf="@+id/activeCreatureFighter1"
+                app:layout_constraintTop_toTopOf="@+id/battlemapImage"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/damageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#000000"
+                android:text="damage: 0"
+                android:textColor="#E40A0A"
+                android:textSize="30sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/battlemapImage"
+                app:layout_constraintEnd_toStartOf="@+id/activeCreatureFighter2"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toEndOf="@+id/activeCreatureFighter1"
+                app:layout_constraintTop_toTopOf="@+id/attackView"
+                app:layout_constraintVertical_bias="0.767" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Space
             android:layout_width="10dp"
@@ -201,7 +286,7 @@
             android:layout_weight="0">
 
             <TableRow
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_horizontal">
 
@@ -217,14 +302,14 @@
 
             <TableLayout
                 android:id="@+id/secondFighterCreatures"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0">
 
                 <TableRow
                     android:id="@+id/secondFighterCreature1Container"
                     android:layout_width="wrap_content"
-                    android:layout_height="41dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_horizontal">
 
@@ -237,7 +322,8 @@
                             android:id="@+id/imageView4"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:scaleX="-1" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -250,7 +336,7 @@
 
                 <TableRow
                     android:id="@+id/secondFighterCreature2Container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_horizontal">
@@ -264,7 +350,8 @@
                             android:id="@+id/imageView5"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:scaleX="-1" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -277,7 +364,7 @@
 
                 <TableRow
                     android:id="@+id/secondFighterCreature3Container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_horizontal">
@@ -291,7 +378,8 @@
                             android:id="@+id/imageView6"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:scaleX="-1" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -304,7 +392,7 @@
 
                 <TableRow
                     android:id="@+id/secondFighterCreature4Container"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_horizontal">
@@ -318,7 +406,8 @@
                             android:id="@+id/imageView"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
-                            android:layout_weight="1" />
+                            android:layout_weight="1"
+                            android:scaleX="-1" />
 
                         <TextView
                             android:layout_width="match_parent"

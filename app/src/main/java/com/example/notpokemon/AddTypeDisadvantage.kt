@@ -4,7 +4,7 @@ class AddTypeDisadvantage(override var player: PlayableCharacter) : RandomCard(p
 
     override fun appliedEffect(){
         for(creature in player.team){
-            creature.attack.damage *= 0.5
+            creature.attack.baseDamage *= 0.5
         }
     }
 }

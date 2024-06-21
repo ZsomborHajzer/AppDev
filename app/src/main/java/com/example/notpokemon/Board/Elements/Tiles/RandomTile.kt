@@ -27,7 +27,8 @@ class RandomTile : BaseTile() {
         return effect
     }
 
-    override fun onTileStay(character: PlayableCharacter) {
+    override fun onTileStay(character: PlayableCharacter): Boolean {
         randomEffect(character).appliedEffect()
+        return true
     }
 }
