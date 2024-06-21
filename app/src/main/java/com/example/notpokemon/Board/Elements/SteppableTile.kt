@@ -23,6 +23,8 @@ abstract class SteppableTile: Fragment() {
             initializeNextTile()
         }
 
+    var cardinalDirection:String = ""
+
     protected var nextSquareInitialized = false
     protected var viewInitialized = false
     protected var initialized = false
@@ -63,8 +65,8 @@ abstract class SteppableTile: Fragment() {
         }
     }
 
-    abstract fun onTileEntry(playableCharacter: PlayableCharacter)
+    abstract fun onTileEntry(playableCharacter: PlayableCharacter): Boolean
 
-    abstract fun onTileStay(playableCharacter: PlayableCharacter)
+    abstract fun onTileStay(playableCharacter: PlayableCharacter): Boolean // triggered event
     abstract fun onTileExit(playableCharacter: PlayableCharacter)
 }

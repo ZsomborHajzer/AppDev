@@ -1,55 +1,146 @@
 package com.example.notpokemon
 
+import EventHandlers
+import com.example.notpokemon.Board.Elements.Tiles.SwitchTile
+import com.example.notpokemon.dataobjects.Player
+import com.example.notpokemon.views.BoardView
+import kotlin.math.floor
+
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
-    public var characterAmount = 2
     public var characters = ArrayList<PlayableCharacter>()
-    private var playerTurn = 0
-    private val characterSprites = ArrayList<Int>()
-    private var spriteNumber = 0
 
     init {
-        characterSprites.add(R.drawable.char_aquaboy)
-        characterSprites.add(R.drawable.char_emogirl)
-        characterSprites.add(R.drawable.char_nerdyboy)
-        characterSprites.add(R.drawable.char_spoopygirl)
+        instance = this
     }
 
-    fun addCharacter(): PlayableCharacter{
-        val character = PlayableCharacter(gameBoardFragment.getStartSquare(), "sally")
-        character.addCreature(ButterPig(BiteAttack()))
-        character.icon = iterateOverSprites()
-        characters.add(character)
-        return character
+    fun moveCharacterById(id: String, distance: Int){
+        getCharacterMoveThread(id, distance).start()
     }
 
-    private fun iterateOverSprites(): Int{
-        var sprite = characterSprites[spriteNumber]
-        spriteNumber++
-        if(spriteNumber >= characterSprites.size){
-            spriteNumber = 0
+    fun onChangeDirectionMove(playerId: String, steps: Int, directionIndex:Int){
+        val switchTile = getCharacterFromId(playerId).currentSquare as SwitchTile
+        switchTile.switchNextTileByIndex(directionIndex)
+        getCharacterMoveThread(playerId, steps).start()
+    }
+
+    fun getCharacterMoveThread(id:String, distance: Int):Thread{
+        return Thread{
+            run{
+                if(!seeIfPlayerExists(id)){
+                    addCharacter(id)
+                }
+
+                val isInterrupted = getCharacterFromId(id).moveThisManySpaces(distance)
+
+                if(!isInterrupted){
+                    EventHandlers.instance.sendEndTurnMessage()
+                }
+            }
         }
-        return sprite
     }
 
     fun playTurn(character: PlayableCharacter){
         val number = DiceRoller.rollD6()
         character.moveThisManySpaces(number)
-        playerTurn++
-    }
-    override fun run(){
-        while(true){
-            if(playerTurn < characters.size){
-                playTurn(characters[playerTurn])
-            }
-            else if(characters.size < characterAmount){
-                val character = addCharacter()
-                playTurn(character)
-            }
-            else{
-                playerTurn = 0
-                playTurn(characters[playerTurn])
-            }
-        }
     }
 
+    fun seeIfPlayerExists(playerId:String):Boolean{
+        for (character in characters){
+            if(character.id == playerId){
+                return true
+            }
+        }
+        return false
+    }
+
+    fun addCharacter(playerId: String): PlayableCharacter{
+        val player = getPlayerById(playerId)
+        val character = PlayableCharacter(player, gameBoardFragment.getStartSquare())
+        character.addCreature(ButterPig(BiteAttack()))
+        characters.add(character)
+        return character
+    }
+
+    fun onRequestMovementDice(){
+        BoardView.instance.showRollBanner()
+    }
+
+    fun onRolled(){
+        val roll = rollMovementDice()
+        EventHandlers.instance.sendMovementRollResult(roll)
+    }
+
+
+    fun rollMovementDice(): Int{
+        return getCharacterFromId(thisPlayerId).rollMovement()
+    }
+
+    fun getPlayerById(playerId: String): Player{
+        for(player in players){
+            if(player.id == playerId){
+                return player
+            }
+        }
+        throw IllegalArgumentException("player does not exist from id")
+    }
+
+    fun getCharacterFromId(id:String):PlayableCharacter{
+        for (character in characters){
+            if(character.id == id){
+                return character
+            }
+        }
+        return addCharacter(id)
+    }
+
+    fun onStartPVPFight(fighter1Id: String, fighter2Id: String) {
+        battleManager = BattleManagerPVP()
+        battleManager.fighter1 = getCharacterFromId(fighter1Id)
+        battleManager.fighter2 = getCharacterFromId(fighter2Id)
+        battleManager.initializeFight()
+    }
+
+    fun onStartPVEFight(fighter1Id: String, creatureTemplate:Int){
+        battleManager = BattleManager()
+        battleManager.fighter1 = getCharacterFromId(fighter1Id)
+        val randomEncounterFighter = Fighter("the whispers in the woods")
+        randomEncounterFighter.addCreature(BattleManager.generateCreatureFromTemplate(creatureTemplate))
+        battleManager.fighter2 = randomEncounterFighter
+        battleManager.initializeFight()
+    }
+
+    fun onEndFight(winnerIndex:Int){
+        var winner:Fighter
+        if(winnerIndex == 0){
+            winner = battleManager.fighter1
+        }
+        else{
+            winner = battleManager.fighter2
+        }
+        battleManager.endFight(winner)
+    }
+
+    fun onDirectionRequest(steps:Int){
+        val switchTile = getCharacterFromId(thisPlayerId).currentSquare as SwitchTile
+        val squareList = switchTile.nextSquaresList
+        val squareNames = ArrayList<String>()
+        for (square in squareList){
+            squareNames.add(square.cardinalDirection)
+        }
+        val senderScript: (Int) -> Unit = {
+            directionIndex ->
+            EventHandlers.instance.sendChangeDirectionMove(thisPlayerId, steps, directionIndex)
+        }
+
+        BoardView.instance.spawnOptionsMenu(senderScript, squareNames)
+    }
+
+
+
+    companion object{
+        lateinit var instance: GameDirector
+        var players = ArrayList<Player>()
+        lateinit var thisPlayerId: String
+        lateinit var battleManager: BattleManager
+    }
 }

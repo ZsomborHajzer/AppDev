@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -53,8 +54,12 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.appcompat)
-    val fragment_version = "1.7.0"
-
+    implementation(libs.material)
+    implementation(libs.okhttp)
+    implementation(libs.gson)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -73,7 +78,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    implementation(libs.androidx.fragment.ktx)
     implementation (libs.androidx.constraintlayout)
+    implementation(libs.android.gif.drawable)
 
 }
