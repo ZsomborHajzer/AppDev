@@ -23,6 +23,7 @@
         android:outlineProvider="none"
         android:padding="5dp"
         android:text="Steps to go: 0"
+        android:textColor="#000000"
         android:textSize="20sp"
         android:translationZ="45dp"
         app:layout_constraintBottom_toBottomOf="@+id/gameBoardFrame"
