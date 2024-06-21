@@ -5,7 +5,7 @@ import android.os.Handler
 import android.view.View
 
 class UiTileArranger(context: Context) : TileArranger(context) {
-    fun attachTopLeft(baseTile: View, targetTile: View){}
+    fun attachTopLeft(baseTile: View, targetTile: View) {}
 
     override fun attachTileTopLeft(baseTile: View, targetTile: View) {
         val runnable = Runnable {

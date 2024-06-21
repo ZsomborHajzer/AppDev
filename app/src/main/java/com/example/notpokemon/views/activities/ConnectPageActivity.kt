@@ -1,4 +1,5 @@
 package com.example.notpokemon.views.activities
+
 import com.example.notpokemon.websocketHandlers.EventHandlers
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

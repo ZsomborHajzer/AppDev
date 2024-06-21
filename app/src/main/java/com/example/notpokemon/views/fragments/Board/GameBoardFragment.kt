@@ -17,7 +17,7 @@ import com.example.notpokemon.initialization.InitializationCheck
  * Use the [GameBoardFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GameBoardFragment : Fragment(){
+class GameBoardFragment : Fragment() {
     private lateinit var squareContainers: ArrayList<FragmentContainerView> // parallel lists
     private lateinit var squares: ArrayList<SteppableTile>
     private lateinit var boardBuilder: GameBoardBuilder
@@ -31,9 +31,10 @@ class GameBoardFragment : Fragment(){
         boardBuilder = CandyLandBuilder(this)
     }
 
-    public fun getStartSquare() : SteppableTile {
+    public fun getStartSquare(): SteppableTile {
         return this.getSquare(0)
     }
+
     public fun getSquare(squareNumber: Int): SteppableTile {
         return this.squares.get(squareNumber);
     }
@@ -56,6 +57,7 @@ class GameBoardFragment : Fragment(){
 
     companion object {
         lateinit var instance: GameBoardFragment
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.

@@ -6,6 +6,6 @@
     android:id="@+id/gameboardLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.fragments.Board.GameBoardFragment"
     android:clipChildren="false"
-    android:clipToPadding="false"/>
+    android:clipToPadding="false"
+    tools:context=".views.fragments.Board.GameBoardFragment" />

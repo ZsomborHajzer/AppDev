@@ -68,7 +68,7 @@ class LobbyHostActivity : AppCompatActivity() {
         addStartButtonListener()
     }
 
-    fun addStartButtonListener(){
+    fun addStartButtonListener() {
         findViewById<Button>(R.id.button).setOnClickListener {
             EventHandlers.instance.sendStartGameMessage()
         }
@@ -91,7 +91,7 @@ class LobbyHostActivity : AppCompatActivity() {
     fun updatePlayerCards() {
         players.forEach { player ->
             Log.d("LobbyHostActivity", "Updating card for ${player.username}")
-            if(player.imageResource == 0){
+            if (player.imageResource == 0) {
                 player.imageResource = Player.imageResources[0]
             }
             when (player.role) {
@@ -101,7 +101,7 @@ class LobbyHostActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.textViewPlayer1Status).text = "Connected"
                     val image = findViewById<ImageView>(R.id.imageViewPlayer1)
                     image.setImageResource(player.imageResource)
-                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                    if (player.id == EventHandlers.thisDevicePlayerId) { // if it's this client's instance
                         image.setOnClickListener(PortraitOnClickListener(image, player))
                     }
                 }
@@ -112,7 +112,7 @@ class LobbyHostActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.textViewPlayer2Status).text = "Connected"
                     val image = findViewById<ImageView>(R.id.imageViewPlayer2)
                     image.setImageResource(player.imageResource)
-                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                    if (player.id == EventHandlers.thisDevicePlayerId) { // if it's this client's instance
                         image.setOnClickListener(PortraitOnClickListener(image, player))
                     }
                 }
@@ -123,7 +123,7 @@ class LobbyHostActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.textViewPlayer3Status).text = "Connected"
                     val image = findViewById<ImageView>(R.id.imageViewPlayer3)
                     image.setImageResource(player.imageResource)
-                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                    if (player.id == EventHandlers.thisDevicePlayerId) { // if it's this client's instance
                         image.setOnClickListener(PortraitOnClickListener(image, player))
                     }
                 }
@@ -134,17 +134,18 @@ class LobbyHostActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.textViewPlayer4Status).text = "Connected"
                     val image = findViewById<ImageView>(R.id.imageViewPlayer4)
                     image.setImageResource(player.imageResource)
-                    if(player.id == EventHandlers.thisDevicePlayerId){ // if it's this client's instance
+                    if (player.id == EventHandlers.thisDevicePlayerId) { // if it's this client's instance
                         image.setOnClickListener(PortraitOnClickListener(image, player))
                     }
                 }
             }
         }
-        val textString = "Lobby Size "+ players.size +"/4"
+        val textString = "Lobby Size " + players.size + "/4"
         findViewById<TextView>(R.id.lobbySizeText).text = textString
     }
 
-    inner class PortraitOnClickListener(val view: ImageView, val player: Player): View.OnClickListener{
+    inner class PortraitOnClickListener(val view: ImageView, val player: Player) :
+        View.OnClickListener {
         override fun onClick(p0: View?) {
             player.cycleImage()
             Log.d("onclick portrait", "clicked")
@@ -152,19 +153,21 @@ class LobbyHostActivity : AppCompatActivity() {
         }
 
     }
-    companion object{
+
+    companion object {
         lateinit var instance: LobbyHostActivity
         var players = ArrayList<Player>()
 
-        fun getPlayerById(id:String): Player {
-            for (player in players){
-                if(player.id == id){
+        fun getPlayerById(id: String): Player {
+            for (player in players) {
+                if (player.id == id) {
                     return player
                 }
             }
             throw IllegalStateException("player does not exist")
         }
-        fun hasInstance():Boolean{
+
+        fun hasInstance(): Boolean {
             return Companion::instance.isInitialized
         }
     }

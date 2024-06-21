@@ -9,28 +9,44 @@ class AnimationCreator(val fight: Fight) {
         Companion.instance = this
     }
 
-    fun createAttackAnimation(attackingCreature: Creature, defendingCreature: Creature, damage: Double):ExecuteAttackAnimation{
+    fun createAttackAnimation(
+        attackingCreature: Creature,
+        defendingCreature: Creature,
+        damage: Double
+    ): ExecuteAttackAnimation {
         return ExecuteAttackAnimation(fight, attackingCreature, defendingCreature, damage)
     }
-    fun createDeathAnimation():DeathAnimation{
+
+    fun createDeathAnimation(): DeathAnimation {
         return DeathAnimation(fight)
     }
-    fun createSwitchTeamAnimation(futureAttacker: Fighter, futureDefender: Fighter):SwitchTeamAnimation{
+
+    fun createSwitchTeamAnimation(
+        futureAttacker: Fighter,
+        futureDefender: Fighter
+    ): SwitchTeamAnimation {
         return SwitchTeamAnimation(fight, futureAttacker, futureDefender)
     }
 
     // singleton
-    companion object{
+    companion object {
         lateinit var instance: AnimationCreator
-        fun attackAnimation(attackingCreature: Creature, defendingCreature: Creature, damage:Double): ExecuteAttackAnimation{
+        fun attackAnimation(
+            attackingCreature: Creature,
+            defendingCreature: Creature,
+            damage: Double
+        ): ExecuteAttackAnimation {
             return instance.createAttackAnimation(attackingCreature, defendingCreature, damage)
         }
 
-        fun deathAnimation(): DeathAnimation{
+        fun deathAnimation(): DeathAnimation {
             return instance.createDeathAnimation()
         }
 
-        fun switchTeamAnimation(futureAttacker: Fighter, futureDefender: Fighter): SwitchTeamAnimation{
+        fun switchTeamAnimation(
+            futureAttacker: Fighter,
+            futureDefender: Fighter
+        ): SwitchTeamAnimation {
             return instance.createSwitchTeamAnimation(futureAttacker, futureDefender)
         }
     }

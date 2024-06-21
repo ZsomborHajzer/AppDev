@@ -89,11 +89,11 @@
                 android:id="@+id/imageViewPlayer2"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/profile_picture2"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/profile_picture2"
-                android:scaleType="fitCenter"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewPlayer2Status"
@@ -136,8 +136,8 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:visibility="visible"
         android:background="#f1eee7"
+        android:visibility="visible"
         app:cardBackgroundColor="#D3B8AE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -152,11 +152,11 @@
                 android:id="@+id/imageViewPlayer3"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/profile_picture3"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/profile_picture3"
-                android:scaleType="fitCenter"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewPlayer3Status"
@@ -213,11 +213,11 @@
                 android:id="@+id/imageViewPlayer4"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/profile_picture4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/profile_picture4"
-                android:scaleType="fitCenter"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textViewPlayer4Status"
@@ -283,10 +283,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Start"
         android:background="@drawable/rounded_button"
-        android:textColor="#ffffff"
         android:backgroundTint="#0e1118"
+        android:text="Start"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/gameStartTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -8,7 +8,7 @@ import com.example.notpokemon.views.fragments.Board.Builder.Utilities.GameBoardB
 import com.example.notpokemon.views.fragments.Board.Builder.Utilities.GameBoardConstructorHelper
 import com.example.notpokemon.views.fragments.Board.GameBoardFragment
 
-class CandyLandBuilder(caller: GameBoardFragment): GameBoardBuilder {
+class CandyLandBuilder(caller: GameBoardFragment) : GameBoardBuilder {
 
     override var tiles = ArrayList<SteppableTile>()
     private val builderHelper = GameBoardConstructorHelper(caller)
@@ -20,8 +20,7 @@ class CandyLandBuilder(caller: GameBoardFragment): GameBoardBuilder {
         builderHelper.asyncCreateTileBottomRight(BaseTile::class.java)
         builderHelper.asyncCreateTileBottomRight(BaseTile::class.java)
         val middleBottomTile = builderHelper.asyncCreateTileBottomRight(BaseTile::class.java)
-        for (i in 1..2)
-        {
+        for (i in 1..2) {
             builderHelper.asyncCreateTileBottomRight(BaseTile::class.java)
         }
         builderHelper.asyncCreateTileBottomRight(GrassTile::class.java)
@@ -37,7 +36,7 @@ class CandyLandBuilder(caller: GameBoardFragment): GameBoardBuilder {
         builderHelper.asyncCreateTileTopRight(GrassTile::class.java)
 
         // up to the left
-        for(i in 1..4){
+        for (i in 1..4) {
             builderHelper.asyncCreateTileTopLeft(BaseTile::class.java)
         }
 

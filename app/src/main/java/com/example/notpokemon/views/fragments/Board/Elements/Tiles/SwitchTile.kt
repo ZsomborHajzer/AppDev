@@ -13,7 +13,7 @@ class SwitchTile : BaseTile() {
 
     override var nextSquare: SteppableTile
         get() {
-            if(_nextSquare == null){
+            if (_nextSquare == null) {
                 throw IllegalStateException("nextSquare has not been initialized yet")
             }
             return _nextSquare as SteppableTile
@@ -24,7 +24,7 @@ class SwitchTile : BaseTile() {
             nextSquaresList.add(value)
         }
 
-    fun switchNextTileByIndex(index:Int){
+    fun switchNextTileByIndex(index: Int) {
         _nextSquare = nextSquaresList[index]
     }
 
@@ -34,7 +34,10 @@ class SwitchTile : BaseTile() {
 
     override fun onTileEntry(playableCharacter: PlayableCharacter): Boolean {
         super.onTileEntry(playableCharacter)
-        EventHandlers.instance.sendInterruptDirectionChange(playableCharacter.id, playableCharacter.stepsLeft)
+        EventHandlers.instance.sendInterruptDirectionChange(
+            playableCharacter.id,
+            playableCharacter.stepsLeft
+        )
         return true
     }
 }

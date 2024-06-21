@@ -21,7 +21,11 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         var baseTile = squares.last()
         return asyncCreateTileTopLeft(baseTile, attachedTileClass)
     }
-    public fun asyncCreateTileTopLeft(baseTile: SteppableTile, attachedTileClass: Class<out SteppableTile>): SteppableTile {
+
+    public fun asyncCreateTileTopLeft(
+        baseTile: SteppableTile,
+        attachedTileClass: Class<out SteppableTile>
+    ): SteppableTile {
         val attachedTile = createTile(attachedTileClass)
         val thread = Thread {
             run {
@@ -36,16 +40,20 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         }
         viewCreationQueue.add(thread)
         thread.start()
-        return  attachedTile
+        return attachedTile
     }
 
     public fun asyncCreateTileTopRight(attachedTileClass: Class<out SteppableTile>): SteppableTile {
         var baseTile = squares.last()
         return asyncCreateTileTopRight(baseTile, attachedTileClass)
     }
-    public fun asyncCreateTileTopRight(baseTile: SteppableTile, attachedTileClass: Class<out SteppableTile>): SteppableTile {
+
+    public fun asyncCreateTileTopRight(
+        baseTile: SteppableTile,
+        attachedTileClass: Class<out SteppableTile>
+    ): SteppableTile {
         val attachedTile = createTile(attachedTileClass)
-        val thread = Thread{
+        val thread = Thread {
             run {
                 waitUntilBothViewsAreCreated(baseTile, attachedTile)
                 val baseContainer = baseTile.view as View
@@ -58,7 +66,7 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         }
         viewCreationQueue.add(thread)
         thread.start()
-        return  attachedTile
+        return attachedTile
     }
 
     public fun asyncCreateTileBottomLeft(attachedTileClass: Class<out SteppableTile>): SteppableTile {
@@ -66,7 +74,10 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         return asyncCreateTileBottomLeft(baseTile, attachedTileClass)
     }
 
-    public fun asyncCreateTileBottomLeft(baseTile: SteppableTile, attachedTileClass: Class<out SteppableTile>): SteppableTile {
+    public fun asyncCreateTileBottomLeft(
+        baseTile: SteppableTile,
+        attachedTileClass: Class<out SteppableTile>
+    ): SteppableTile {
         val attachedTile = createTile(attachedTileClass)
         val thread = Thread {
             run {
@@ -81,13 +92,18 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         }
         viewCreationQueue.add(thread)
         thread.start()
-        return  attachedTile
+        return attachedTile
     }
+
     public fun asyncCreateTileBottomRight(attachedTileClass: Class<out SteppableTile>): SteppableTile {
         var baseTile = squares.last()
         return asyncCreateTileBottomRight(baseTile, attachedTileClass)
     }
-    public fun asyncCreateTileBottomRight(baseTile: SteppableTile, attachedTileClass: Class<out SteppableTile>): SteppableTile {
+
+    public fun asyncCreateTileBottomRight(
+        baseTile: SteppableTile,
+        attachedTileClass: Class<out SteppableTile>
+    ): SteppableTile {
         val attachedTile = createTile(attachedTileClass)
 
         var thread = Thread {
@@ -104,7 +120,7 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
 
         viewCreationQueue.add(thread)
         thread.start()
-        return  attachedTile
+        return attachedTile
     }
 
     public fun createStarterTile(tileClass: Class<out SteppableTile>): SteppableTile {
@@ -132,35 +148,35 @@ class GameBoardConstructorHelper(val caller: GameBoardFragment) {
         return tile
     }
 
-    private fun waitUntilBothViewsAreCreated(frag1:Fragment, frag2:Fragment){
-        while (frag1.view==null || frag2.view==null || !isCurrentThreadHeadOfCreationQueue()){
+    private fun waitUntilBothViewsAreCreated(frag1: Fragment, frag2: Fragment) {
+        while (frag1.view == null || frag2.view == null || !isCurrentThreadHeadOfCreationQueue()) {
             Thread.sleep(200)
         }
     }
 
-    private fun waitUntilViewIsCreated(frag:Fragment){
-        while (frag.view == null){
+    private fun waitUntilViewIsCreated(frag: Fragment) {
+        while (frag.view == null) {
             Thread.sleep(200)
         }
     }
-    private fun isCurrentThreadHeadOfCreationQueue(): Boolean{
-        if(viewCreationQueue.first() == Thread.currentThread()){
+
+    private fun isCurrentThreadHeadOfCreationQueue(): Boolean {
+        if (viewCreationQueue.first() == Thread.currentThread()) {
             return true
-        }
-        else{
+        } else {
             return false
         }
     }
 
-    companion object{
+    companion object {
         var tileNumber = 0
-        fun advanceTileNumber():Int{
+        fun advanceTileNumber(): Int {
             tileNumber++
             return tileNumber
         }
 
         var viewCreationQueue = ArrayList<Thread>()
-        fun clearItemCreationQueue(){
+        fun clearItemCreationQueue() {
             viewCreationQueue.removeFirst()
         }
     }

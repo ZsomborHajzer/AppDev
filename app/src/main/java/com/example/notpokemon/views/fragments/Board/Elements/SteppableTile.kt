@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import com.example.notpokemon.initialization.InitializationCheck
 import com.example.notpokemon.playerObjects.PlayableCharacter
 
-abstract class SteppableTile: Fragment() {
+abstract class SteppableTile : Fragment() {
 
     var _nextSquare: SteppableTile? = null
     public open var nextSquare: SteppableTile
         get() {
-            if(_nextSquare == null){
+            if (_nextSquare == null) {
                 throw IllegalStateException("nextSquare has not been initialized yet")
             }
             return _nextSquare as SteppableTile
@@ -23,7 +23,7 @@ abstract class SteppableTile: Fragment() {
             initializeNextTile()
         }
 
-    var cardinalDirection:String = ""
+    var cardinalDirection: String = ""
 
     protected var nextSquareInitialized = false
     protected var viewInitialized = false
@@ -34,6 +34,7 @@ abstract class SteppableTile: Fragment() {
         super.onCreate(savedInstanceState)
         InitializationCheck.addToCheckNumber()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -45,21 +46,21 @@ abstract class SteppableTile: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       initializeView()
+        initializeView()
     }
 
-    protected fun initializeNextTile(){
+    protected fun initializeNextTile() {
         nextSquareInitialized = true
         initialize()
     }
 
-    protected fun initializeView(){
+    protected fun initializeView() {
         viewInitialized = true
         initialize()
     }
 
-    private fun initialize(){
-        if(viewInitialized && nextSquareInitialized && !initialized){
+    private fun initialize() {
+        if (viewInitialized && nextSquareInitialized && !initialized) {
             this.initialized = true
             InitializationCheck.haveInitialized()
         }

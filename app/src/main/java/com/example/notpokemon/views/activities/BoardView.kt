@@ -36,7 +36,7 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
     private lateinit var bannerImage: ImageView
     private lateinit var decisionPanel: DecisionPanel
     private lateinit var stepsToGoTextView: TextView
-    lateinit var currentDecisionPanelExecution: (Int)->Unit
+    lateinit var currentDecisionPanelExecution: (Int) -> Unit
     private var isAwaitingTap = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,13 +48,14 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
         bannerParent = findViewById(R.id.bannerParent)
         bannerText = findViewById(R.id.bannerText)
         bannerImage = findViewById(R.id.bannerBackgroundImage)
-        decisionPanel = findViewById<FragmentContainerView>(R.id.decisionPanelFragmentContainer).getFragment()
+        decisionPanel =
+            findViewById<FragmentContainerView>(R.id.decisionPanelFragmentContainer).getFragment()
         stepsToGoTextView = findViewById(R.id.stepTrackingText)
 
         val gameBoardFrame = findViewById<FrameLayout>(R.id.gameBoardFrame)
         gameBoardFrame.doOnLayout {
-            maxHorizontalScroll = (gameBoardFrame.width*0.8).toFloat()
-            maxVerticalScroll = (gameBoardFrame.height*0.8).toFloat()
+            maxHorizontalScroll = (gameBoardFrame.width * 0.8).toFloat()
+            maxVerticalScroll = (gameBoardFrame.height * 0.8).toFloat()
         }
 
         // initializing touch events
@@ -87,8 +88,8 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
             distanceX: Float,
             distanceY: Float
         ): Boolean {
-            val xPosition = gameBoardView.scrollX + (distanceX/scaleFactor)
-            val yPosition = gameBoardView.scrollY + (distanceY/scaleFactor)
+            val xPosition = gameBoardView.scrollX + (distanceX / scaleFactor)
+            val yPosition = gameBoardView.scrollY + (distanceY / scaleFactor)
             gameBoardView.scrollX = getClippedDistanceX(xPosition).toInt()
             gameBoardView.scrollY = getClippedDistanceY(yPosition).toInt()
 
@@ -96,27 +97,30 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
         }
 
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            if(isAwaitingTap){
+            if (isAwaitingTap) {
                 hasRolled()
             }
             return super.onSingleTapConfirmed(e)
         }
     }
 
-    private fun getClippedScale(number:Float):Float{
+    private fun getClippedScale(number: Float): Float {
         return getClippedValue(minimumGameBoardScale, number, maximumGameBoardScale)
     }
-    private fun getClippedDistanceX(number: Float):Float{
+
+    private fun getClippedDistanceX(number: Float): Float {
         return getClippedValue(-maxHorizontalScroll, number, maxHorizontalScroll)
     }
-    private fun getClippedDistanceY(number: Float):Float{
+
+    private fun getClippedDistanceY(number: Float): Float {
         return getClippedValue(-maxVerticalScroll, number, maxVerticalScroll)
     }
-    fun getClippedValue(minNumber:Float, number:Float, maxNumber:Float):Float{
+
+    fun getClippedValue(minNumber: Float, number: Float, maxNumber: Float): Float {
         return max(minNumber, min(number, maxNumber))
     }
 
-    fun initializeFight(fightFragment: Fight){
+    fun initializeFight(fightFragment: Fight) {
         val fragmentManager = this.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.setReorderingAllowed(true)
@@ -124,7 +128,7 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
         fragmentTransaction.commit()
     }
 
-    fun removeFight(fightFragment: Fight){
+    fun removeFight(fightFragment: Fight) {
         val fragmentManager = this.supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.setReorderingAllowed(true)
@@ -132,19 +136,19 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
         fragmentTransaction.commit()
     }
 
-    fun showRollBanner(){
+    fun showRollBanner() {
         bannerParent.visibility = View.VISIBLE
         bannerText.text = "tap screen to roll"
         isAwaitingTap = true
     }
 
-    fun hasRolled(){
+    fun hasRolled() {
         bannerParent.visibility = View.INVISIBLE
         isAwaitingTap = false
         GameDirector.instance.onRolled()
     }
 
-    fun spawnOptionsMenu(execution:(Int) -> Unit, options:ArrayList<String>){
+    fun spawnOptionsMenu(execution: (Int) -> Unit, options: ArrayList<String>) {
         this.currentDecisionPanelExecution = execution
         decisionPanel.startDecisionPanel(this, options)
     }
@@ -153,11 +157,11 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
         currentDecisionPanelExecution(decisionIndex)
     }
 
-    fun updateStepsToGoText(number:Int){
+    fun updateStepsToGoText(number: Int) {
         val string = "Steps to go: $number"
 
         val handler = Handler(mainLooper)
-        val runnable = Runnable(){
+        val runnable = Runnable() {
             run {
                 stepsToGoTextView.text = string
             }
@@ -165,7 +169,7 @@ class BoardView : FragmentActivity(), DecisionTrackingClass {
         handler.post(runnable)
     }
 
-    companion object{
+    companion object {
         lateinit var instance: BoardView
     }
 

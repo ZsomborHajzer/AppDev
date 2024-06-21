@@ -1,8 +1,8 @@
 package com.example.notpokemon.websocketHandlers.dataobjects
 
 data class ChangedPlayerPortrait(
-    val player:String,
-    val imageResource:Int,
+    val player: String,
+    val imageResource: Int,
     val timestamp: Long = System.currentTimeMillis(),
-    val event:String = "changedPlayerPortrait"
+    val event: String = "changedPlayerPortrait"
 )

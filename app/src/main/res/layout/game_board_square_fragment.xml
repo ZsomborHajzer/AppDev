@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:tag="gameBoardWalkableElement"
-    tools:context=".views.fragments.Board.Elements.Tiles.BaseTile"
     android:clipChildren="false"
     android:clipToPadding="false"
-    >
+    android:tag="gameBoardWalkableElement"
+    tools:context=".views.fragments.Board.Elements.Tiles.BaseTile">
 
     <ImageView
         android:id="@+id/gameBoardSquareBaseImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:scaleType="fitEnd"
         android:src="@drawable/cube_orthographic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:scaleType="fitEnd"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/gameBoardSquareOverlayImage"

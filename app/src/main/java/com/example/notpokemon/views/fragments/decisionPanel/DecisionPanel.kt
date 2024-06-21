@@ -16,6 +16,7 @@ class DecisionPanel : Fragment(), DecisionTrackingClass {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,18 +31,22 @@ class DecisionPanel : Fragment(), DecisionTrackingClass {
         this.requireView().visibility = View.INVISIBLE
     }
 
-    fun startDecisionPanel(caller: DecisionTrackingClass, options:ArrayList<String>){
+    fun startDecisionPanel(caller: DecisionTrackingClass, options: ArrayList<String>) {
         this.caller = caller
         this.requireView().visibility = View.VISIBLE
         createOptions(options)
     }
 
-    private fun createOptions(options:ArrayList<String>){
-        for ((i, option) in options.withIndex()){
+    private fun createOptions(options: ArrayList<String>) {
+        for ((i, option) in options.withIndex()) {
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             val thisClass = this
             transaction.setReorderingAllowed(true)
-            transaction.add(innerDecisionTableLayout.id, DecisionSelectableBox(thisClass, i, option), "SelectableOption${i}")
+            transaction.add(
+                innerDecisionTableLayout.id,
+                DecisionSelectableBox(thisClass, i, option),
+                "SelectableOption${i}"
+            )
             transaction.commit()
         }
     }
@@ -52,7 +57,7 @@ class DecisionPanel : Fragment(), DecisionTrackingClass {
         requireView().visibility = View.INVISIBLE
     }
 
-    fun removeAllOptionButtons(){
+    fun removeAllOptionButtons() {
         innerDecisionTableLayout.removeAllViewsInLayout()
         optionButtons.clear()
     }

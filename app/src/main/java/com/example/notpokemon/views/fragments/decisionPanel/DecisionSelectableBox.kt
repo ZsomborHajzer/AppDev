@@ -9,11 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.notpokemon.R
 
-class DecisionSelectableBox(val caller: DecisionTrackingClass, val answerIndex:Int, val textString:String) : Fragment() {
+class DecisionSelectableBox(
+    val caller: DecisionTrackingClass,
+    val answerIndex: Int,
+    val textString: String
+) : Fragment() {
 
     lateinit var backgroundImage: ImageView
     lateinit var textView: TextView
-        override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -24,14 +28,16 @@ class DecisionSelectableBox(val caller: DecisionTrackingClass, val answerIndex:I
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        backgroundImage = requireView().findViewById<ImageView>(R.id.decisionSelectableBoxBackgroundImage)
+        backgroundImage =
+            requireView().findViewById<ImageView>(R.id.decisionSelectableBoxBackgroundImage)
         textView = requireView().findViewById<TextView>(R.id.decisionSelectableBoxText)
 
         textView.text = textString
         backgroundImage.setOnClickListener(buttonOnClickListener(caller, answerIndex))
     }
 
-    inner class buttonOnClickListener(caller: DecisionTrackingClass, answerIndex: Int): View.OnClickListener{
+    inner class buttonOnClickListener(caller: DecisionTrackingClass, answerIndex: Int) :
+        View.OnClickListener {
         override fun onClick(p0: View?) {
             caller.onDecisionMade(answerIndex)
         }

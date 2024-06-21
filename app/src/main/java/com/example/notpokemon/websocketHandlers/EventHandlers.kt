@@ -63,12 +63,14 @@ class EventHandlers(
                         timeStamp = System.currentTimeMillis()
                     )
                 )
+
                 "2" -> gson.toJson(
                     com.example.notpokemon.websocketHandlers.dataobjects.EndTurn(
                         event = "endTurn",
                         timeStamp = System.currentTimeMillis()
                     )
                 )
+
                 "3" -> gson.toJson(
                     com.example.notpokemon.websocketHandlers.dataobjects.MoveAction(
                         event = "moveAction",
@@ -77,7 +79,14 @@ class EventHandlers(
                         timeStamp = System.currentTimeMillis()
                     )
                 )
-                "4" -> gson.toJson(StartGame(event = "startGame", timeStamp = System.currentTimeMillis()))
+
+                "4" -> gson.toJson(
+                    StartGame(
+                        event = "startGame",
+                        timeStamp = System.currentTimeMillis()
+                    )
+                )
+
                 else -> messageText
             }
             webSocketHandler.sendMessage(messageText)
@@ -94,89 +103,107 @@ class EventHandlers(
         when (event) {
             "currentPlayers" -> {
                 println("CURRENT PLAYER EVENTHANDLER")
-                val players = gson.fromJson(jsonObject.get("players").asJsonArray, Array<Player>::class.java).toList()
+                val players =
+                    gson.fromJson(jsonObject.get("players").asJsonArray, Array<Player>::class.java)
+                        .toList()
                 LobbyHostActivity.players = ArrayList(players)
             }
+
             "connect" -> {
                 val player = gson.fromJson(message, Player::class.java)
-                if(player.imageResource == 0){
+                if (player.imageResource == 0) {
                     player.imageResource = R.drawable.low_res_tanuki
                 }
                 sendPlayerBroadcast("NEW_PLAYER", player)
                 println("ADDED PLAYER")
-                if(!hasConnectedToLobby){
+                if (!hasConnectedToLobby) {
                     LobbyHostActivity.players.add(player)
                     thisDevicePlayerId = player.id
                     hasConnectedToLobby = true
                 }
                 tryStartLobbyHostActivity()
             }
+
             "startGame" -> {
                 print("I got the startgame!")
                 val jsonPlayers = jsonObject.get("clients").asJsonArray
                 val playerObjects = ArrayList<Player>()
-                for(player in jsonPlayers){
+                for (player in jsonPlayers) {
                     println(player)
                     playerObjects.add(Player.fromJsonObject(player.asJsonObject))
                 }
                 receiveStartGame(playerObjects)
             }
+
             "rollMovementDice" -> {
                 onRollMovementDice()
             }
+
             "moveCharacter" -> {
                 val id = jsonObject.get("id").asString
                 val distance = jsonObject.get("distance").asString
                 GameDirector.instance.moveCharacterById(id, distance.toInt())
             }
+
             "startFightBetweenPlayers" -> {
                 val fighter1Id = jsonObject.get("fighter1").asString
                 val fighter2Id = jsonObject.get("fighter2").asString
                 GameDirector.instance.onStartPVPFight(fighter1Id, fighter2Id)
             }
+
             "startPVEFight" -> {
                 val fighter1Id = jsonObject.get("fighter").asString
                 val creatureTemplateId = jsonObject.get("creatureTemplate").asInt
-                Thread(){
+                Thread() {
                     run {
                         GameDirector.instance.onStartPVEFight(fighter1Id, creatureTemplateId)
                     }
                 }.start()
 
             }
+
             "creatureAttackRequest" -> {
                 val creatureIndex = jsonObject.get("creature").asInt
                 Fight.instance.onRequestAttackMove(creatureIndex)
             }
+
             "creatureAttacks" -> {
                 val attackingCreatureIndex = jsonObject.get("attackingCreatureIndex").asInt
                 val defendingCreatureIndex = jsonObject.get("defendingCreatureIndex").asInt
                 val attackMoveIndex = jsonObject.get("attackMoveIndex").asInt
                 val chanceModifier = jsonObject.get("chanceModifier").asInt
-                Thread(){
+                Thread() {
                     run {
-                        Fight.instance.onAttack(attackingCreatureIndex, defendingCreatureIndex, attackMoveIndex, chanceModifier)
+                        Fight.instance.onAttack(
+                            attackingCreatureIndex,
+                            defendingCreatureIndex,
+                            attackMoveIndex,
+                            chanceModifier
+                        )
                     }
                 }.start()
             }
+
             "switchTeams" -> {
-                Thread(){
+                Thread() {
                     run {
                         Fight.instance.switchSides()
                     }
                 }.start()
             }
+
             "creatureDied" -> {
-                Thread(){
-                    run{
+                Thread() {
+                    run {
                         Fight.instance.onCreatureHasDied()
                     }
                 }.start()
             }
+
             "endBattle" -> {
                 val winningCharacterIndex = jsonObject.get("winningCharacterIndex").asInt
-                Thread(){
-                    run{
+                Thread() {
+                    run {
                         GameDirector.instance.onEndFight(winningCharacterIndex)
                     }
                 }.start()
@@ -192,7 +219,7 @@ class EventHandlers(
                 val playerId = jsonObject.get("id").asString
                 val steps = jsonObject.get("steps").asInt
                 val directionIndex = jsonObject.get("directionIndex").asInt
-                GameDirector.instance.onChangeDirectionMove(playerId,steps,directionIndex)
+                GameDirector.instance.onChangeDirectionMove(playerId, steps, directionIndex)
             }
 
             "changedPlayerPortrait" -> {
@@ -204,25 +231,27 @@ class EventHandlers(
         }
     }
 
-    private fun receiveStartGame(players: ArrayList<Player>){
+    private fun receiveStartGame(players: ArrayList<Player>) {
         GameDirector.players = players
         val intent = Intent(LobbyHostActivity.instance, BoardView::class.java)
         LobbyHostActivity.instance.startActivity(intent);
     }
 
-    public fun sendStartGameMessage(){
+    public fun sendStartGameMessage() {
         val gson = Gson()
-        val startGameMessage = gson.toJson(StartGame(event = "startGame", timeStamp = System.currentTimeMillis()))
+        val startGameMessage =
+            gson.toJson(StartGame(event = "startGame", timeStamp = System.currentTimeMillis()))
         webSocketHandler.sendMessage(startGameMessage)
     }
 
-    public fun sendEndTurnMessage(){
-        val startGameMessage = Gson().toJson(StartGame(event = "endTurn", timeStamp = System.currentTimeMillis()))
+    public fun sendEndTurnMessage() {
+        val startGameMessage =
+            Gson().toJson(StartGame(event = "endTurn", timeStamp = System.currentTimeMillis()))
         webSocketHandler.sendMessage(startGameMessage)
     }
 
-    private fun tryStartLobbyHostActivity(){
-        if(!LobbyHostActivity.hasInstance()) {
+    private fun tryStartLobbyHostActivity() {
+        if (!LobbyHostActivity.hasInstance()) {
             val intent = Intent(uiInitializer.activity, LobbyHostActivity::class.java)
             uiInitializer.activity.startActivity(intent)
         }
@@ -246,11 +275,11 @@ class EventHandlers(
         LocalBroadcastManager.getInstance(uiInitializer.activity).sendBroadcast(intent)
     }
 
-    private fun onRollMovementDice(){
+    private fun onRollMovementDice() {
         GameDirector.instance.onRequestMovementDice()
     }
 
-    fun sendMovementRollResult(roll:Int){
+    fun sendMovementRollResult(roll: Int) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.MovementRollResult(
                 event = "movementRollResult",
@@ -261,7 +290,10 @@ class EventHandlers(
         webSocketHandler.sendMessage(message)
     }
 
-    public fun sendInterruptFightAgainstPlayer(player1: PlayableCharacter, player2: PlayableCharacter){
+    public fun sendInterruptFightAgainstPlayer(
+        player1: PlayableCharacter,
+        player2: PlayableCharacter
+    ) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.InterruptStartFightAgainstPlayer(
                 player1.id,
@@ -271,7 +303,7 @@ class EventHandlers(
         webSocketHandler.sendMessage(message)
     }
 
-    public fun sendInterruptFightAgainstAI(player: PlayableCharacter, creatureTemplateId:Int){
+    public fun sendInterruptFightAgainstAI(player: PlayableCharacter, creatureTemplateId: Int) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.InterruptStartFightAgainstRandom(
                 player.id,
@@ -281,14 +313,19 @@ class EventHandlers(
         webSocketHandler.sendMessage(message)
     }
 
-    public fun sendReadyToFight(){
+    public fun sendReadyToFight() {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.BattleReadyToFight()
         )
         webSocketHandler.sendMessage(message)
     }
 
-    public fun sendCreatureAttacks(attackingCreatureIndex:Int, defendingCreatureIndex:Int, attackMoveIndex:Int, chanceModifier:Int){
+    public fun sendCreatureAttacks(
+        attackingCreatureIndex: Int,
+        defendingCreatureIndex: Int,
+        attackMoveIndex: Int,
+        chanceModifier: Int
+    ) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.FightCreatureAttack(
                 attackingCreatureIndex,
@@ -300,7 +337,7 @@ class EventHandlers(
         webSocketHandler.sendMessage(message)
     }
 
-    fun notifyAttackIsFinished(creatureDied:Boolean, hasNextCreature:Boolean, teamWonIndex:Int){
+    fun notifyAttackIsFinished(creatureDied: Boolean, hasNextCreature: Boolean, teamWonIndex: Int) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.BattleFinishedAttack(
                 creatureDied,
@@ -311,7 +348,7 @@ class EventHandlers(
         webSocketHandler.sendMessage(message)
     }
 
-    fun sendInterruptDirectionChange(playerId : String, steps: Int){
+    fun sendInterruptDirectionChange(playerId: String, steps: Int) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.InterruptSwitch(
                 playerId,
@@ -321,7 +358,7 @@ class EventHandlers(
         webSocketHandler.sendMessage(message)
     }
 
-    fun sendChangeDirectionMove(id:String, steps:Int, directionIndex:Int){
+    fun sendChangeDirectionMove(id: String, steps: Int, directionIndex: Int) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.DirectionChangeMessage(
                 "changeDirectionMove",
@@ -333,14 +370,14 @@ class EventHandlers(
         webSocketHandler.sendMessage((message))
     }
 
-    public fun notifyTeamsHaveBeenSwitched(){
+    public fun notifyTeamsHaveBeenSwitched() {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.FightSwitchTeams()
         )
         webSocketHandler.sendMessage(message)
     }
 
-    public fun sendPlayerPortraitChangedMessage(playerId: String, imageResource:Int){
+    public fun sendPlayerPortraitChangedMessage(playerId: String, imageResource: Int) {
         val message = Gson().toJson(
             com.example.notpokemon.websocketHandlers.dataobjects.ChangedPlayerPortrait(
                 playerId,
@@ -350,7 +387,7 @@ class EventHandlers(
         webSocketHandler.sendMessage(message)
     }
 
-    companion object{
+    companion object {
         lateinit var instance: EventHandlers
         lateinit var thisDevicePlayerId: String
         var hasConnectedToLobby = false

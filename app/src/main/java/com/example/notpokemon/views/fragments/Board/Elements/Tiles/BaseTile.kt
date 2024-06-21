@@ -41,14 +41,14 @@ open class BaseTile : SteppableTile() {
         baseImage.setImageResource(baseImageResource)
     }
 
-    override fun onTileEntry(playableCharacter: PlayableCharacter):Boolean {
+    override fun onTileEntry(playableCharacter: PlayableCharacter): Boolean {
         this.setOverlayFromResource(playableCharacter.icon)
         onTile.add(playableCharacter)
         return false
     }
 
     override fun onTileStay(playableCharacter: PlayableCharacter): Boolean {
-        if(onTile.size > 1){
+        if (onTile.size > 1) {
             EventHandlers.instance.sendInterruptFightAgainstPlayer(onTile[0], onTile[1])
             return true
         }
@@ -58,16 +58,16 @@ open class BaseTile : SteppableTile() {
     override fun onTileExit(playableCharacter: PlayableCharacter) {
         onTile.remove(playableCharacter)
         clearSquareOverlay()
-        if(onTile.isNotEmpty()){
+        if (onTile.isNotEmpty()) {
             setOverlayFromResource(onTile[0].icon)
         }
     }
 
-    private fun clearSquareOverlay(){
+    private fun clearSquareOverlay() {
         setOverlayFromResource(transparentOverlay)
     }
 
-    private fun setOverlayFromResource(resource: Int){
+    private fun setOverlayFromResource(resource: Int) {
         Handler(GameBoardFragment.instance.requireContext().mainLooper).post(
             Runnable {
                 run {
@@ -77,8 +77,6 @@ open class BaseTile : SteppableTile() {
             }
         )
     }
-
-
 
 
     companion object {

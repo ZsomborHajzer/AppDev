@@ -4,6 +4,6 @@ import com.example.notpokemon.playerObjects.PlayableCharacter
 
 abstract class RandomCard(open var player: PlayableCharacter) {
 
-    open fun appliedEffect(){
+    open fun appliedEffect() {
     }
 }

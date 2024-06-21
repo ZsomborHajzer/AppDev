@@ -24,26 +24,25 @@ abstract class Creature(open var attack: Attack) {
         println("health: $healthPoints")
     }
 
-    fun attack(attackedCreature: Creature, damageModifier:Int): Double{
+    fun attack(attackedCreature: Creature, damageModifier: Int): Double {
         return this.attack.doAttack(this, attackedCreature, damageModifier)
     }
 
-    fun calculateDamage(attackedCreature: Creature, damageModifier:Int): Double{
+    fun calculateDamage(attackedCreature: Creature, damageModifier: Int): Double {
         return this.attack.calculateDamage(this, attackedCreature, damageModifier)
     }
 
-    fun takeDamage(damageAmount: Double){
-        if(damageAmount > healthPoints){ //in case of overkill
+    fun takeDamage(damageAmount: Double) {
+        if (damageAmount > healthPoints) { //in case of overkill
             healthPoints = 0.0
-        }
-        else{
+        } else {
             healthPoints -= damageAmount
         }
     }
 
-    fun heal(amount: Int){
+    fun heal(amount: Int) {
         healthPoints += amount
-        if(healthPoints > maxHealthPoints){
+        if (healthPoints > maxHealthPoints) {
             healthPoints = maxHealthPoints
         }
     }
@@ -51,15 +50,16 @@ abstract class Creature(open var attack: Attack) {
     fun addStatusEffect(effect: StatusEffect) {
         effectStatuses.add(effect)
     }
-    
+
     fun removeStatusEffect(effect: StatusEffect) {
         effectStatuses.remove(effect)
     }
-    fun isDead():Boolean{
-        return healthPoints<=0.0
+
+    fun isDead(): Boolean {
+        return healthPoints <= 0.0
     }
 
-    companion object{
+    companion object {
         var incrementedId = 0
         var defaultHealth = 240.00
     }

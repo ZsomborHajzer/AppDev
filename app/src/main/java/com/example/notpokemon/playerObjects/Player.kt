@@ -10,7 +10,7 @@ class Player(
     val id: String,
     val username: String,
     val role: String,
-    var imageResource:Int = imageResources[0]
+    var imageResource: Int = imageResources[0]
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
@@ -29,17 +29,15 @@ class Player(
         return 0
     }
 
-    fun cycleImage(){
+    fun cycleImage() {
         val currentIndex = imageResources.indexOf(imageResource)
-        if (currentIndex == -1){
+        if (currentIndex == -1) {
             Log.w("ImageCycling", "imageResource $imageResource, could not be found in list")
             imageResource = imageResources[0]
-        }
-        else if (currentIndex == imageResources.size-1){
+        } else if (currentIndex == imageResources.size - 1) {
             imageResource = imageResources[0]
-        }
-        else{
-            imageResource = imageResources[currentIndex+1]
+        } else {
+            imageResource = imageResources[currentIndex + 1]
         }
     }
 
@@ -52,12 +50,11 @@ class Player(
             return arrayOfNulls(size)
         }
 
-        fun fromJsonObject(jsonObject:JsonObject): Player {
-            var imageResource:Int
-            if (jsonObject.get("imageResource") != null){
+        fun fromJsonObject(jsonObject: JsonObject): Player {
+            var imageResource: Int
+            if (jsonObject.get("imageResource") != null) {
                 imageResource = jsonObject.get("imageResource").asInt
-            }
-            else{
+            } else {
                 imageResource = imageResources[0]
             }
             return Player(
@@ -68,7 +65,14 @@ class Player(
             )
         }
 
-        val imageResources = intArrayOf(R.drawable.low_res_tanuki, R.drawable.kel_fullbody_profile, R.drawable.char_aquaboy, R.drawable.char_emogirl, R.drawable.char_nerdyboy, R.drawable.char_spoopygirl)
+        val imageResources = intArrayOf(
+            R.drawable.low_res_tanuki,
+            R.drawable.kel_fullbody_profile,
+            R.drawable.char_aquaboy,
+            R.drawable.char_emogirl,
+            R.drawable.char_nerdyboy,
+            R.drawable.char_spoopygirl
+        )
     }
 
 }

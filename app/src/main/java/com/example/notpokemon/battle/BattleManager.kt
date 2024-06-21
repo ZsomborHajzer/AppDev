@@ -1,4 +1,5 @@
 package com.example.notpokemon.battle
+
 import com.example.notpokemon.playerObjects.Fighter
 import com.example.notpokemon.websocketHandlers.EventHandlers
 import com.example.notpokemon.creatures.ButterPig
@@ -17,14 +18,14 @@ open class BattleManager {
     lateinit var originalFirstTeam: ArrayList<Creature>
     lateinit var originalSecondTeam: ArrayList<Creature>
 
-    fun initializeFight(){
+    fun initializeFight() {
         val fightFragment = Fight(fighter1, fighter2)
         originalFirstTeam = fighter1.team.clone() as ArrayList<Creature>
         originalSecondTeam = fighter2.team.clone() as ArrayList<Creature>
         BoardView.instance.initializeFight(fightFragment)
     }
 
-    open fun endFight(winner: Fighter){
+    open fun endFight(winner: Fighter) {
         winner.addXP(xpPerBattle)
 
         //revert the teams back to how they were before the fight to continue the board game
@@ -45,12 +46,13 @@ open class BattleManager {
      * returns winning player
      **/
     public fun awaitUntilFightIsFinished(fight: Fight): Fighter {
-        while (fight.isFinished == false){
+        while (fight.isFinished == false) {
             Thread.sleep(500)
         }
         return fight.winner
     }
-    companion object{
+
+    companion object {
         fun generateCreature(): Creature {
             val types = arrayOf("Haunted", "Space", "Aquatic", "Sugar") // TODO:: create enums
             val attackNames = arrayOf("Bite", "Throw", "Roll", "Whip", "Cry")
@@ -65,11 +67,12 @@ open class BattleManager {
             return creature
         }
 
-        fun generateCreatureFromTemplate(creatureTemplateId:Int): Creature {
-            when(creatureTemplateId){
+        fun generateCreatureFromTemplate(creatureTemplateId: Int): Creature {
+            when (creatureTemplateId) {
                 0 -> {
                     return ButterPig(Bite())
                 }
+
                 1 -> {
                     return CandyLandBoss(Bite())
                 }

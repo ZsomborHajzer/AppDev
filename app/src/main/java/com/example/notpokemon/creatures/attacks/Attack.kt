@@ -3,14 +3,18 @@ package com.example.notpokemon.creatures.attacks
 import com.example.notpokemon.R
 import com.example.notpokemon.creatures.Creature
 
-abstract class Attack () {
+abstract class Attack() {
     open var name = "DefaultAttack"
     open var baseDamage: Double = 50.0
     open var imageResource = R.drawable.bite_animation
     open var attackMultiplier: Double = 10.0
 
     //Basic attack function. Can be overridden and customised.
-    fun doAttack(attackingCreature: Creature, opposingCreature: Creature, attackModifier:Int): Double {
+    fun doAttack(
+        attackingCreature: Creature,
+        opposingCreature: Creature,
+        attackModifier: Int
+    ): Double {
         val damage = calculateDamage(attackingCreature, opposingCreature, attackModifier)
 
         opposingCreature.takeDamage(damage)
@@ -18,7 +22,11 @@ abstract class Attack () {
         return damage
     }
 
-    fun calculateDamage(attackingCreature: Creature, opposingCreature: Creature, attackModifier:Int): Double {
+    fun calculateDamage(
+        attackingCreature: Creature,
+        opposingCreature: Creature,
+        attackModifier: Int
+    ): Double {
         val advantage = creatureTypeAdvantageCheck(attackingCreature, opposingCreature)
         var damage = baseDamage + (attackModifier * attackMultiplier)
 
@@ -47,9 +55,9 @@ abstract class Attack () {
         var advantage = -1
 
 
-        if (advantageMap[attackingCreature.creatureType]?.contains(opposingCreature.creatureType) == true){
+        if (advantageMap[attackingCreature.creatureType]?.contains(opposingCreature.creatureType) == true) {
             advantage = 0
-            if (advantageMap[attackingCreature.creatureType]?.get(opposingCreature.creatureType) == true){
+            if (advantageMap[attackingCreature.creatureType]?.get(opposingCreature.creatureType) == true) {
                 advantage = 1
             }
         }

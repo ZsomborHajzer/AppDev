@@ -12,7 +12,7 @@ import com.example.notpokemon.creatures.Creature
 import com.example.notpokemon.statusEffects.EffectTrigger
 import com.example.notpokemon.views.activities.BoardView
 
-class Fight (val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.fight_layout){
+class Fight(val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.fight_layout) {
 
     var attackingPlayer = fighter1
     var defendingPlayer = fighter2
@@ -23,6 +23,7 @@ class Fight (val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.f
     init {
         instance = this
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,11 +50,13 @@ class Fight (val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.f
         }
         onFinish()
     }
-    protected fun shouldSwitch(): Boolean{
+
+    protected fun shouldSwitch(): Boolean {
         return creatureIndex >= attackingPlayer.team.lastIndex
                 || creatureIndex >= defendingPlayer.team.lastIndex
     }
-    fun switchSides(){
+
+    fun switchSides() {
         val temp = attackingPlayer
         attackingPlayer = defendingPlayer
         defendingPlayer = temp
@@ -65,13 +68,13 @@ class Fight (val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.f
         EventHandlers.instance.sendReadyToFight()
     }
 
-    fun onRequestAttackMove(creatureIndex:Int){
+    fun onRequestAttackMove(creatureIndex: Int) {
         val options = ArrayList<String>()
         options.add(attackingPlayer.team[creatureIndex].attack.name)
 
-        val execution: (Int) -> Unit = {
-            moveIndex ->
-            EventHandlers.instance.sendCreatureAttacks(creatureIndex, creatureIndex, moveIndex,
+        val execution: (Int) -> Unit = { moveIndex ->
+            EventHandlers.instance.sendCreatureAttacks(
+                creatureIndex, creatureIndex, moveIndex,
                 DiceRoller.rollD6()
             )
         }
@@ -80,7 +83,12 @@ class Fight (val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.f
     }
 
     // attackMoveIndex is unused for now due to the creatures only knowing one move
-    fun onAttack(attackingCreatureIndex: Int, defendingCreatureIndex:Int, attackMoveIndex:Int, attackModifierValue:Int){
+    fun onAttack(
+        attackingCreatureIndex: Int,
+        defendingCreatureIndex: Int,
+        attackMoveIndex: Int,
+        attackModifierValue: Int
+    ) {
         val attackPokemon = attackingPlayer.team[attackingCreatureIndex]
         val defencePokemon = defendingPlayer.team[defendingCreatureIndex]
         val damage = attackPokemon.calculateDamage(defencePokemon, attackModifierValue)
@@ -90,44 +98,44 @@ class Fight (val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.f
         notifyAttackIsFinished(defencePokemon.isDead())
     }
 
-    fun notifyAttackIsFinished(creatureHasDied:Boolean){
+    fun notifyAttackIsFinished(creatureHasDied: Boolean) {
         val hasNextCreature = !shouldSwitch()
         val winner = seeWhichTeamWon()
         EventHandlers.instance.notifyAttackIsFinished(creatureHasDied, hasNextCreature, winner)
     }
 
     fun seeWhichTeamWon(): Int {
-        return if(defendingPlayer.team.isEmpty()){
+        return if (defendingPlayer.team.isEmpty()) {
             0
-        } else if(attackingPlayer.team.isEmpty()){
+        } else if (attackingPlayer.team.isEmpty()) {
             1
-        } else{
+        } else {
             -1
         }
     }
 
-    fun onCreatureHasDied(){
+    fun onCreatureHasDied() {
         killCurrentDefendingCreature()
         notifyAttackIsFinished(false)
     }
-    fun killCurrentDefendingCreature(){
+
+    fun killCurrentDefendingCreature() {
         println("${defendingPlayer.team[creatureIndex].creatureName} fainted!")
         AnimationCreator.deathAnimation().run()
         // Remove the defeated creature from the defending player's team
         defendingPlayer.removeCreature(creatureIndex)
     }
 
-    protected fun applyStatusEffects(attacker: Creature){
-        if(attacker.effectStatuses.size != 0){
-            for(effect in attacker.effectStatuses){
+    protected fun applyStatusEffects(attacker: Creature) {
+        if (attacker.effectStatuses.size != 0) {
+            for (effect in attacker.effectStatuses) {
                 effect.applicationOfEffectStatus(EffectTrigger.ONTURN)
             }
         }
     }
 
 
-
-    private fun onFinish(){
+    private fun onFinish() {
         isFinished = true
         if (attackingPlayer.team.isEmpty()) {
             winner = defendingPlayer
@@ -136,7 +144,7 @@ class Fight (val fighter1: Fighter, val fighter2: Fighter) : Fragment(R.layout.f
         }
     }
 
-    companion object{
+    companion object {
         lateinit var instance: Fight
     }
 }

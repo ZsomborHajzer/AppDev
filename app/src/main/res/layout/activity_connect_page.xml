@@ -1,13 +1,12 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/connectPage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="#f1eee7"
-    tools:context=".views.activities.ConnectPageActivity"
-    android:id="@+id/connectPage">
+    android:padding="16dp"
+    tools:context=".views.activities.ConnectPageActivity">
 
     <ImageView
         android:id="@+id/imagePlaceholder"
@@ -17,103 +16,103 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/image_placeholder"
         android:src="@drawable/logo"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Set specific width for the buttons and text inputs with modern design elements -->
     <Button
         android:id="@+id/connectButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/connect"
-        android:backgroundTint="#0e1118"
-        android:textColor="#ffffff"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:padding="12dp"
         android:background="@drawable/button_background"
-        app:layout_constraintTop_toBottomOf="@id/imagePlaceholder"
+        android:backgroundTint="#0e1118"
+        android:padding="12dp"
+        android:text="@string/connect"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/usernameLayout"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed"/>
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imagePlaceholder" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:errorEnabled="true"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:hint="Enter username"
         android:textColorHint="#808080"
-        app:layout_constraintTop_toBottomOf="@id/connectButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed">
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connectButton">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#0e1118"
             android:background="@drawable/edittext_background"
+            android:inputType="text"
             android:padding="12dp"
-            android:inputType="text" />
+            android:textColor="#0e1118" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/sendButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/send"
-        android:backgroundTint="#0e1118"
-        android:textColor="#ffffff"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:padding="12dp"
         android:background="@drawable/button_background"
-        app:layout_constraintTop_toBottomOf="@id/usernameLayout"
+        android:backgroundTint="#0e1118"
+        android:padding="12dp"
+        android:text="@string/send"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@id/messageInput"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed" />
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/usernameLayout" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/messageInput"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_message"
-        android:textColorHint="#808080"
-        android:textColor="#0e1118"
-        android:background="@drawable/edittext_background"
-        android:padding="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@id/sendButton"
+        android:background="@drawable/edittext_background"
+        android:hint="@string/enter_message"
+        android:padding="12dp"
+        android:textColor="#0e1118"
+        android:textColorHint="#808080"
         app:layout_constraintBottom_toTopOf="@id/receivedMessages"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed" />
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sendButton" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/receivedMessages"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:hint="@string/received_messages"
-        android:textColorHint="#808080"
-        android:editable="false"
-        android:textColor="#0e1118"
-        android:background="@drawable/edittext_background"
-        android:inputType="textMultiLine"
-        android:padding="12dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@id/messageInput"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/edittext_background"
+        android:editable="false"
+        android:hint="@string/received_messages"
+        android:inputType="textMultiLine"
+        android:padding="12dp"
+        android:textColor="#0e1118"
+        android:textColorHint="#808080"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_chainStyle="packed" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/messageInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
