@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TableLayout
 import android.widget.TextView
 import androidx.core.view.get
-import com.example.notpokemon.Fight
+import com.example.notpokemon.battle.Fight
 import com.example.notpokemon.R
 
 /**

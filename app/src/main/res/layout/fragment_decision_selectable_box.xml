@@ -7,7 +7,7 @@
     android:layout_height="0dp"
     android:layout_margin="5dp"
     android:layout_weight="1"
-    tools:context=".DecisionSelectableBox">
+    tools:context=".views.fragments.decisionPanel.DecisionSelectableBox">
 
     <!-- TODO: Update blank fragment layout -->
 

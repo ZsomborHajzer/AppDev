@@ -1,16 +1,12 @@
 package com.example.notpokemon.animations
 
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TableLayout
 import android.widget.TextView
-import androidx.core.view.get
 import androidx.core.view.size
-import com.example.notpokemon.Fight
-import com.example.notpokemon.Fighter
+import com.example.notpokemon.battle.Fight
+import com.example.notpokemon.playerObjects.Fighter
 import com.example.notpokemon.R
 
-class SwitchTeamAnimation(fight:Fight, val futureAttacker: Fighter, val futureDefender:Fighter) : Animation(fight) {
+class SwitchTeamAnimation(fight: Fight, val futureAttacker: Fighter, val futureDefender: Fighter) : Animation(fight) {
 
     val playerName1TV = fight.requireView().findViewById<TextView>(R.id.firstFighterTitle)
     val playerName2TV = fight.requireView().findViewById<TextView>(R.id.secondFighterTitle)
@@ -56,7 +52,7 @@ class SwitchTeamAnimation(fight:Fight, val futureAttacker: Fighter, val futureDe
         }
     }
 
-    fun getPlayerByNumber(playerNumber: Int): Fighter{
+    fun getPlayerByNumber(playerNumber: Int): Fighter {
         if(playerNumber == 1){
             return futureAttacker
         }
