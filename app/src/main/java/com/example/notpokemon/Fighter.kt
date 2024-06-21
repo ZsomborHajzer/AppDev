@@ -1,15 +1,11 @@
 package com.example.notpokemon
 
 //General Player class
-open class Fighter(private var name: String) {
+open class Fighter(var name: String) {
     var team = ArrayList<Creature>()
     protected var XP = 0
     protected var level = 0
 
-    fun getName(): String {
-        return name
-    }
-    
     fun addXP(xpPerBattle: Int){
         XP += xpPerBattle
         addLevel()
@@ -51,7 +47,7 @@ open class Fighter(private var name: String) {
 
     fun teamDMGLevelUp(inflationNumber: Double){
         for(creature in team){
-            creature.attack.damage *= inflationNumber
+            creature.attack.baseDamage *= inflationNumber
         }
     }
 

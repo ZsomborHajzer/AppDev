@@ -1,5 +1,7 @@
 package com.example.notpokemon
 
+import EventHandlers
+
 class InitializationCheck {
     companion object{
         lateinit var gameBoardFragment: GameBoardFragment;
@@ -20,8 +22,9 @@ class InitializationCheck {
         }
 
         fun execution(){
-            GameDirector(gameBoardFragment).start();
-            println("EXECUTTEEEDDD")
+            println("haveInitialized has been executed")
+            GameDirector(gameBoardFragment);
+            EventHandlers.instance.sendIsInitialized()
         }
 
         fun reset(){

@@ -1,129 +1,124 @@
 package com.example.notpokemon
 
+import EventHandlers
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
-import androidx.core.view.get
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import com.example.notpokemon.animations.AnimationCreator
+import com.example.notpokemon.views.BoardView
 
 class Fight (val fighter1:Fighter, val fighter2: Fighter) : Fragment(R.layout.fight_layout){
 
     var attackingPlayer = fighter1
     var defendingPlayer = fighter2
-    var attackerIndex = 0
-    var defenderIndex = 0
     var isFinished = false
-    private var viewCreated = false
-    private var startHasBeenCalled = false
     lateinit var winner: Fighter
+    var creatureIndex = 0
 
-    lateinit var playerName1TV: TextView
-    lateinit var playerName2TV: TextView
-    lateinit var player1CreaturesView: TableLayout
-    lateinit var player2CreaturesView: TableLayout
-    lateinit var battleMapView: ImageView
-
+    init {
+        instance = this
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         AnimationCreator(this)
 
-        // initializing the view components
-        playerName1TV = requireView().findViewById(R.id.firstFighterTitle)
-        playerName2TV = requireView().findViewById(R.id.secondFighterTitle)
-        player1CreaturesView = requireView().findViewById(R.id.firstFighterCreatures)
-        player2CreaturesView = requireView().findViewById(R.id.secondFighterCreatures)
-        battleMapView = requireView().findViewById(R.id.battlemapImage)
+        AnimationCreator.switchTeamAnimation(attackingPlayer, defendingPlayer).run()
 
-        // setting the inner variables of the text components
-        playerName1TV.text = attackingPlayer.getName()
-        playerName2TV.text = defendingPlayer.getName()
-
-        assignCreaturesToUI()
-
-        viewCreated = true
-        confirmStart()
+        EventHandlers.instance.sendReadyToFight()
     }
 
-    fun assignCreaturesToUI(){
-        if(attackingPlayer.team.size > player1CreaturesView.size || defendingPlayer.team.size > player2CreaturesView.size){
-            throw IllegalStateException("attacking player cannot have more creatures than there are creature slots in fight_layout. ${this.javaClass}")
-        }
+    fun run() {
+        while (attackingPlayer.team.isNotEmpty() && defendingPlayer.team.isNotEmpty()) { //Neither team has "lost" yet
+            val attacker = attackingPlayer.team[creatureIndex]
+            val defender = defendingPlayer.team[creatureIndex]
 
-        var playerNumber = 1
-        while (playerNumber <= 2){
 
-            var creatureIndex = 0
-            while (creatureIndex < attackingPlayer.team.size){
-
-                getCreatureNameTextView(playerNumber, creatureIndex).text = getPlayerByNumber(playerNumber).team[creatureIndex].creatureName
-                getCreatureImageView(playerNumber, creatureIndex).setImageResource(getPlayerByNumber(playerNumber).team[creatureIndex].imageResource)
-
+            // Switch teams if all creatures from the current attacking team have attacked
+            if (shouldSwitch()) {
+                switchSides()
+            } else {
                 creatureIndex++
             }
+        }
+        onFinish()
+    }
+    protected fun shouldSwitch(): Boolean{
+        return creatureIndex >= attackingPlayer.team.lastIndex
+                || creatureIndex >= defendingPlayer.team.lastIndex
+    }
+    fun switchSides(){
+        val temp = attackingPlayer
+        attackingPlayer = defendingPlayer
+        defendingPlayer = temp
+        creatureIndex = 0
 
-            playerNumber++
+        println("Attacker team: ${attackingPlayer.name}, Defender team: ${defendingPlayer.name}")
+        println("${attackingPlayer.name} 's turn!")
+        AnimationCreator.switchTeamAnimation(attackingPlayer, defendingPlayer).run()
+        EventHandlers.instance.sendReadyToFight()
+    }
+
+    fun onRequestAttackMove(creatureIndex:Int){
+        val options = ArrayList<String>()
+        options.add(attackingPlayer.team[creatureIndex].attack.name)
+
+        val execution: (Int) -> Unit = {
+            moveIndex ->
+            EventHandlers.instance.sendCreatureAttacks(creatureIndex, creatureIndex, moveIndex, DiceRoller.rollD6())
+        }
+
+        BoardView.instance.spawnOptionsMenu(execution, options)
+    }
+
+    // attackMoveIndex is unused for now due to the creatures only knowing one move
+    fun onAttack(attackingCreatureIndex: Int, defendingCreatureIndex:Int, attackMoveIndex:Int, attackModifierValue:Int){
+        val attackPokemon = attackingPlayer.team[attackingCreatureIndex]
+        val defencePokemon = defendingPlayer.team[defendingCreatureIndex]
+        val damage = attackPokemon.calculateDamage(defencePokemon, attackModifierValue)
+        AnimationCreator.attackAnimation(attackPokemon, defencePokemon, damage).run()
+        attackPokemon.attack(defencePokemon, attackModifierValue)
+
+        notifyAttackIsFinished(defencePokemon.isDead())
+    }
+
+    fun notifyAttackIsFinished(creatureHasDied:Boolean){
+        val hasNextCreature = !shouldSwitch()
+        val winner = seeWhichTeamWon()
+        EventHandlers.instance.notifyAttackIsFinished(creatureHasDied, hasNextCreature, winner)
+    }
+
+    fun seeWhichTeamWon(): Int {
+        return if(defendingPlayer.team.isEmpty()){
+            0
+        } else if(attackingPlayer.team.isEmpty()){
+            1
+        } else{
+            -1
         }
     }
 
-    fun getCreatureImageView(playerNumber: Int, creatureIndex: Int): ImageView{
-        return getCreatureContainer(playerNumber, creatureIndex)[0] as ImageView
+    fun onCreatureHasDied(){
+        killCurrentDefendingCreature()
+        notifyAttackIsFinished(false)
     }
-    fun getCreatureNameTextView(playerNumber: Int, creatureIndex: Int): TextView{
-        return getCreatureContainer(playerNumber, creatureIndex)[1] as TextView
-    }
-    fun getCreatureContainer(playerNumber: Int, creatureIndex: Int): ViewGroup{
-        val containerParent = getCreatureLayoutByPlayerNumber(playerNumber)[creatureIndex] as ViewGroup
-        return containerParent[0] as ViewGroup
+    fun killCurrentDefendingCreature(){
+        println("${defendingPlayer.team[creatureIndex].creatureName} fainted!")
+        AnimationCreator.deathAnimation().run()
+        // Remove the defeated creature from the defending player's team
+        defendingPlayer.removeCreature(creatureIndex)
     }
 
-    fun getCreatureLayoutByPlayerNumber(playerNumber: Int): TableLayout{
-        if(playerNumber == 1){
-            return player1CreaturesView
-        }
-        else if(playerNumber == 2){
-            return player2CreaturesView
-        }
-        else{
-            throw IllegalArgumentException("there cannot be more than 2 players per battle as of now. ${this.javaClass}")
+    private fun onFinish(){
+        isFinished = true
+        if (attackingPlayer.team.isEmpty()) {
+            winner = defendingPlayer
+        } else {
+            winner = attackingPlayer
         }
     }
 
-    fun getPlayerByNumber(playerNumber: Int): Fighter{
-        if(playerNumber == 1){
-            return fighter1
-        }
-        else if(playerNumber == 2){
-            return fighter2
-        }
-
-        else{
-            throw IllegalArgumentException("there cannot be more than 2 players per battle as of now. ${this.javaClass}")
-        }
-    }
-
-    // abstraction
-    fun startFight(){
-        startHasBeenCalled = true
-        confirmStart()
-    }
-
-    // confirms that both the view has been created, and start has been called
-    private fun confirmStart(){
-        if(viewCreated && startHasBeenCalled){
-            executeFight()
-        }
-    }
-
-    // actual function
-    private fun executeFight(){
-        val fightSequence = FightSequence(this)
-        Thread(fightSequence).start()
+    companion object{
+        lateinit var instance:Fight
     }
 }

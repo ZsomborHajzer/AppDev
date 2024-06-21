@@ -51,7 +51,6 @@ class GameBoardFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         boardBuilder.build()
         this.squares = boardBuilder.tiles
-
     }
 
     companion object {

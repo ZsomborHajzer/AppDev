@@ -94,15 +94,16 @@ class MultiPathPattern1 : SteppableTile() {
         return requireView().findViewById<FragmentContainerView>(resource).getFragment<SteppableTile>()
     }
 
-    override fun onTileEntry(playableCharacter: PlayableCharacter) {
+    override fun onTileEntry(playableCharacter: PlayableCharacter):Boolean {
         playableCharacter.currentSquare = startingSquare
         startingSquare.onTileEntry(playableCharacter)
         val pathNumber = DiceRoller.rollArbitraryDice(3)
         startingSquare.nextSquare = paths[pathNumber-1][0]
+        return false
     }
 
-    override fun onTileStay(playableCharacter: PlayableCharacter) {
-        return
+    override fun onTileStay(playableCharacter: PlayableCharacter): Boolean {
+        return false
     }
 
     override fun onTileExit(playableCharacter: PlayableCharacter) {

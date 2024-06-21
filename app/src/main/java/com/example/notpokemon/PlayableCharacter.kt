@@ -1,43 +1,60 @@
 package com.example.notpokemon
 
 import com.example.notpokemon.Board.Elements.SteppableTile
+import com.example.notpokemon.dataobjects.Player
+import com.example.notpokemon.views.BoardView
 
 
-class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(name) {
+class PlayableCharacter(startingSquare: SteppableTile, name: String, var icon:Int = R.drawable.low_res_tanuki) : Fighter(name) {
     var currentSquare: SteppableTile;
 
     private var squareHistory = ArrayList<SteppableTile>();
-    var icon = R.drawable.low_res_tanuki
+
+
+    lateinit var id: String
+    lateinit var role: String
+
+    var stepsLeft = 0
+
+    constructor(player:Player, startingSquare: SteppableTile) : this(startingSquare, player.username, player.imageResource) {
+        this.id = player.id
+        this.role = player.role
+    }
 
     init {
         this.currentSquare = startingSquare;
         onMove(currentSquare)
     }
 
-    fun moveThisManySpaces(number:Int){
-        if (number < 1){
-            throw IllegalArgumentException("function \"moveThisManySpaces\" from" + this.javaClass + "may not be less than 0")
-        }
+    fun moveThisManySpaces(totalSteps:Int): Boolean { //boolean = isInterrupted
         var waitTime = 500L;
-        var i = 1
-        while (i <= number){
-            var nextSquare = currentSquare.nextSquare
-            onMove(nextSquare)
-            i++;
+        var stepsTaken = 0
+
+        BoardView.instance.updateStepsToGoText(totalSteps)
+        while (stepsTaken < totalSteps){
             Thread.sleep(waitTime)
+            stepsTaken++;
+            stepsLeft = totalSteps-stepsTaken
+            BoardView.instance.updateStepsToGoText(stepsLeft)
+
+            var nextSquare = currentSquare.nextSquare
+            if(onMove(nextSquare)){
+                return true
+            }
         }
-        currentSquare.onTileStay(this)
+
+        return currentSquare.onTileStay(this)
     }
 
     public fun onInteractSquare(){
         // for now won't be used. but always good to have extra event opportunities
     }
 
-    public fun onMove(square: SteppableTile){
+    public fun onMove(square: SteppableTile):Boolean{
         currentSquare.onTileExit(this)
         addToSquareHistory(currentSquare)
         currentSquare = square
-        currentSquare.onTileEntry(this)
+        return currentSquare.onTileEntry(this)
     }
 
     fun addToSquareHistory(square: SteppableTile){
@@ -45,6 +62,11 @@ class PlayableCharacter(startingSquare: SteppableTile, name: String) : Fighter(n
         if(squareHistory.size > maxSquareHistory){
             squareHistory.removeFirst();
         }
+    }
+
+    // for if we have any character interactions with movement in the future (like status effects)
+    fun rollMovement(): Int{
+        return DiceRoller.rollD6()
     }
 
     companion object{
