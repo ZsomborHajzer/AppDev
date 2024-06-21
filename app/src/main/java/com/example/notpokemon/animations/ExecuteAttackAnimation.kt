@@ -1,12 +1,12 @@
 package com.example.notpokemon.animations
 
 import android.view.View
-import com.example.notpokemon.Creature
-import com.example.notpokemon.Fight
+import com.example.notpokemon.creatures.Creature
+import com.example.notpokemon.battle.Fight
 import com.example.notpokemon.R
 import pl.droidsonroids.gif.GifImageView
 
-class ExecuteAttackAnimation(fight: Fight, val attackingCreature:Creature, val defendingCreature:Creature, val damage:Double) : Animation(fight) {
+class ExecuteAttackAnimation(fight: Fight, val attackingCreature: Creature, val defendingCreature: Creature, val damage:Double) : Animation(fight) {
     val attackAnimationView = fight.requireView().findViewById<GifImageView>(R.id.attackView)
     override fun execute() {
         runOnUiThread(generateStartRunnable())

@@ -1,7 +1,7 @@
 package com.example.notpokemon.animations
 
 import android.widget.ImageView
-import com.example.notpokemon.Fight
+import com.example.notpokemon.battle.Fight
 import com.example.notpokemon.R
 
 class DeathAnimation(fight: Fight): Animation(fight) {

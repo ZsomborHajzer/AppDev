@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:background="#f1eee7"
-    tools:context=".ConnectPageActivity"
+    tools:context=".views.activities.ConnectPageActivity"
     android:id="@+id/connectPage">
 
     <ImageView

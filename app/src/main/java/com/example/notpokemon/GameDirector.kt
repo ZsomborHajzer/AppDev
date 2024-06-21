@@ -1,10 +1,16 @@
 package com.example.notpokemon
 
-import EventHandlers
-import com.example.notpokemon.Board.Elements.Tiles.SwitchTile
-import com.example.notpokemon.dataobjects.Player
-import com.example.notpokemon.views.BoardView
-import kotlin.math.floor
+import com.example.notpokemon.websocketHandlers.EventHandlers
+import com.example.notpokemon.views.fragments.Board.Elements.Tiles.SwitchTile
+import com.example.notpokemon.battle.BattleManager
+import com.example.notpokemon.battle.BattleManagerPVP
+import com.example.notpokemon.creatures.ButterPig
+import com.example.notpokemon.creatures.attacks.Bite
+import com.example.notpokemon.playerObjects.Fighter
+import com.example.notpokemon.playerObjects.PlayableCharacter
+import com.example.notpokemon.playerObjects.Player
+import com.example.notpokemon.views.activities.BoardView
+import com.example.notpokemon.views.fragments.Board.GameBoardFragment
 
 class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
     public var characters = ArrayList<PlayableCharacter>()
@@ -53,10 +59,10 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         return false
     }
 
-    fun addCharacter(playerId: String): PlayableCharacter{
+    fun addCharacter(playerId: String): PlayableCharacter {
         val player = getPlayerById(playerId)
         val character = PlayableCharacter(player, gameBoardFragment.getStartSquare())
-        character.addCreature(ButterPig(BiteAttack()))
+        character.addCreature(ButterPig(Bite()))
         characters.add(character)
         return character
     }
@@ -75,7 +81,7 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         return getCharacterFromId(thisPlayerId).rollMovement()
     }
 
-    fun getPlayerById(playerId: String): Player{
+    fun getPlayerById(playerId: String): Player {
         for(player in players){
             if(player.id == playerId){
                 return player
@@ -84,7 +90,7 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
         throw IllegalArgumentException("player does not exist from id")
     }
 
-    fun getCharacterFromId(id:String):PlayableCharacter{
+    fun getCharacterFromId(id:String): PlayableCharacter {
         for (character in characters){
             if(character.id == id){
                 return character
@@ -110,7 +116,7 @@ class GameDirector(val gameBoardFragment: GameBoardFragment) : Thread() {
     }
 
     fun onEndFight(winnerIndex:Int){
-        var winner:Fighter
+        var winner: Fighter
         if(winnerIndex == 0){
             winner = battleManager.fighter1
         }

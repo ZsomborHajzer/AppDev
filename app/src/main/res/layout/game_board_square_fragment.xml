@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:tag="gameBoardWalkableElement"
-    tools:context=".Board.Elements.Tiles.BaseTile"
+    tools:context=".views.fragments.Board.Elements.Tiles.BaseTile"
     android:clipChildren="false"
     android:clipToPadding="false"
     >

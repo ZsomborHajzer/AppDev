@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f1eee7"
-    tools:context=".views.LobbyHostActivity">
+    tools:context=".views.activities.LobbyHostActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/Player1CardView"
@@ -24,7 +24,7 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <com.example.notpokemon.TopCropImageView
+            <com.example.notpokemon.views.TopCropImageView
                 android:id="@+id/imageViewPlayer1"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
@@ -85,7 +85,7 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <com.example.notpokemon.TopCropImageView
+            <com.example.notpokemon.views.TopCropImageView
                 android:id="@+id/imageViewPlayer2"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
@@ -148,7 +148,7 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <com.example.notpokemon.TopCropImageView
+            <com.example.notpokemon.views.TopCropImageView
                 android:id="@+id/imageViewPlayer3"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
@@ -209,7 +209,7 @@
             android:layout_height="69dp"
             android:layout_margin="16dp">
 
-            <com.example.notpokemon.TopCropImageView
+            <com.example.notpokemon.views.TopCropImageView
                 android:id="@+id/imageViewPlayer4"
                 android:layout_width="86dp"
                 android:layout_height="72dp"
