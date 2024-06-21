@@ -1,4 +1,4 @@
-# Project Title
+# Not Pokemon
 
 ## Introduction
 This is a kotlin game created by Zsombor / Yohan and Nefeli. The game is a multiplayer board game for andriod devices.
@@ -15,7 +15,7 @@ This is a kotlin game created by Zsombor / Yohan and Nefeli. The game is a multi
 3. **Run the Project in Android Studio :**
     Make sure you phone is connected to the laptop and allow usb debugging. 
     By running the code you can upload the game to your device.
-4. **Start Game: **
+4. **Start Game :**
     Enter a username  and press connect to join the lobby.
     If you would like to play with other players, wait for them to connect.
 
